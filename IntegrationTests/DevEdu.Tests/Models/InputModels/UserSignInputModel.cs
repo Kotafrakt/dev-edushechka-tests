@@ -1,0 +1,16 @@
+﻿using System.ComponentModel.DataAnnotations;
+using static DevEdu.Tests.Common.ValidationMessage;
+
+namespace DevEdu.Tests.Models
+{
+    public class UserSignInputModel
+    {
+        [Required(ErrorMessage = EmailRequired)]
+        [EmailAddress(ErrorMessage = WrongEmailFormat)]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = PasswordRequired)]
+        [MinLength(8, ErrorMessage = WrongFormatPassword)]
+        public string Password { get; set; }
+    }
+}
