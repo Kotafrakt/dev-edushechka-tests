@@ -1,9 +1,9 @@
-﻿using DevEdu.Tests.Requests;
+﻿using DevEdu.Core.Requests;
 using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json;
-using DevEdu.Tests.Models;
-using DevEdu.Tests.Enums;
+using DevEdu.Core.Models;
+using DevEdu.Core.Enums;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
@@ -13,7 +13,7 @@ namespace DevEdu.Tests
     [TestClass]
     public class AuthenticationControllerTest : BaseControllerTest
     {
-        public AuthenticationControllerTest(IRequest request) : base(request) { }
+        public AuthenticationControllerTest(IRequestHelper request) : base(request) { }
         
         Dictionary<string, string> headers = new Dictionary<string, string>();
         string endPoint = "";
@@ -23,7 +23,7 @@ namespace DevEdu.Tests
         public virtual void TestInitialize()
         {
             _client = new RestClient("http://localhost:24144");
-            _client.CookieContainer = new System.Net.CookieContainer();
+            _client.CookieContainer = new CookieContainer();
         }
 
 

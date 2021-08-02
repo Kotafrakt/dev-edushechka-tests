@@ -1,14 +1,16 @@
-﻿using DevEdu.Tests.Requests;
+﻿using DevEdu.Core.Requests;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 
 namespace DevEdu.Tests
 {
+    [TestClass]
     public abstract class BaseControllerTest
     {
-        protected IRequest _request;
+        protected IRequestHelper _request;
         protected static string _baseUrl =
             @"Data Source=80.78.240.16;Initial Catalog = DevEdu; Persist Security Info=True;User ID = student;Password=qwe!23;";
-        public BaseControllerTest(IRequest request) { _request = request; }
+        public BaseControllerTest(IRequestHelper request) { _request = request; }
         
         protected void AuthenticateClient(IRestClient client, IRestRequest request)
         {
