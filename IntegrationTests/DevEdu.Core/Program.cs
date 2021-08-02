@@ -1,26 +1,18 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+﻿using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevEdu.Core
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        private static RestClient _client = new("https://localhost:44386/api");
+        static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var request = new RestRequest("Default", Method.GET);
+            IRestResponse<List<string>> response =
+            _client.Execute<List<string>>(request);
+            Console.ReadKey();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }

@@ -8,8 +8,7 @@ namespace DevEdu.Tests
     public abstract class BaseControllerTest
     {
         protected IRequestHelper _request;
-        protected static string _baseUrl =
-            @"Data Source=80.78.240.16;Initial Catalog = DevEdu; Persist Security Info=True;User ID = student;Password=qwe!23;";
+        protected static string _baseUrl =@"https://localhost:44386/api";
         public BaseControllerTest(IRequestHelper request) { _request = request; }
         
         protected void AuthenticateClient(IRestClient client, IRestRequest request)

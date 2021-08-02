@@ -22,7 +22,7 @@ namespace DevEdu.Tests
         [TestInitialize()]
         public virtual void TestInitialize()
         {
-            _client = new RestClient("http://localhost:24144");
+            _client = new RestClient("https://localhost:44386/api");
             _client.CookieContainer = new CookieContainer();
         }
 
@@ -31,7 +31,7 @@ namespace DevEdu.Tests
         [TestMethod]
         public async Task Register()
         {
-            endPoint = @"Data Source=80.78.240.16;Initial Catalog = DevEdu;Persist Security Info=True;User ID = student;Password=qwe!23;";
+            endPoint = "https://localhost:44386/swagger/api/Authentication";
             var postData = new UserInsertInputModel()
             {
                 FirstName = "Test",
