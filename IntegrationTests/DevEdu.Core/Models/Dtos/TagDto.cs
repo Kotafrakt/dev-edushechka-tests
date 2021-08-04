@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DevEdu.Core.Models
+﻿namespace DevEdu.Core.Models
 {
     public class TagDto : BaseDto
     {

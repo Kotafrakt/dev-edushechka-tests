@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using static DevEdu.Core.Common.ValidationMessage;
 
 namespace DevEdu.Core.Models
@@ -20,20 +19,5 @@ namespace DevEdu.Core.Models
 
         [Required(ErrorMessage = ReportingPeriodNumberRequired)]
         public int ReportingPeriodNumber { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            return obj is StudentRatingInputModel model &&
-                   UserId == model.UserId &&
-                   GroupId == model.GroupId &&
-                   RatingTypeId == model.RatingTypeId &&
-                   Rating == model.Rating &&
-                   ReportingPeriodNumber == model.ReportingPeriodNumber;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(UserId, GroupId, RatingTypeId, Rating, ReportingPeriodNumber);
-        }
     }
 }

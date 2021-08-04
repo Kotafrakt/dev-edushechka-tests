@@ -13,6 +13,5 @@ namespace DevEdu.Core.Models
         public string GitHubAccount { get; set; }
         public string Photo { get; set; }
         public string PhoneNumber { get; set; }
-
     }
 }

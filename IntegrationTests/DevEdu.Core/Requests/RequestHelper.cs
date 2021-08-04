@@ -1,6 +1,5 @@
 ﻿using RestSharp;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DevEdu.Core.Requests
 {
@@ -8,25 +7,25 @@ namespace DevEdu.Core.Requests
     {
         public IRestResponse Get(string endPoint, Dictionary<string, string> headers)
         {
-            return CallingAPI(Method.GET, headers, endPoint);
+            return CallingApi(Method.GET, headers, endPoint);
         }
 
         public IRestResponse Post(string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return CallingAPI(Method.POST, headers, endPoint, jsonData);
+            return CallingApi(Method.POST, headers, endPoint, jsonData);
         }
 
         public IRestResponse Put(string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return CallingAPI(Method.PUT, headers, endPoint, jsonData);
+            return CallingApi(Method.PUT, headers, endPoint, jsonData);
         }
 
         public IRestResponse Delete(string endPoint, Dictionary<string, string> headers)
         {
-            return CallingAPI(Method.DELETE, headers, endPoint);
+            return CallingApi(Method.DELETE, headers, endPoint);
         }
 
-        private static IRestResponse CallingAPI
+        private static IRestResponse CallingApi
         (
             Method httpMethod,
             Dictionary<string, string> headers,

@@ -10,8 +10,8 @@ namespace DevEdu.Tests
 {
     public class AuthenticationControllerTest : BaseControllerTest
     {
-        Dictionary<string, string> headers = new Dictionary<string, string>();
-        string endPoint = "";
+        readonly Dictionary<string, string> _headers = new();
+        string _endPoint = "";
         private RestClient _client;
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace DevEdu.Tests
         [Test]
         public void Register()
         {
-            endPoint = "https://localhost:44386/swagger/api/Authentication";
+            _endPoint = "https://localhost:44386/swagger/api/Authentication";
             var postData = new UserInsertInputModel()
             {
                 FirstName = "Test",
@@ -50,8 +50,8 @@ namespace DevEdu.Tests
             };
 
             var jsonData = JsonConvert.SerializeObject(postData);
-            headers.Add("content-type", "application/json");
-            var result = _request.Post(endPoint, headers, jsonData);
+            _headers.Add("content-type", "application/json");
+            var result = _request.Post(_endPoint, _headers, jsonData);
 
             Assert.AreEqual(HttpStatusCode.Created, result.StatusCode);
         }
@@ -64,9 +64,9 @@ namespace DevEdu.Tests
         [Test]
         public void Can_Retrieve_All_Students()
         {
-            endPoint = @"Data Source=80.78.240.16;Initial Catalog = DevEdu;Persist Security Info=True;User ID = student;Password=qwe!23;";
-            headers.Add("content-type", "application/json");
-            var result = _request.Get(endPoint, headers);
+            _endPoint = @"Data Source=80.78.240.16;Initial Catalog = DevEdu;Persist Security Info=True;User ID = student;Password=qwe!23;";
+            _headers.Add("content-type", "application/json");
+            var result = _request.Get(_endPoint, _headers);
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);            
         }
     }

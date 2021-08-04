@@ -1,5 +1,4 @@
 ﻿using DevEdu.Core.Requests;
-using NUnit.Framework;
 using RestSharp;
 
 namespace DevEdu.Tests

@@ -8,25 +8,25 @@ namespace DevEdu.Core.Requests
     {
         public async Task<IRestResponse> GetAsync(string endPoint, Dictionary<string, string> headers)
         {
-            return await CallingAPI(Method.GET, headers, endPoint);
+            return await CallingApi(Method.GET, headers, endPoint);
         }
 
         public async Task<IRestResponse> PostAsync(string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return await CallingAPI(Method.POST, headers, endPoint, jsonData);
+            return await CallingApi(Method.POST, headers, endPoint, jsonData);
         }
 
         public async Task<IRestResponse> PutAsync(string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return await CallingAPI(Method.PUT, headers, endPoint, jsonData);
+            return await CallingApi(Method.PUT, headers, endPoint, jsonData);
         }
 
         public async Task<IRestResponse> DeleteAsync(string endPoint, Dictionary<string, string> headers)
         {
-            return await CallingAPI(Method.DELETE, headers, endPoint);
+            return await CallingApi(Method.DELETE, headers, endPoint);
         }
 
-        private static async Task<IRestResponse> CallingAPI
+        private static async Task<IRestResponse> CallingApi
         (
             Method httpMethod,
             Dictionary<string, string> headers,

@@ -1,7 +1,4 @@
-﻿using DevEdu.Core.Enums;
-using System;
-
-namespace DevEdu.Core.Models
+﻿namespace DevEdu.Core.Models
 {
     public class StudentAnswerOnTaskInfoOutputModel
     {
