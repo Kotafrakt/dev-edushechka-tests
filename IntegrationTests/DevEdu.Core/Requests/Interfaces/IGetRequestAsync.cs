@@ -6,6 +6,6 @@ namespace DevEdu.Core.Requests
 {
     public interface IGetRequestAsync
     {
-        Task<IRestResponse> GetAsync(string endPoint, Dictionary<string, string> headers);
+        Task<IRestResponse> GetAsync(IRestClient client, string endPoint, Dictionary<string, string> headers);
     }
 }

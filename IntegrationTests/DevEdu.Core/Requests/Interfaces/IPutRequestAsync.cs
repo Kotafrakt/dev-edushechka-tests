@@ -6,6 +6,6 @@ namespace DevEdu.Core.Requests
 {
     public interface IPutRequestAsync
     {
-        Task<IRestResponse> PutAsync(string endPoint, Dictionary<string, string> headers, string jsonData);
+        Task<IRestResponse> PutAsync(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData);
     }
 }

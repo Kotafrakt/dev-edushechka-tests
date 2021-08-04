@@ -5,6 +5,6 @@ namespace DevEdu.Core.Requests
 {
     public interface IDeleteRequest
     {
-        IRestResponse Delete(string endPoint, Dictionary<string, string> headers);
+        IRestResponse Delete(IRestClient client, string endPoint, Dictionary<string, string> headers);
     }
 }

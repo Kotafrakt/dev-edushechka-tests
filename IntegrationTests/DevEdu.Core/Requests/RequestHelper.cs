@@ -1,39 +1,41 @@
 ﻿using RestSharp;
+using System;
 using System.Collections.Generic;
 
 namespace DevEdu.Core.Requests
 {
     public class RequestHelper : IRequestHelper
     {
-        public IRestResponse Get(string endPoint, Dictionary<string, string> headers)
+        public IRestResponse Get(IRestClient client, string endPoint, Dictionary<string, string> headers)
         {
-            return CallingApi(Method.GET, headers, endPoint);
+            return CallingApi(Method.GET, client, headers, endPoint);
         }
 
-        public IRestResponse Post(string endPoint, Dictionary<string, string> headers, string jsonData)
+        public IRestResponse Post(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return CallingApi(Method.POST, headers, endPoint, jsonData);
+            return CallingApi(Method.POST, client, headers, endPoint, jsonData);
         }
 
-        public IRestResponse Put(string endPoint, Dictionary<string, string> headers, string jsonData)
+        public IRestResponse Put(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return CallingApi(Method.PUT, headers, endPoint, jsonData);
+            return CallingApi(Method.PUT, client, headers, endPoint, jsonData);
         }
 
-        public IRestResponse Delete(string endPoint, Dictionary<string, string> headers)
+        public IRestResponse Delete(IRestClient client, string endPoint, Dictionary<string, string> headers)
         {
-            return CallingApi(Method.DELETE, headers, endPoint);
+            return CallingApi(Method.DELETE, client, headers, endPoint);
         }
 
         private static IRestResponse CallingApi
         (
             Method httpMethod,
+            IRestClient client,
             Dictionary<string, string> headers,
             string endPoint,
             string jsonData = ""
         )
         {
-            var client = new RestClient(endPoint);
+            client.BaseUrl = new Uri(endPoint);
             var request = new RestRequest(httpMethod);
             if (headers != null)
             {
