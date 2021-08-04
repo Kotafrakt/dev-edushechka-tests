@@ -1,24 +1,18 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
 using Newtonsoft.Json;
-using NUnit.Framework;
 using RestSharp;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
-
 namespace DevEdu.Tests
 {
     public class AuthenticationControllerTest : BaseControllerTest
     {
         readonly Dictionary<string, string> _headers = new();
         string _endPoint = "";
-        private RestClient _client;
 
-        [SetUp]
-        public void Setup()
-        {
-            _client = new RestClient("https://localhost:44386/api");
-        }
+        
 
         [Test]
         public void Register()
