@@ -6,27 +6,27 @@ namespace DevEdu.Core.Requests
 {
     public class RequestHelper : IRequestHelper
     {
-        public async Task<IRestResponse> GetAsync(string endPoint, Dictionary<string, string> headers)
+        public IRestResponse Get(string endPoint, Dictionary<string, string> headers)
         {
-            return await CallingAPI(Method.GET, headers, endPoint);
+            return CallingAPI(Method.GET, headers, endPoint);
         }
 
-        public async Task<IRestResponse> PostAsync(string endPoint, Dictionary<string, string> headers, string jsonData)
+        public IRestResponse Post(string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return await CallingAPI(Method.POST, headers, endPoint, jsonData);
+            return CallingAPI(Method.POST, headers, endPoint, jsonData);
         }
 
-        public async Task<IRestResponse> PutAsync(string endPoint, Dictionary<string, string> headers, string jsonData)
+        public IRestResponse Put(string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return await CallingAPI(Method.PUT, headers, endPoint, jsonData);
+            return CallingAPI(Method.PUT, headers, endPoint, jsonData);
         }
 
-        public async Task<IRestResponse> DeleteAsync(string endPoint, Dictionary<string, string> headers)
+        public IRestResponse Delete(string endPoint, Dictionary<string, string> headers)
         {
-            return await CallingAPI(Method.DELETE, headers, endPoint);
+            return CallingAPI(Method.DELETE, headers, endPoint);
         }
 
-        private static async Task<IRestResponse> CallingAPI
+        private static IRestResponse CallingAPI
         (
             Method httpMethod,
             Dictionary<string, string> headers,
@@ -48,7 +48,7 @@ namespace DevEdu.Core.Requests
             {
                 request.AddParameter(headers["content-type"], jsonData, ParameterType.RequestBody);
             }
-            IRestResponse response =  await client.ExecuteGetAsync(request);
+            IRestResponse response =  client.Execute(request);
             return response;
         }
     }

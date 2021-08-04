@@ -1,35 +1,27 @@
-﻿using DevEdu.Core.Requests;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using Newtonsoft.Json;
 using DevEdu.Core.Models;
 using DevEdu.Core.Enums;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
+using NUnit.Framework;
 
 namespace DevEdu.Tests
 {
-    [TestClass]
     public class AuthenticationControllerTest : BaseControllerTest
     {
-        public AuthenticationControllerTest(IRequestHelper request) : base(request) { }
-        
         Dictionary<string, string> headers = new Dictionary<string, string>();
         string endPoint = "";
         private RestClient _client;
 
-        [TestInitialize()]
-        public virtual void TestInitialize()
+        [SetUp]
+        public void Setup()
         {
             _client = new RestClient("https://localhost:44386/api");
-            _client.CookieContainer = new CookieContainer();
         }
 
-
-        [TestCategory("POST")]
-        [TestMethod]
-        public async Task Register()
+        [Test]
+        public void Register()
         {
             endPoint = "https://localhost:44386/swagger/api/Authentication";
             var postData = new UserInsertInputModel()
@@ -59,25 +51,22 @@ namespace DevEdu.Tests
 
             var jsonData = JsonConvert.SerializeObject(postData);
             headers.Add("content-type", "application/json");
-            var result = await _request.PostAsync(endPoint, headers, jsonData);
+            var result = _request.Post(endPoint, headers, jsonData);
 
             Assert.AreEqual(HttpStatusCode.Created, result.StatusCode);
         }
 
-        [TestCategory("POST")]
-        [TestMethod]
-        public async Task SignIn()
-        {
-            
+        [Test]
+        public void SignIn()
+        {            
         }
 
-        [TestCategory("GET")]
-        [TestMethod]
-        public async Task Can_Retrieve_All_Students()
+        [Test]
+        public void Can_Retrieve_All_Students()
         {
             endPoint = @"Data Source=80.78.240.16;Initial Catalog = DevEdu;Persist Security Info=True;User ID = student;Password=qwe!23;";
             headers.Add("content-type", "application/json");
-            var result = await _request.GetAsync(endPoint, headers);
+            var result = _request.Get(endPoint, headers);
             Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);            
         }
     }
