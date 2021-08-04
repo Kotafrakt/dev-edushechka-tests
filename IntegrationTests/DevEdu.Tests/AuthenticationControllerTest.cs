@@ -1,23 +1,16 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
 using Newtonsoft.Json;
-using RestSharp;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Net;
 namespace DevEdu.Tests
 {
     public class AuthenticationControllerTest : BaseControllerTest
     {
-        readonly Dictionary<string, string> _headers = new();
-        string _endPoint = "";
-
-        
-
         [Test]
         public void Register()
         {
-            _endPoint = "https://localhost:44386/swagger/api/Authentication";
+            _endPoint = "https://localhost:44386/register";
             var postData = new UserInsertInputModel()
             {
                 FirstName = "Test",
@@ -53,15 +46,6 @@ namespace DevEdu.Tests
         [Test]
         public void SignIn()
         {
-        }
-
-        [Test]
-        public void Can_Retrieve_All_Students()
-        {
-            _endPoint = @"Data Source=80.78.240.16;Initial Catalog = DevEdu;Persist Security Info=True;User ID = student;Password=qwe!23;";
-            _headers.Add("content-type", "application/json");
-            var result = _request.Get(_endPoint, _headers);
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         }
     }
 }
