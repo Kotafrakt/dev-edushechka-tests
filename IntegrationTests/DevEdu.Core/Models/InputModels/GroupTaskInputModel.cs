@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DevEdu.Core.Common;
+﻿using DevEdu.Core.Common;
+using System.ComponentModel.DataAnnotations;
 using static DevEdu.Core.Common.ValidationMessage;
 
 namespace DevEdu.Core.Models

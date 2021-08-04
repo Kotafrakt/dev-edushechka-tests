@@ -1,5 +1,5 @@
-﻿using System;
-using DevEdu.Core.Enums;
+﻿using DevEdu.Core.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace DevEdu.Core.Models

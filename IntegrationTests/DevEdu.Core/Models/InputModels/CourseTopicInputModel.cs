@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DevEdu.Core.Common;
+﻿using DevEdu.Core.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace DevEdu.Core.Models
 {

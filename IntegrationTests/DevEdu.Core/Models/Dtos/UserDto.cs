@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DevEdu.Core.Enums;
+using System;
 using System.Collections.Generic;
-using DevEdu.Core.Enums;
 
 namespace DevEdu.Core.Models
 {
@@ -20,6 +20,6 @@ namespace DevEdu.Core.Models
         public string PhoneNumber { get; set; }
         public DateTime ExileDate { get; set; }
         public City City { get; set; }
-        public List<Role> Roles { get; set; }        
+        public List<Role> Roles { get; set; }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using Newtonsoft.Json;
+﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
-using DevEdu.Core.Enums;
-using RestSharp;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using RestSharp;
+using System.Collections.Generic;
+using System.Net;
 
 namespace DevEdu.Tests
 {
@@ -39,7 +39,7 @@ namespace DevEdu.Tests
                 Photo = "http://zloo.com",
                 PhoneNumber = "9999999",
                 Roles = new()
-                { 
+                {
                     Role.Admin,
                     Role.Manager,
                     Role.Methodist,
@@ -58,7 +58,7 @@ namespace DevEdu.Tests
 
         [Test]
         public void SignIn()
-        {            
+        {
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace DevEdu.Tests
             _endPoint = @"Data Source=80.78.240.16;Initial Catalog = DevEdu;Persist Security Info=True;User ID = student;Password=qwe!23;";
             _headers.Add("content-type", "application/json");
             var result = _request.Get(_endPoint, _headers);
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);            
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DevEdu.Core.Common;
+using System.ComponentModel.DataAnnotations;
 using static DevEdu.Core.Common.ValidationMessage;
-using DevEdu.Core.Common;
 
 namespace DevEdu.Core.Models
 {
@@ -12,7 +12,7 @@ namespace DevEdu.Core.Models
 
         [Required(ErrorMessage = SumRequired)]
         public int Sum { get; set; }
-        
+
         [Required(ErrorMessage = IsPaidRequired)]
         public int IsPaid { get; set; }
     }

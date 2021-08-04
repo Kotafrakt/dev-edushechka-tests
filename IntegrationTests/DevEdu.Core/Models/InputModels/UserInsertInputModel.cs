@@ -1,8 +1,8 @@
 ﻿using DevEdu.Core.Common;
+using DevEdu.Core.Enums;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using DevEdu.Core.Enums;
 using static DevEdu.Core.Common.ValidationMessage;
 
 namespace DevEdu.Core.Models

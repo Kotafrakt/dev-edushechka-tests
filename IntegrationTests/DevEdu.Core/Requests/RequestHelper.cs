@@ -47,7 +47,7 @@ namespace DevEdu.Core.Requests
             {
                 request.AddParameter(headers["content-type"], jsonData, ParameterType.RequestBody);
             }
-            IRestResponse response =  client.Execute(request);
+            IRestResponse response = client.Execute(request);
             return response;
         }
     }

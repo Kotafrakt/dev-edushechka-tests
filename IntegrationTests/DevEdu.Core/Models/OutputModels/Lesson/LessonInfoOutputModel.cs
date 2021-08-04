@@ -10,7 +10,7 @@ namespace DevEdu.Core.Models
         public string TeacherComment { get; set; }
         public UserInfoShortOutputModel Teacher { get; set; }
         public string LinkToRecord { get; set; }
-        public List<TopicOutputModel> Topics {get; set;}
+        public List<TopicOutputModel> Topics { get; set; }
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
     }

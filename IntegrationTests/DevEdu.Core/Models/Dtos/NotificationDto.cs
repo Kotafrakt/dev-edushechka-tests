@@ -1,8 +1,8 @@
-﻿using System;
-using DevEdu.Core.Enums;
+﻿using DevEdu.Core.Enums;
+using System;
 
 namespace DevEdu.Core.Models
-    
+
 {
     public class NotificationDto : BaseDto
     {
@@ -10,6 +10,6 @@ namespace DevEdu.Core.Models
         public string Text { get; set; }
         public Role? Role { get; set; }
         public UserDto User { get; set; }
-        public GroupDto Group { get; set; }       
+        public GroupDto Group { get; set; }
     }
 }
