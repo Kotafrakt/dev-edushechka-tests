@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace DevEdu.Tests.CourseControllerTests
+namespace DevEdu.Core
 {
-    public class CourseTests
+    public class IBaseHelper
     {
     }
 }
