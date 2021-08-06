@@ -1,5 +1,6 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
+using System;
 
 namespace DevEdu.Tests
 {
@@ -17,7 +18,7 @@ namespace DevEdu.Tests
                 Email = "a@a.ru",
                 Username = "Tttt",
                 Password = "12345678",
-                ContractNumber = "qweqdq123",
+                ContractNumber = string.Format(Convert.ToString(DateTime.Now)),
                 City = 1,
                 BirthDate = "08.08.2020",
                 GitHubAccount = "Git.com",

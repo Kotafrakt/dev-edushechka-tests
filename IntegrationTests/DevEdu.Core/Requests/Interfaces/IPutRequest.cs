@@ -5,6 +5,6 @@ namespace DevEdu.Core.Requests
 {
     public interface IPutRequest
     {
-        IRestResponse Put(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData);
+        IRestRequest Put(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData);
     }
 }

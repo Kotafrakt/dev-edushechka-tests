@@ -5,6 +5,6 @@ namespace DevEdu.Core.Requests
 {
     public interface IPostRequest
     {
-        IRestResponse Post(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData);
+        IRestRequest Post(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData);
     }
 }

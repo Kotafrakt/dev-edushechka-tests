@@ -5,6 +5,6 @@ namespace DevEdu.Core.Requests
 {
     public interface IGetRequest
     {
-        IRestResponse Get(IRestClient client, string endPoint, Dictionary<string, string> headers);
+        IRestRequest Get(IRestClient client, string endPoint, Dictionary<string, string> headers);
     }
 }

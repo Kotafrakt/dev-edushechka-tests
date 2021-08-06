@@ -6,27 +6,27 @@ namespace DevEdu.Core.Requests
 {
     public class RequestHelper : IRequestHelper
     {
-        public IRestResponse Get(IRestClient client, string endPoint, Dictionary<string, string> headers)
+        public IRestRequest Get(IRestClient client, string endPoint, Dictionary<string, string> headers)
         {
             return SendRequestToApi(Method.GET, client, headers, endPoint);
         }
 
-        public IRestResponse Post(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
+        public IRestRequest Post(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
         {
             return SendRequestToApi(Method.POST, client, headers, endPoint, jsonData);
         }
 
-        public IRestResponse Put(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
+        public IRestRequest Put(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
         {
             return SendRequestToApi(Method.PUT, client, headers, endPoint, jsonData);
         }
 
-        public IRestResponse Delete(IRestClient client, string endPoint, Dictionary<string, string> headers)
+        public IRestRequest Delete(IRestClient client, string endPoint, Dictionary<string, string> headers)
         {
             return SendRequestToApi(Method.DELETE, client, headers, endPoint);
         }
 
-        private static IRestResponse SendRequestToApi
+        private static IRestRequest SendRequestToApi
         (
             Method httpMethod,
             IRestClient client,
@@ -35,8 +35,7 @@ namespace DevEdu.Core.Requests
             string jsonData = ""
         )
         {
-            client.BaseUrl = new Uri(endPoint);
-            var request = new RestRequest(httpMethod);
+            var request = new RestRequest(endPoint, httpMethod);
             if (headers != null)
             {
                 foreach (var item in headers)
@@ -49,8 +48,7 @@ namespace DevEdu.Core.Requests
             {
                 request.AddParameter(headers["content-type"], jsonData, ParameterType.RequestBody);
             }
-            IRestResponse response = client.Execute(request);
-            return response;
+            return request;
         }
     }
 }
