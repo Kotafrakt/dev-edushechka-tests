@@ -28,4 +28,8 @@
     <ProjectReference Include="..\DevEdu.Core\DevEdu.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PreparingData\" />
+  </ItemGroup>
+
 </Project>

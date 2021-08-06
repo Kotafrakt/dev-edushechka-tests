@@ -6,8 +6,6 @@ namespace DevEdu.Tests
 {
     public class AuthenticationControllerData
     {
-        public const string RegisterEndPoint = "register";
-        public const string SignInEndPoint = "sign-in";
         private const string _dateFormat = "MM/dd/yyyy hh:mm:ss.fff tt";
 
         public static UserInsertInputModel GetUserInsertInputModelForRegistration_1()
@@ -40,11 +38,11 @@ namespace DevEdu.Tests
 
         public static UserSignInputModel GetUserSignInputModelDefault()
         {
-            return new(){ Email = "a@a.ru", Password = "12345678" };
+            return new() { Email = "a@a.ru", Password = "12345678" };
         }
         public static UserSignInputModel GetUserSignInputModelByEmailAndPassword(string email, string password)
         {
-            return new(){ Email = email, Password = password };
+            return new() { Email = email, Password = password };
         }
     }
 }

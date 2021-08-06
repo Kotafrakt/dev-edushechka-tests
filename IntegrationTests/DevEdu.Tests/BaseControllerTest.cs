@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using RestSharp;
 using System.Collections.Generic;
+using static DevEdu.Tests.ConstantPoints;
 
 namespace DevEdu.Tests
 {
@@ -12,7 +13,7 @@ namespace DevEdu.Tests
         protected const string BaseEndPoint = "https://localhost:44386/";
 
         protected RestClient _client;
-        protected RequestHelper _request;
+        protected RequestHelper _requestHelper;
         protected Dictionary<string, string> _headers;
         protected string _endPoint;
         protected string _token;
@@ -21,17 +22,17 @@ namespace DevEdu.Tests
         public void Setup()
         {
             _client = new RestClient(BaseEndPoint);
-            _request = new();
-            _headers = new();
+            _requestHelper = new RequestHelper();
+            _headers = new Dictionary<string, string>();
         }
 
         protected void SignInByEmailAndPassword_ReturnToken(string email, string password)
         {
-            _endPoint = AuthenticationControllerData.SignInEndPoint;
+            _endPoint = SignInPoint;
             var postData = AuthenticationControllerData.GetUserSignInputModelByEmailAndPassword(email, password);
             var jsonData = JsonConvert.SerializeObject(postData);
             _headers.Add("content-type", "application/json");
-           var request = _request.Post(_client, _endPoint, _headers, jsonData);
+            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             _token = _client.Execute<string>(request).Data;
         }
 
@@ -44,6 +45,10 @@ namespace DevEdu.Tests
         protected void CleanHeader()
         {
             _headers.Clear();
+        }
+        protected void CleanToken()
+        {
+            _token = string.Empty;
         }
     }
 }

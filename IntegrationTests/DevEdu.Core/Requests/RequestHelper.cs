@@ -1,5 +1,4 @@
 ﻿using RestSharp;
-using System;
 using System.Collections.Generic;
 
 namespace DevEdu.Core.Requests
@@ -9,7 +8,6 @@ namespace DevEdu.Core.Requests
         public IRestRequest SendRequestToApi
         (
             Method httpMethod,
-            IRestClient client,
             Dictionary<string, string> headers,
             string endPoint,
             string jsonData = ""
