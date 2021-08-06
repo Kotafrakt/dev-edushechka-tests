@@ -13,19 +13,24 @@ namespace DevEdu.Tests
         [Test]
         public void Register()
         {
-            _endPoint = $"{RegisterEndPoint}";
+            _endPoint = RegisterEndPoint;
             var postData = GetUserInsertInputModelForRegistration_1();
 
             var jsonData = JsonConvert.SerializeObject(postData);
             _headers.Add("content-type", "application/json");
             var request = _request.Post(_client, _endPoint, _headers, jsonData);
             var result = _client.Execute<UserFullInfoOutPutModel>(request).Data;
+
+            postData.Should().BeEquivalentTo(result, options => options
+                    .Excluding(obj => obj.ExileDate)
+                    .Excluding(obj => obj.Id)
+                    .Excluding(obj => obj.RegistrationDate));
         }
 
         [Test]
         public void SignIn()
         {
-            _endPoint = $"{SignInEndPoint}";
+            _endPoint = SignInEndPoint;
             var postData = GetUserSignInputModelDefault();
             var jsonData = JsonConvert.SerializeObject(postData);
 
