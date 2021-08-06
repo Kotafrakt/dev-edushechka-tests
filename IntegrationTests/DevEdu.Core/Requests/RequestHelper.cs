@@ -8,25 +8,25 @@ namespace DevEdu.Core.Requests
     {
         public IRestResponse Get(IRestClient client, string endPoint, Dictionary<string, string> headers)
         {
-            return CallingApi(Method.GET, client, headers, endPoint);
+            return SendRequestToApi(Method.GET, client, headers, endPoint);
         }
 
         public IRestResponse Post(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return CallingApi(Method.POST, client, headers, endPoint, jsonData);
+            return SendRequestToApi(Method.POST, client, headers, endPoint, jsonData);
         }
 
         public IRestResponse Put(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
         {
-            return CallingApi(Method.PUT, client, headers, endPoint, jsonData);
+            return SendRequestToApi(Method.PUT, client, headers, endPoint, jsonData);
         }
 
         public IRestResponse Delete(IRestClient client, string endPoint, Dictionary<string, string> headers)
         {
-            return CallingApi(Method.DELETE, client, headers, endPoint);
+            return SendRequestToApi(Method.DELETE, client, headers, endPoint);
         }
 
-        private static IRestResponse CallingApi
+        private static IRestResponse SendRequestToApi
         (
             Method httpMethod,
             IRestClient client,

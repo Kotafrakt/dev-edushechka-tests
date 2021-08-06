@@ -6,7 +6,7 @@ namespace DevEdu.Core.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public CourseDto Course { get; set; }
+        public CourseInfoBaseOutputModel Course { get; set; }
         public GroupStatus GroupStatus { get; set; }
         public string StartDate { get; set; }
         public string Timetable { get; set; }

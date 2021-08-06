@@ -9,11 +9,7 @@ namespace DevEdu.Tests
     public abstract class BaseControllerTest
     {
         private const string Authorization = "Authorization";
-        private const string Bearer = "Bearer";
         private const string MarksToken = "\"";
-        private const string Space = " ";
-        protected const string ContentType = "content-type";
-        protected const string ApplicationJson = "application/json";
         protected const string BaseEndPoint = "https://localhost:44386/";
 
         protected RestClient _client;
@@ -35,7 +31,7 @@ namespace DevEdu.Tests
             _endPoint = $"{BaseEndPoint}sign-in";
             var postData = AuthenticationControllerData.GetUserSignInputModelByEmailAndPassword(email, password);
             var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add(ContentType, ApplicationJson);
+            _headers.Add("content-type", "application/json");
             _token = _request.Post(_client, _endPoint, _headers, jsonData).Content;
         }
 
@@ -46,8 +42,9 @@ namespace DevEdu.Tests
             {
                 CleaningMarksInToken();
             }
-            _headers.Add(Authorization, $"{Bearer}{Space}{_token}");
+            _headers.Add(Authorization, $"Bearer {_token}");
         }
+
         protected void CleanHeader()
         {
             _headers.Clear();
