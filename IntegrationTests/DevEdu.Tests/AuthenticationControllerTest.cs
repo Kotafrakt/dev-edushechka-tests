@@ -2,8 +2,8 @@
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Net;
+using DevEdu.Core.Requests;
 using static DevEdu.Tests.AuthenticationControllerData;
-using FluentAssertions.Equivalency;
 using FluentAssertions;
 
 namespace DevEdu.Tests

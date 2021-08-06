@@ -4,29 +4,9 @@ using System.Collections.Generic;
 
 namespace DevEdu.Core.Requests
 {
-    public class RequestHelper : IRequestHelper
+    public class RequestHelper
     {
-        public IRestRequest Get(IRestClient client, string endPoint, Dictionary<string, string> headers)
-        {
-            return SendRequestToApi(Method.GET, client, headers, endPoint);
-        }
-
-        public IRestRequest Post(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
-        {
-            return SendRequestToApi(Method.POST, client, headers, endPoint, jsonData);
-        }
-
-        public IRestRequest Put(IRestClient client, string endPoint, Dictionary<string, string> headers, string jsonData)
-        {
-            return SendRequestToApi(Method.PUT, client, headers, endPoint, jsonData);
-        }
-
-        public IRestRequest Delete(IRestClient client, string endPoint, Dictionary<string, string> headers)
-        {
-            return SendRequestToApi(Method.DELETE, client, headers, endPoint);
-        }
-
-        private static IRestRequest SendRequestToApi
+        public IRestRequest SendRequestToApi
         (
             Method httpMethod,
             IRestClient client,

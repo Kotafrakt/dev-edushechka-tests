@@ -8,6 +8,8 @@ namespace DevEdu.Tests
     {
         public const string RegisterEndPoint = "register";
         public const string SignInEndPoint = "sign-in";
+        private const string _dateFormat = "MM/dd/yyyy hh:mm:ss.fff tt";
+
         public static UserInsertInputModel GetUserInsertInputModelForRegistration_1()
         {
             return new()
@@ -18,7 +20,7 @@ namespace DevEdu.Tests
                 Email = "a@a.ru",
                 Username = "Tttt",
                 Password = "12345678",
-                ContractNumber = string.Format(Convert.ToString(DateTime.Now)),
+                ContractNumber = string.Format(Convert.ToString(DateTime.Now.ToString(_dateFormat))),
                 City = 1,
                 BirthDate = "08.08.2020",
                 GitHubAccount = "Git.com",
