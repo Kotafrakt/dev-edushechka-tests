@@ -15,20 +15,21 @@ namespace DevEdu.Tests
             _headers.Add("content-type", "application/json");
             var result = _request.Post(_client, _endPoint, _headers, jsonData);
 
-            Assert.AreEqual(HttpStatusCode.Created, result.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         }
 
         [Test]
         public void SignIn()
         {
             _endPoint = "https://localhost:44386/sign-in";
-            var postData = AuthenticationControllerData.GetUserSignInputModelForSigIn_1();
-
+            var postData = AuthenticationControllerData.GetUserSignInputModelDefault();
             var jsonData = JsonConvert.SerializeObject(postData);
+
             _headers.Add("content-type", "application/json");
+
             var result = _request.Post(_client, _endPoint, _headers, jsonData);
 
-            Assert.AreEqual(HttpStatusCode.Created, result.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
         }
     }
 }

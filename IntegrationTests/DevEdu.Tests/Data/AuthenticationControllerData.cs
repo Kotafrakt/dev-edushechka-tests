@@ -12,9 +12,9 @@ namespace DevEdu.Tests
                 FirstName = "Test",
                 LastName = "Test",
                 Patronymic = "Test",
-                Email = "test@test.com",
+                Email = "a@a.ru",
                 Username = "Tttt",
-                Password = "Qweasdewq4312",
+                Password = "12345678",
                 ContractNumber = "qweqdq123",
                 City = 1,
                 BirthDate = "08.08.2020",
@@ -33,13 +33,13 @@ namespace DevEdu.Tests
             };
         }
 
-        public static UserSignInputModel GetUserSignInputModelForSigIn_1()
+        public static UserSignInputModel GetUserSignInputModelDefault()
         {
-            return new()
-            {
-                Email = "",
-                Password = ""
-            };
+            return new(){ Email = "a@a.ru",Password = "12345678" };
+        }
+        public static UserSignInputModel GetUserSignInputModelByEmailAndPassword(string email, string password)
+        {
+            return new(){ Email = email, Password = password };
         }
     }
 }
