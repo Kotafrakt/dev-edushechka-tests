@@ -14,6 +14,7 @@ namespace DevEdu.Tests
         private const string Space = " ";
         protected const string ContentType = "content-type";
         protected const string ApplicationJson = "application/json";
+        protected const string BaseEndPoint = "https://localhost:44386/";
 
         protected RestClient _client;
         protected RequestHelper _request;
@@ -31,7 +32,7 @@ namespace DevEdu.Tests
 
         protected void SignInByEmailAndPassword_ReturnToken(string email, string password)
         {
-            _endPoint = "https://localhost:44386/sign-in";
+            _endPoint = $"{BaseEndPoint}sign-in";
             var postData = AuthenticationControllerData.GetUserSignInputModelByEmailAndPassword(email, password);
             var jsonData = JsonConvert.SerializeObject(postData);
             _headers.Add(ContentType, ApplicationJson);
@@ -54,7 +55,7 @@ namespace DevEdu.Tests
 
         private void Cleaning()
         {
-            _token.Replace(MarksToken, string.Empty);
+            _token = _token.Replace(MarksToken, string.Empty);
         }
     }
 }

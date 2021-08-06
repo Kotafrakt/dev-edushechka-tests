@@ -35,7 +35,7 @@ namespace DevEdu.Tests
 
         public static UserSignInputModel GetUserSignInputModelDefault()
         {
-            return new(){ Email = "a@a.ru",Password = "12345678" };
+            return new(){ Email = "a@a.ru", Password = "12345678" };
         }
         public static UserSignInputModel GetUserSignInputModelByEmailAndPassword(string email, string password)
         {

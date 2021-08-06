@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DevEdu.Core.Models;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Net;
 namespace DevEdu.Tests
@@ -8,7 +9,7 @@ namespace DevEdu.Tests
         [Test]
         public void Register()
         {
-            _endPoint = "https://localhost:44386/register";
+            _endPoint = $"{BaseEndPoint}register";
             var postData = AuthenticationControllerData.GetUserInsertInputModelForRegistration_1();
 
             var jsonData = JsonConvert.SerializeObject(postData);
@@ -21,7 +22,7 @@ namespace DevEdu.Tests
         [Test]
         public void SignIn()
         {
-            _endPoint = "https://localhost:44386/sign-in";
+            _endPoint = $"{BaseEndPoint}sign-in";
             var postData = AuthenticationControllerData.GetUserSignInputModelDefault();
             var jsonData = JsonConvert.SerializeObject(postData);
 
