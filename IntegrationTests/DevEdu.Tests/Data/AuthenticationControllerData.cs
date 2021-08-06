@@ -5,6 +5,8 @@ namespace DevEdu.Tests
 {
     public class AuthenticationControllerData
     {
+        public const string RegisterEndPoint = "register";
+        public const string SignInEndPoint = "sign-in";
         public static UserInsertInputModel GetUserInsertInputModelForRegistration_1()
         {
             return new()

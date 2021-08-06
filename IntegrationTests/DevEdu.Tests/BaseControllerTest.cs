@@ -44,7 +44,7 @@ namespace DevEdu.Tests
             CleanHeader();
             if (_token.Contains(MarksToken))
             {
-                Cleaning();
+                CleaningMarksInToken();
             }
             _headers.Add(Authorization, $"{Bearer}{Space}{_token}");
         }
@@ -53,7 +53,7 @@ namespace DevEdu.Tests
             _headers.Clear();
         }
 
-        private void Cleaning()
+        private void CleaningMarksInToken()
         {
             _token = _token.Replace(MarksToken, string.Empty);
         }
