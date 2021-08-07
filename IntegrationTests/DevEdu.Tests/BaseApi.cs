@@ -7,7 +7,7 @@ using static DevEdu.Tests.ConstantPoints;
 
 namespace DevEdu.Tests
 {
-    public abstract class BaseControllerTest
+    public abstract class BaseApi
     {
         protected const string BaseEndPoint = "https://localhost:44386/";
         protected string _endPoint;

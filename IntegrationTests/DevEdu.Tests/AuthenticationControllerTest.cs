@@ -9,7 +9,7 @@ using static DevEdu.Tests.ConstantPoints;
 
 namespace DevEdu.Tests
 {
-    public class AuthenticationControllerTest : BaseControllerTest
+    public class AuthenticationControllerTest : BaseApi
     {
         [Test]
         public void Register()
