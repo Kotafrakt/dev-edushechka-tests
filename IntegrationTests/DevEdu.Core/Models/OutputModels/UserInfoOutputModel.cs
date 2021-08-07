@@ -1,4 +1,5 @@
 ﻿using DevEdu.Core.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace DevEdu.Core.Models
@@ -11,5 +12,21 @@ namespace DevEdu.Core.Models
         public string Email { get; set; }
         public string Photo { get; set; }
         public List<Role> Roles { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is UserInfoOutPutModel model &&
+                   Id == model.Id &&
+                   FirstName == model.FirstName &&
+                   LastName == model.LastName &&
+                   Email == model.Email &&
+                   Photo == model.Photo &&
+                   EqualityComparer<List<Role>>.Default.Equals(Roles, model.Roles);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, FirstName, LastName, Email, Photo, Roles);
+        }
     }
 }

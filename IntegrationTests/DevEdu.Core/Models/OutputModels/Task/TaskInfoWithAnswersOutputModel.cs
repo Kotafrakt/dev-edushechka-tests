@@ -4,6 +4,6 @@ namespace DevEdu.Core.Models
 {
     public class TaskInfoWithAnswersOutputModel : TaskInfoOutputModel
     {
-        public List<StudentAnswerOnTaskInfoOutputModel> StudentAnswers { get; set; }
+        public List<StudentAnswerOnTaskOutputModel> StudentAnswers { get; set; }
     }
 }
