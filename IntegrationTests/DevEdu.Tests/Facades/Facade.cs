@@ -1,4 +1,7 @@
-﻿namespace DevEdu.Tests.Facades
+﻿using DevEdu.Core.Enums;
+using System.Collections.Generic;
+
+namespace DevEdu.Tests.Facades
 {
     public class Facade
     {
@@ -33,11 +36,9 @@
         private readonly UserRoleSub _userRoleSub = new();
         #endregion
 
-        public void Exsample()
+        public void Exsample(List<Role> roles)
         {
-            _commentSub.CommentAddInputModel_Correct();
-            _commentSub.CommentAddInputModel_Null();
-            _commentSub.CommentAddInputModel_TextNull();
+            _userSub.RegisterUser(roles);
         }
     }
 }

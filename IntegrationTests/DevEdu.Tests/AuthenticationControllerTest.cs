@@ -1,8 +1,11 @@
-﻿using DevEdu.Core.Models;
+﻿using DevEdu.Core.Enums;
+using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
+using DevEdu.Tests.Facades;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using System.Collections.Generic;
 using System.Net;
 using static DevEdu.Tests.AuthenticationControllerData;
 using static DevEdu.Tests.ConstantPoints;
@@ -14,6 +17,8 @@ namespace DevEdu.Tests
         [Test]
         public void Register()
         {
+            var facade = new Facade();
+            facade.Exsample(new List<Role> { Role.Manager });
             _endPoint = RegisterPoint;
             var postData = GetUserInsertInputModelForRegistration_1();
 
@@ -25,7 +30,7 @@ namespace DevEdu.Tests
             postData.Should().BeEquivalentTo(result, options => options
                     .Excluding(obj => obj.ExileDate)
                     .Excluding(obj => obj.Id)
-                    .Excluding(obj => obj.RegistrationDate));
+                    .Excluding(obj => obj.RegistrationDate));            
         }
 
         [Test]

@@ -9,7 +9,7 @@ namespace DevEdu.Tests.Data
     {
         public static UserInsertInputModel GetUserInsertInputModelForRegistration_Correct(List<Role> roles)
         {
-            var rnd1 = _random.Next(1, 10);
+            var rnd1 = _random.Next(1, 9);
             var rnd2 = _random.Next(1, 1000);
             return new()
             {
@@ -21,7 +21,7 @@ namespace DevEdu.Tests.Data
                 Password = "12345678",
                 ContractNumber = DateTime.Now.ToString(_dateFormat),
                 City = _random.Next(1, 4),
-                BirthDate = $"{rnd1}.{rnd1}.20{rnd1}",
+                BirthDate = $"0{rnd1}.0{rnd1}.200{rnd1}",
                 GitHubAccount = "Git.com",
                 Photo = "http://zloo.com",
                 PhoneNumber = "9999999",
