@@ -9,14 +9,13 @@ namespace DevEdu.Tests
 {
     public abstract class BaseControllerTest
     {
-        private const string Authorization = "Authorization";
         protected const string BaseEndPoint = "https://localhost:44386/";
-
-        protected RestClient _client;
-        protected RequestHelper _requestHelper;
-        protected Dictionary<string, string> _headers;
         protected string _endPoint;
         protected string _token;
+        protected Dictionary<string, string> _headers;
+        protected RestClient _client;
+        protected RequestHelper _requestHelper;
+
 
         [SetUp]
         public void Setup()
@@ -39,7 +38,7 @@ namespace DevEdu.Tests
         protected void AuthenticateClient()
         {
             CleanHeader();
-            _headers.Add(Authorization, $"Bearer {_token}");
+            _headers.Add("Authorization", $"Bearer {_token}");
         }
 
         protected void CleanHeader()

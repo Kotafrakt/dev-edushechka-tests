@@ -1,13 +1,12 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
+using DevEdu.Tests.Data;
 using System;
 
 namespace DevEdu.Tests
 {
-    public class AuthenticationControllerData
+    public class AuthenticationControllerData : BaseData
     {
-        private const string _dateFormat = "MM/dd/yyyy hh:mm:ss.fff tt";
-
         public static UserInsertInputModel GetUserInsertInputModelForRegistration_1()
         {
             return new()

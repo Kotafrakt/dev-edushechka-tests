@@ -2,6 +2,7 @@
 {
     public class Facade
     {
+        #region:Subs
         private readonly CommentSub _commentSub = new();
         private readonly CourseSub _courseSub = new();
         private readonly CourseMaterialSub _courseMaterialSub = new();
@@ -30,5 +31,13 @@
         private readonly UserSub _userSub = new();
         private readonly UserGroupSub _userGroupSub = new();
         private readonly UserRoleSub _userRoleSub = new();
+        #endregion
+
+        public void Exsample()
+        {
+            _commentSub.CommentAddInputModel_Correct();
+            _commentSub.CommentAddInputModel_Null();
+            _commentSub.CommentAddInputModel_TextNull();
+        }
     }
 }
