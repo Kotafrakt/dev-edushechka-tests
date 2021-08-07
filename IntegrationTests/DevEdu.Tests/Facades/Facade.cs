@@ -6,6 +6,7 @@ namespace DevEdu.Tests.Facades
     public class Facade
     {
         #region:Subs
+        private readonly AuthenticationSub _authenticationSub = new();
         private readonly CommentSub _commentSub = new();
         private readonly CourseSub _courseSub = new();
         private readonly CourseMaterialSub _courseMaterialSub = new();
@@ -39,6 +40,11 @@ namespace DevEdu.Tests.Facades
         public void Exsample(List<Role> roles)
         {
             _userSub.RegisterUser(roles);
+        }
+
+        public void LoginAdminProject()
+        {
+            _authenticationSub.GetTokenByEmailAndPassword("a@a.ru", "12345678");
         }
     }
 }

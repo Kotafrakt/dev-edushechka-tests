@@ -8,10 +8,8 @@ namespace DevEdu.Tests.Facades
     {
         private UserFilling _filling;
 
-        public UserSub()
-        {
-            _filling = new UserFilling();
-        }
+        public UserSub() { _filling = new UserFilling(); }
+
         internal void RegisterUser(List<Role> roles)
         {
             _filling.RegisterCorrectUser(roles);

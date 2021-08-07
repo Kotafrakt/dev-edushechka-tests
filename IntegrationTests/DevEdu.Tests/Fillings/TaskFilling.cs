@@ -2,7 +2,7 @@
 
 namespace DevEdu.Tests.Fillings
 {
-    public class TaskFilling
+    public class TaskFilling : BaseFilling
     {
     }
 }
