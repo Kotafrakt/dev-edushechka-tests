@@ -4,7 +4,7 @@ using static DevEdu.Core.Common.ValidationMessage;
 
 namespace DevEdu.Core.Models
 {
-    public class GroupTaskInputModel
+    public class HomeworkInputModel
     {
         [Required(ErrorMessage = StartDateRequired)]
         [CustomDateFormatAttribute(ErrorMessage = WrongFormatDate)]

@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using static DevEdu.Core.Common.ValidationMessage;
 
 namespace DevEdu.Core.Models
 {
-    public class TaskInputModel
+    public abstract class TaskInputModel
     {
         [Required(ErrorMessage = NameRequired)]
         public string Name { get; set; }
@@ -13,5 +14,6 @@ namespace DevEdu.Core.Models
         public string Links { get; set; }
         [Required(ErrorMessage = IsRequiredErrorMessage)]
         public bool IsRequired { get; set; }
+        public List<int> Tags { get; set; }
     }
 }
