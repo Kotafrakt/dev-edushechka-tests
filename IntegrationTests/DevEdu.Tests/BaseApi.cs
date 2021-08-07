@@ -1,4 +1,5 @@
 ﻿using DevEdu.Core.Requests;
+using DevEdu.Tests.Data;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using RestSharp;
@@ -28,7 +29,7 @@ namespace DevEdu.Tests
         protected void SignInByEmailAndPassword_ReturnToken(string email, string password)
         {
             _endPoint = SignInPoint;
-            var postData = AuthenticationControllerData.GetUserSignInputModelByEmailAndPassword(email, password);
+            var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);
             var jsonData = JsonConvert.SerializeObject(postData);
             _headers.Add("content-type", "application/json");
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);

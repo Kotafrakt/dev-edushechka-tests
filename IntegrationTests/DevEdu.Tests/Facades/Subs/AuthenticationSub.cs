@@ -6,10 +6,7 @@ namespace DevEdu.Tests.Facades
     {
         private AuthenticationClient _authentication;
 
-        public AuthenticationSub()
-        {
-            _authentication = new AuthenticationClient();
-        }
+        public AuthenticationSub() { _authentication = new AuthenticationClient(); }
 
         internal string GetTokenByEmailAndPassword(string email, string password)
         {

@@ -1,4 +1,5 @@
 ﻿using DevEdu.Core.Enums;
+using DevEdu.Core.Models;
 using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades
@@ -37,14 +38,24 @@ namespace DevEdu.Tests.Facades
         private readonly UserRoleSub _userRoleSub = new();
         #endregion
 
-        public void Exsample(List<Role> roles)
+        public UserSignInputModel RegisterUser(List<Role> roles)
         {
-            _userSub.RegisterUser(roles);
+            return _userSub.RegisterUser(roles);
         }
 
-        public void LoginAdminProject()
+        public string LoginUser(string email, string password)
         {
-            _authenticationSub.GetTokenByEmailAndPassword("a@a.ru", "12345678");
+            return _authenticationSub.GetTokenByEmailAndPassword(email, password);
+        }
+
+        public CourseInfoShortOutputModel CreateCourseCorrect(string token)
+        {
+            return _courseSub.CreateCourseCorrect(token);
+        }
+
+        public MaterialInfoOutputModel CreateMaterialCorrect(string token)
+        {
+            return _materialSub.CreateMaterialCorrect(token);
         }
     }
 }

@@ -16,17 +16,22 @@ namespace DevEdu.Tests.Data
                 FirstName = "FirstName" + DateTime.Now.Millisecond.ToString(),
                 LastName = "LastName" + DateTime.Now.Millisecond.ToString(),
                 Patronymic = "Patronymic" + DateTime.Now.Millisecond.ToString(),
-                Email = "a@a.ru",
+                Email = $"a{rnd1}@{rnd2}a.ru",
                 Username = "Username" + DateTime.Now.Millisecond.ToString(),
                 Password = "12345678",
                 ContractNumber = DateTime.Now.ToString(_dateFormat),
-                City = _random.Next(1, 4),
+                City = (int)City.SaintPetersburg,
                 BirthDate = $"0{rnd1}.0{rnd1}.200{rnd1}",
                 GitHubAccount = "Git.com",
                 Photo = "http://zloo.com",
                 PhoneNumber = "9999999",
                 Roles = roles
             };
+        }
+
+        public static UserSignInputModel GetUserSignInputModelByEmailAndPassword(string email, string password)
+        {
+            return new() { Email = email, Password = password };
         }
     }
 }
