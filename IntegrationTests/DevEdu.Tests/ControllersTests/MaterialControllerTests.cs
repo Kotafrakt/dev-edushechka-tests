@@ -2,7 +2,6 @@
 using DevEdu.Core.Models.Material;
 using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
-using DevEdu.Tests.Facades;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -25,7 +24,7 @@ namespace DevEdu.Tests.ControllersTests
         public const string GetMaterialsByTagIdPoint = "api/material/by-tag/{0}";
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndTutor))]
-        public void AddMaterialWithGroups(List<Role> roles)
+        public void AddMaterialWithGroups_MaterialDtoWithoutGroups_MaterialCreated(List<Role> roles)
         {
             var groupsId = new List<int>();
             var countNewGroup = 5;
@@ -54,7 +53,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesMethodist))]
-        public void AddMaterialWithCourses(List<Role> roles)
+        public void AddMaterialWithCourses_MaterialDtoWithoutCourse_MaterialCreated(List<Role> roles)
         {
             var coursesId = new List<int>();
             var countNewCourse = 5;
@@ -83,7 +82,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRolesButManager))]
-        public void GetAllMaterials(List<Role> roles)
+        public void GetAllMaterials_NoEntryForAllRolesButManager_ListOfMaterialDtoReturned(List<Role> roles)
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
@@ -100,7 +99,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesMethodist))]
-        public void GetMaterialByIdWithCoursesAndGroups(List<Role> roles)
+        public void GetMaterialByIdWithCoursesAndGroups_ExistingMaterialId_MaterialDtoWithCoursesAndGroupsReturned(List<Role> roles)
         {
             var coursesId = new List<int>();
             var countNewCourse = 5;
@@ -125,7 +124,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRolesButManager))]
-        public void GetMaterialByIdWithTags(List<Role> roles)
+        public void GetMaterialByIdWithTags_ExistingMaterialIdAccessibleForAllRolesButManagerByGroups_MaterialDtoWithTagsReturned(List<Role> roles)
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
@@ -147,7 +146,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndMethodist))]
-        public void UpdateMaterial(List<Role> roles)
+        public void UpdateMaterial_ByIdWithUpdateModelMaterial_UpdatedMaterialReturned(List<Role> roles)
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
@@ -168,7 +167,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndMethodist))]
-        public void DeleteMaterial(List<Role> roles)
+        public void DeleteTagFromMaterial_WithMaterialId_SoftDeleted(List<Role> roles)
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
@@ -185,7 +184,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRoles))]
-        public void AddTagToMaterial(List<Role> roles)
+        public void AddTagToMaterial_WithMaterialIdAndTopicId_Added(List<Role> roles)
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
@@ -207,7 +206,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRoles))]
-        public void DeleteTagFromMaterial(List<Role> roles)
+        public void DeleteTagFromMaterial_WithMaterialIdAndTopicId_SoftDeleted(List<Role> roles)
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
@@ -230,7 +229,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRolesButManager))]
-        public void GetMaterialsByTagId(List<Role> roles)
+        public void GetMaterialsByTagId_ExistingTagIdAccessibleForAllRolesButManager_ListOfMaterialDtoReturned(List<Role> roles)
         {
             var materials = new List<MaterialInfoWithCoursesOutputModel>();
             var user = _facade.RegisterUser(roles);
