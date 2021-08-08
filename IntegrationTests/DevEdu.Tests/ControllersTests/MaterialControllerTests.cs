@@ -29,12 +29,83 @@ namespace DevEdu.Tests.ControllersTests
             var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
             postData.Should().BeEquivalentTo(result, options => options
                 .Excluding(obj => obj.Id)
                 .Excluding(obj => obj.IsDeleted)
                 .Excluding(obj => obj.Tags));
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GeеAllRolesOneByOne))]
+        public void GetAllMaterials(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+
+            _endPoint = GetAllMaterialsPoint;
+            var request = _requestHelper.Get(_endPoint, _headers);
+            var response = _client.Execute(request);
+            var result = JsonConvert.DeserializeObject<List<MaterialInfoOutputModel>>(response.Content);
+
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            result.Should().NotBeNull();
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GeеAllRolesOneByOne))]
+        public void GetMaterial(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+
+
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GeеAllRolesOneByOne))]
+        public void UpdateMaterial(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GeеAllRolesOneByOne))]
+        public void DeleteMaterial(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GeеAllRolesOneByOne))]
+        public void AddTagToMaterial(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GeеAllRolesOneByOne))]
+        public void DeleteTagFromMaterial(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GeеAllRolesOneByOne))]
+        public void GetMaterialsByTagId(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+            
+            AuthenticateClient(token);
         }
     }
 }
