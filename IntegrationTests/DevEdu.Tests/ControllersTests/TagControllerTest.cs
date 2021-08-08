@@ -140,7 +140,27 @@ namespace DevEdu.Tests.ControllersTests
 
             var request = _requestHelper.Get(_endPoint, _headers);
             var response = _client.Execute<TagOutputModel>(request);
-            var updatedResult = JsonConvert.DeserializeObject<TagOutputModel>(response.Content);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
+        public void UpdateTag_TagDoesntExist_EntityNotFoundException(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+
+            var tagId = 0;
+            var postData = TagData.GetTagInputModel_UpdatedModel();
+            var jsonData = JsonConvert.SerializeObject(postData);
+            _endPoint = string.Format(UpdateTagPoint, tagId);
+
+            var request = _requestHelper.Put(_endPoint, _headers, jsonData);
+            var response = _client.Execute<TagOutputModel>(request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
