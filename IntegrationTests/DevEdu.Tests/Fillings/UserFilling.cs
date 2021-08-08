@@ -17,7 +17,6 @@ namespace DevEdu.Tests.Fillings
             var postData = UserData.GetUserInsertInputModelForRegistration_Correct(roles);
 
             var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var responce = _client.Execute<UserFullInfoOutPutModel>(request);
             var result = responce.Data;
