@@ -10,9 +10,13 @@ namespace DevEdu.Tests.Facades
         private MaterialFilling _filling;
         public MaterialSub() { _filling = new MaterialFilling(); }
 
-        internal MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCoursesCorrect(string token, List<int> coursesId)
+        internal MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCourses(string token, List<int> coursesId)
         {
-            return _filling.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            return _filling.CreateMaterialInfoWithCourses(token, coursesId);
+        }
+        internal void AddTagToMaterial(string token, int materialId, int tagId)
+        {
+            _filling.AddTagToMaterial(token, materialId, tagId);
         }
     }
 }

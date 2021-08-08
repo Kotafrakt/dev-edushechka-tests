@@ -18,7 +18,7 @@ namespace DevEdu.Tests.ControllersTests
         {
             _endPoint = RegisterPoint;
 
-            var postData = UserData.GetUserInsertInputModelForRegistration_Correct
+            var postData = UserData.GetUserInsertInputModelForRegistration
                 (new List<Role> { Role.Admin, Role.Manager, Role.Student });
 
             var jsonData = JsonConvert.SerializeObject(postData);

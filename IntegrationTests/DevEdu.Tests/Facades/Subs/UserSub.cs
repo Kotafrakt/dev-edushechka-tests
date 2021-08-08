@@ -13,7 +13,7 @@ namespace DevEdu.Tests.Facades
 
         internal UserSignInputModel RegisterUser(List<Role> roles)
         {
-            return _filling.RegisterCorrectUser(roles);
+            return _filling.RegisterUser(roles);
         }
     }
 }

@@ -10,7 +10,17 @@ namespace DevEdu.Tests.Data
         {
             return new()
             {
+
                 Content = "zlo materials"
+            };
+        }
+
+        public static MaterialInputModel GetUpdateMaterialInputModel()
+        {
+            return new()
+            {
+
+                Content = "Kot materials"
             };
         }
 
@@ -24,7 +34,7 @@ namespace DevEdu.Tests.Data
             };
         }
 
-        public static MaterialWithCoursesInputModel GetMaterialWithCoursesInputModel_Correct(List<int> coursesId)
+        public static MaterialWithCoursesInputModel GetMaterialWithCoursesInputModelForFillingDB(List<int> coursesId)
         {
             return new()
             {

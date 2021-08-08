@@ -8,9 +8,9 @@ namespace DevEdu.Tests.Facades
         private readonly CourseFilling _filling;
         public CourseSub() { _filling = new CourseFilling(); }
 
-        internal CourseInfoShortOutputModel CreateCourseCorrect(string token)
+        internal CourseInfoShortOutputModel CreateCourse(string token)
         {
-            return _filling.CreateCorrectCourse(token);
+            return _filling.CreateCourse(token);
         }
     }
 }

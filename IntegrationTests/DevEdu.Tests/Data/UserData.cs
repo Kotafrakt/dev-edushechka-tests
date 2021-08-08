@@ -7,7 +7,7 @@ namespace DevEdu.Tests.Data
 {
     public class UserData : BaseData
     {
-        public static UserInsertInputModel GetUserInsertInputModelForRegistration_Correct(List<Role> roles)
+        public static UserInsertInputModel GetUserInsertInputModelForRegistration(List<Role> roles)
         {
             var rnd1 = _random.Next(1, 9);
             var rnd2 = _random.Next(1, 1000);

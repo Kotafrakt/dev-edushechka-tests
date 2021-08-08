@@ -2,6 +2,7 @@
 using DevEdu.Core.Models.Material;
 using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
+using DevEdu.Tests.Facades;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -32,7 +33,7 @@ namespace DevEdu.Tests.ControllersTests
             var token = _facade.SignInUser(user.Email, user.Password);
             for (int i = 0; i <= countNewGroup; i++)
             {
-                var group = _facade.CreateCourseCorrect(token); //To Do
+                var group = _facade.CreateCourse(token); //To Do
                 groupsId.Add(group.Id);
             }
 
@@ -61,14 +62,14 @@ namespace DevEdu.Tests.ControllersTests
             var token = _facade.SignInUser(user.Email, user.Password);
             for (int i = 0; i <= countNewCourse; i++)
             {
-                var course = _facade.CreateCourseCorrect(token);
+                var course = _facade.CreateCourse(token);
                 coursesId.Add(course.Id);
             }
 
             AuthenticateClient(token);
             _endPoint = AddMaterialWithCoursesPoint;
 
-            var material = MaterialData.GetMaterialWithCoursesInputModel_Correct(coursesId);
+            var material = MaterialData.GetMaterialWithCoursesInputModelForFillingDB(coursesId);
             var jsonData = JsonConvert.SerializeObject(material);
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var response = _client.Execute(request);
@@ -107,10 +108,10 @@ namespace DevEdu.Tests.ControllersTests
             var token = _facade.SignInUser(user.Email, user.Password);
             for (int i = 0; i <= countNewCourse; i++)
             {
-                var course = _facade.CreateCourseCorrect(token);
+                var course = _facade.CreateCourse(token);
                 coursesId.Add(course.Id);
             }
-            var material = _facade.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            var material = _facade.CreateMaterialInfoWithCourses(token, coursesId);
 
             AuthenticateClient(token);
             _endPoint = string.Format(GetMaterialByIdWithCoursesAndGroupsPoint, material.Id);
@@ -126,17 +127,13 @@ namespace DevEdu.Tests.ControllersTests
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRolesButManager))]
         public void GetMaterialByIdWithTags(List<Role> roles)
         {
-            var coursesId = new List<int>();
-            var countNewCourse = 5;
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
-            for (int i = 0; i <= countNewCourse; i++)
-            {
-                var course = _facade.CreateCourseCorrect(token);
-                coursesId.Add(course.Id);
-            }
-
-            var material = _facade.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            var course = _facade.CreateCourse(token);
+            var material = _facade.CreateMaterialInfoWithCourses(token, new List<int>() { course.Id });
+            var tag = _facade.CreateTag(token); //To Do
+            _facade.AddTagToMaterial(token, material.Id, tag.Id);
+            material.Tags.Add(tag);
 
             AuthenticateClient(token);
             _endPoint = string.Format(GetMaterialByIdWithTagsPoint, material.Id);
@@ -152,53 +149,39 @@ namespace DevEdu.Tests.ControllersTests
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndMethodist))]
         public void UpdateMaterial(List<Role> roles)
         {
-            var coursesId = new List<int>();
-            var countNewCourse = 5;
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
-            for (int i = 0; i <= countNewCourse; i++)
-            {
-                var course = _facade.CreateCourseCorrect(token);
-                coursesId.Add(course.Id);
-            }
-
-            var material = _facade.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            var course = _facade.CreateCourse(token);
+            var material = _facade.CreateMaterialInfoWithCourses(token, new List<int>() { course.Id });
 
             AuthenticateClient(token);
             _endPoint = string.Format(UpdateMaterialPoint, material.Id);
 
-            var request = _requestHelper.Get(_endPoint, _headers);
+            var updateMaterial = MaterialData.GetUpdateMaterialInputModel();
+            var jsonData = JsonConvert.SerializeObject(updateMaterial);
+            var request = _requestHelper.Put(_endPoint, _headers, jsonData);
             var response = _client.Execute(request);
             var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            material.Should().BeEquivalentTo(result);
+            updateMaterial.Should().BeEquivalentTo(result);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndMethodist))]
         public void DeleteMaterial(List<Role> roles)
         {
-            var coursesId = new List<int>();
-            var countNewCourse = 5;
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
-            for (int i = 0; i <= countNewCourse; i++)
-            {
-                var course = _facade.CreateCourseCorrect(token);
-                coursesId.Add(course.Id);
-            }
-
-            var material = _facade.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            var course = _facade.CreateCourse(token);
+            var material = _facade.CreateMaterialInfoWithCourses(token, new List<int>() { course.Id });
+            var isDeleted = true;
 
             AuthenticateClient(token);
-            _endPoint = string.Format(DeleteMaterialPoint, material.Id, 1);
+            _endPoint = string.Format(DeleteMaterialPoint, material.Id, isDeleted);
 
-            var request = _requestHelper.Get(_endPoint, _headers);
+            var request = _requestHelper.Delete(_endPoint, _headers);
             var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
-
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            material.Should().BeEquivalentTo(result);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRoles))]
@@ -206,9 +189,10 @@ namespace DevEdu.Tests.ControllersTests
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
-            var course = _facade.CreateCourseCorrect(token);
-            var material = _facade.CreateMaterialInfoWithCoursesCorrect(token, new List<int>() { course.Id });
-            var tag = _facade.CreateTagCorrect(token);
+            var course = _facade.CreateCourse(token);
+            var material = _facade.CreateMaterialInfoWithCourses(token, new List<int>() { course.Id });
+            var tag = _facade.CreateTag(token); //To Do
+            var expected = $"Tag id: {tag.Id} added for material id: {material.Id}";
 
             AuthenticateClient(token);
             _endPoint = string.Format(AddTagToMaterialPoint, material.Id, tag.Id);
@@ -216,73 +200,57 @@ namespace DevEdu.Tests.ControllersTests
             string jsonData = null;
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
+            var result = JsonConvert.DeserializeObject<string>(response.Content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            material.Should().BeEquivalentTo(result);
+            expected.Should().BeEquivalentTo(result);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRoles))]
         public void DeleteTagFromMaterial(List<Role> roles)
         {
-            var coursesId = new List<int>();
-            var countNewCourse = 5;
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
-            for (int i = 0; i <= countNewCourse; i++)
-            {
-                var course = _facade.CreateCourseCorrect(token);
-                coursesId.Add(course.Id);
-            }
-
-            var material = _facade.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            var course = _facade.CreateCourse(token);
+            var material = _facade.CreateMaterialInfoWithCourses(token, new List<int>() { course.Id });
+            var tag = _facade.CreateTag(token); //To Do
+            _facade.AddTagToMaterial(token, material.Id, tag.Id);
+            material.Tags.Add(tag);
+            var expected = $"Tag id: {tag.Id} deleted from material id: {material.Id}";
 
             AuthenticateClient(token);
-            _endPoint = string.Format(DeleteTagFromMaterialPoint, material.Id, 1);
+            _endPoint = string.Format(DeleteTagFromMaterialPoint, material.Id, tag.Id);
 
-            var request = _requestHelper.Get(_endPoint, _headers);
+            var request = _requestHelper.Delete(_endPoint, _headers);
             var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
+            var result = JsonConvert.DeserializeObject<string>(response.Content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            material.Should().BeEquivalentTo(result);
+            expected.Should().BeEquivalentTo(result);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRolesButManager))]
         public void GetMaterialsByTagId(List<Role> roles)
         {
-            var coursesId = new List<int>();
-            var countNewCourse = 5;
+            var materials = new List<MaterialInfoWithCoursesOutputModel>();
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
-            for (int i = 0; i <= countNewCourse; i++)
-            {
-                var course = _facade.CreateCourseCorrect(token);
-                coursesId.Add(course.Id);
-            }
-
-            var material = _facade.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            var course = _facade.CreateCourse(token);
+            var material = _facade.CreateMaterialInfoWithCourses(token, new List<int>() { course.Id });
+            var tag = _facade.CreateTag(token); //To Do
+            _facade.AddTagToMaterial(token, material.Id, tag.Id);
+            material.Tags.Add(tag);
+            materials.Add(material);
 
             AuthenticateClient(token);
-            _endPoint = string.Format(GetMaterialsByTagIdPoint, material.Id);
+            _endPoint = string.Format(GetMaterialsByTagIdPoint, tag.Id);
 
             var request = _requestHelper.Get(_endPoint, _headers);
             var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
+            var result = JsonConvert.DeserializeObject<List<MaterialInfoOutputModel>>(response.Content);
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            material.Should().BeEquivalentTo(result);
+            materials.Should().BeEquivalentTo(result);
         }
-
-
-
-
-
-
-
-
-
-
-
     }
 }

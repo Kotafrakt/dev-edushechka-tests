@@ -11,10 +11,10 @@ namespace DevEdu.Tests.Fillings
 {
     public class UserFilling : BaseFilling
     {
-        public UserSignInputModel RegisterCorrectUser(List<Role> roles)
+        public UserSignInputModel RegisterUser(List<Role> roles)
         {
             _endPoint = RegisterPoint;
-            var postData = UserData.GetUserInsertInputModelForRegistration_Correct(roles);
+            var postData = UserData.GetUserInsertInputModelForRegistration(roles);
 
             var jsonData = JsonConvert.SerializeObject(postData);
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);

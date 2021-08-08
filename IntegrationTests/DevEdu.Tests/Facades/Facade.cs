@@ -49,24 +49,29 @@ namespace DevEdu.Tests.Facades
             return _authenticationSub.GetTokenByEmailAndPassword(email, password);
         }
 
-        public CourseInfoShortOutputModel CreateCourseCorrect(string token)
+        public CourseInfoShortOutputModel CreateCourse(string token)
         {
-            return _courseSub.CreateCourseCorrect(token);
+            return _courseSub.CreateCourse(token);
         }
 
-        public GroupOutputModel CreateGroupCorrect(string token)
+        public GroupOutputModel CreateGroup(string token)
         {
             return new GroupOutputModel(); //To Do
         }
 
-        public TagOutputModel CreateTagCorrect(string token)
+        public TagOutputModel CreateTag(string token)
         {
             return new TagOutputModel(); //To Do
         }
 
-        public MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCoursesCorrect(string token, List<int> coursesId)
+        public void AddTagToMaterial(string token, int materialId, int tagId)
         {
-            return _materialSub.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
+            _materialSub.AddTagToMaterial(token, materialId, tagId);
+        }
+
+        public MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCourses(string token, List<int> coursesId)
+        {
+            return _materialSub.CreateMaterialInfoWithCourses(token, coursesId);
         }
     }
 }

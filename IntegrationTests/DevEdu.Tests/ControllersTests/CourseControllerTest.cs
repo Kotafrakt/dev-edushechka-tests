@@ -23,7 +23,7 @@ namespace DevEdu.Tests.ControllersTests
             AuthenticateClient(token);
 
             _endPoint = AddCoursePoint;
-            var postData = CourseData.GetCourseInputModel_Correct();
+            var postData = CourseData.GetCourseInputModelForFillingDB();
 
             var jsonData = JsonConvert.SerializeObject(postData);
             _headers.Add("content-type", "application/json");

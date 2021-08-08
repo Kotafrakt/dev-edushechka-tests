@@ -9,12 +9,12 @@ namespace DevEdu.Tests.Fillings
 {
     public class CourseFilling : BaseFilling
     {
-        public CourseInfoShortOutputModel CreateCorrectCourse(string token)
+        public CourseInfoShortOutputModel CreateCourse(string token)
         {
             AuthenticateClient(token);
 
             _endPoint = AddCoursePoint;
-            var postData = CourseData.GetCourseInputModel_Correct();
+            var postData = CourseData.GetCourseInputModelForFillingDB();
 
             var jsonData = JsonConvert.SerializeObject(postData);
             _headers.Add("content-type", "application/json");
