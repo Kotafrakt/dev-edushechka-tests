@@ -1,31 +1,33 @@
-﻿using DevEdu.Core.Models;
+﻿using DevEdu.Core.Models.Material;
 using DevEdu.Core.Requests;
+using DevEdu.Tests.ControllersTests;
 using DevEdu.Tests.Data;
 using FluentAssertions;
 using Newtonsoft.Json;
-using static DevEdu.Tests.ConstantPoints;
+using System.Collections.Generic;
+using System.Net;
 
 namespace DevEdu.Tests.Fillings
 {
     public class MaterialFilling : BaseFilling
     {
-        public MaterialInfoOutputModel CreateMaterialCorrect(string token)
+        public MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCoursesCorrect(string token, List<int> coursesId)
         {
             AuthenticateClient(token);
 
-            _endPoint = AddMaterialPoint;
-            var postData = MaterialData.GetMaterialInputModel_Correct();
+            _endPoint = MaterialControllerTests.AddMaterialWithCoursesPoint;
 
-            var jsonData = JsonConvert.SerializeObject(postData);
+            var material = MaterialData.GetMaterialWithCoursesInputModel_Correct(coursesId);
+            var jsonData = JsonConvert.SerializeObject(material);
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
-            var response = _client.Execute<MaterialInfoOutputModel>(request);
-            var result = response.Data;
+            var response = _client.Execute(request);
+            var result = JsonConvert.DeserializeObject<MaterialInfoWithCoursesOutputModel>(response.Content);
 
-            //postData.Should().BeEquivalentTo(result, options => options
-            //    .Excluding(obj => obj.Id)
-            //    .Excluding(obj => obj.IsDeleted)
-            //    .Excluding(obj => obj.Tags));
-
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            material.Should().BeEquivalentTo(result, options => options
+                .Excluding(obj => obj.Id)
+                .Excluding(obj => obj.IsDeleted)
+                .Excluding(obj => obj.Tags));
             return result;
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace DevEdu.Core.Models
+namespace DevEdu.Core.Models.Material
 {
     public class MaterialInfoOutputModel
     {

@@ -64,15 +64,6 @@
         public const string UpdateStudentAbsenceReasonOnLessonPoint = "api/lesson/{0}/user/{1}/absenceReason";
         public const string UpdateStudentAttendanceOnLessonPoint = "api/lesson/{0}/user/{1}/attendance";
         public const string GetAllFeedbackByLessonIdPoint = "api/lesson/{0}/feedback";
-        //MaterialController
-        public const string AddMaterialPoint = "api/material";
-        public const string GetAllMaterialsPoint = "api/material";
-        public const string GetMaterialPoint = "api/material/{0}";
-        public const string UpdateMaterialPoint = "api/material/{0}";
-        public const string DeleteMaterialPoint = "api/material/{0}/isDeleted/true";
-        public const string AddTagToMaterialPoint = "api/material/{0}/tag/{1}";
-        public const string DeleteTagFromMaterialPoint = "api/material/{0}/tag/{1}";
-        public const string GetMaterialsByTagIdPoint = "api/material/by-tag/{0}";
         //NotificationController
         public const string GetNotificationPoint = "api/notification/{0}";
         public const string GetAllNotificationsByUserIdPoint = "api/notification/by-user/{0}";

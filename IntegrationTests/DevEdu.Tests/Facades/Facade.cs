@@ -1,5 +1,6 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
+using DevEdu.Core.Models.Material;
 using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades
@@ -53,9 +54,19 @@ namespace DevEdu.Tests.Facades
             return _courseSub.CreateCourseCorrect(token);
         }
 
-        public MaterialInfoOutputModel CreateMaterialCorrect(string token)
+        public GroupOutputModel CreateGroupCorrect(string token)
         {
-            return _materialSub.CreateMaterialCorrect(token);
+            return new GroupOutputModel(); //To Do
+        }
+
+        public TagOutputModel CreateTagCorrect(string token)
+        {
+            return new TagOutputModel(); //To Do
+        }
+
+        public MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCoursesCorrect(string token, List<int> coursesId)
+        {
+            return _materialSub.CreateMaterialInfoWithCoursesCorrect(token, coursesId);
         }
     }
 }
