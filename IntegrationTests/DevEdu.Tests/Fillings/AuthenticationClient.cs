@@ -14,7 +14,6 @@ namespace DevEdu.Tests.Fillings
             _endPoint = SignInPoint;
             var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);
             var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             return _client.Execute<string>(request).Data;
         }
