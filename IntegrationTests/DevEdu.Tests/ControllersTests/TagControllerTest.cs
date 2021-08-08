@@ -5,6 +5,7 @@ using DevEdu.Tests.Data;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Net;
 using FluentAssertions;
 using static DevEdu.Tests.ConstantPoints;
 
@@ -29,11 +30,13 @@ namespace DevEdu.Tests.ControllersTests
             _headers.Add("content-type", "application/json");
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var response = _client.Execute<TagOutputModel>(request);
-            var result = response.Data;
+            var result = JsonConvert.DeserializeObject<TagOutputModel>(response.Content);
 
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
             postData.Should().BeEquivalentTo(result, options => options
                 .Excluding(obj => obj.Id)
                 .Excluding(obj => obj.IsDeleted));
+            result.Should().NotBeNull(result.Id.ToString());
         }
     }
 }
