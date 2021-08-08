@@ -57,5 +57,10 @@ namespace DevEdu.Tests.Facades
         {
             return _materialSub.CreateMaterialCorrect(token);
         }
+
+        public TagOutputModel CreateTagCorrect(string token)
+        {
+            return _tagSub.CreateTagCorrect(token);
+        }
     }
 }

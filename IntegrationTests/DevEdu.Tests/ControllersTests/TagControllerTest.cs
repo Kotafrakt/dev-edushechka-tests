@@ -38,5 +38,27 @@ namespace DevEdu.Tests.ControllersTests
                 .Excluding(obj => obj.IsDeleted));
             result.Should().NotBeNull(result.Id.ToString());
         }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
+        public void DeleteTag(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+            var result = _facade.CreateTagCorrect(token);
+
+            //CleanHeader();
+            _headers.Add("content-type", "application/json");
+            var tagId = result.Id;
+            _endPoint = string.Format(DeleteTagPoint, tagId);
+            //AuthenticateClient(token);
+            var request = _requestHelper.Delete(_endPoint, _headers);
+            var responses = _client.Execute(request);
+
+            responses.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }
