@@ -22,7 +22,6 @@ namespace DevEdu.Tests.ControllersTests
                 (new List<Role> { Role.Admin, Role.Manager, Role.Student });
 
             var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var result = _client.Execute<UserFullInfoOutPutModel>(request).Data;
 
@@ -39,8 +38,6 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = SignInPoint;
             var postData = UserData.GetUserSignInputModelByEmailAndPassword("a@a.ru", "12345678");
             var jsonData = JsonConvert.SerializeObject(postData);
-
-            _headers.Add("content-type", "application/json");
 
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var result = _client.Execute<string>(request);

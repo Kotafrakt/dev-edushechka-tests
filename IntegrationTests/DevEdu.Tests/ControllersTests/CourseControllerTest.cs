@@ -26,7 +26,6 @@ namespace DevEdu.Tests.ControllersTests
             var postData = CourseData.GetCourseInputModel_Correct();
 
             var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var response = _client.Execute<CourseInfoShortOutputModel>(request);
             var result = response.Data;

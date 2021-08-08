@@ -15,6 +15,8 @@ namespace DevEdu.Tests.Fillings
             var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);
             var jsonData = JsonConvert.SerializeObject(postData);
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
+
+            CleanHeader();
             return _client.Execute<string>(request).Data;
         }
     }

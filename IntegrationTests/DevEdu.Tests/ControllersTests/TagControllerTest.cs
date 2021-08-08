@@ -14,6 +14,7 @@ namespace DevEdu.Tests.ControllersTests
     public class TagControllerTest : BaseControllerTest
     {
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTeacher))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void AddTag_TagDto_TagCreated(List<Role> roles)
@@ -39,6 +40,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTeacher))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void DeleteTag_TagId_TagDeleted(List<Role> roles)
@@ -48,7 +50,7 @@ namespace DevEdu.Tests.ControllersTests
 
             AuthenticateClient(token);
             var result = _facade.CreateTagCorrect(token);
-            
+
             var tagId = result.Id;
             _endPoint = string.Format(DeleteTagPoint, tagId);
             var request = _requestHelper.Delete(_endPoint, _headers);
@@ -58,6 +60,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTeacher))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void UpdateTag_TagDto_Id_TagDto(List<Role> roles)
@@ -83,6 +86,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTeacher))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void GetTagById_Id_TagDto(List<Role> roles)
@@ -106,15 +110,16 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTeacher))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void GetAllTags_NoEntries_ListTagDto(List<Role> roles)
         {
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
-            
+
             AuthenticateClient(token);
-            
+
             _endPoint = GetAllTagsPoint;
 
             var request = _requestHelper.Get(_endPoint, _headers);
@@ -126,6 +131,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTeacher))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void GetTagById_TagDoesntExist_EntityNotFoundException(List<Role> roles)
@@ -134,7 +140,7 @@ namespace DevEdu.Tests.ControllersTests
             var token = _facade.SignInUser(user.Email, user.Password);
 
             AuthenticateClient(token);
-            
+
             var tagId = 0;
             _endPoint = string.Format(GetTagByIdPoint, tagId);
 
@@ -145,6 +151,7 @@ namespace DevEdu.Tests.ControllersTests
         }
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTeacher))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void UpdateTag_TagDoesntExist_EntityNotFoundException(List<Role> roles)
@@ -161,6 +168,70 @@ namespace DevEdu.Tests.ControllersTests
 
             var request = _requestHelper.Put(_endPoint, _headers, jsonData);
             var response = _client.Execute<TagOutputModel>(request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleStudent))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTutor))]
+        public void AddTag_TagDto_AuthorizationExceptionThrown(List<Role> roles)
+        {
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+
+            AuthenticateClient(token);
+
+            _endPoint = AddTagPoint;
+            var postData = TagData.GetTagInputModel_Correct();
+
+            var jsonData = JsonConvert.SerializeObject(postData);
+            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
+            var response = _client.Execute<TagOutputModel>(request);
+            var result = JsonConvert.DeserializeObject<TagOutputModel>(response.Content);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleStudent))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTutor))]
+        public void DeleteTag_TagId_AuthorizationExceptionThrown(List<Role> roles)
+        {
+            var userAdmin = _facade.RegisterUser(new List<Role> { Role.Admin });
+            var tokenAdmin = _facade.SignInUser(userAdmin.Email, userAdmin.Password);
+            AuthenticateClient(tokenAdmin);
+            var result = _facade.CreateTagCorrect(tokenAdmin);
+
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+            AuthenticateClient(token);
+
+            var tagId = result.Id;
+            _endPoint = string.Format(DeleteTagPoint, tagId);
+            var request = _requestHelper.Delete(_endPoint, _headers);
+            var response = _client.Execute(request);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleStudent))]
+        [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleTutor))]
+        public void UpdateTag_TagDto_Id_AuthorizationExceptionThrown(List<Role> roles)
+        {
+            var userAdmin = _facade.RegisterUser(new List<Role> { Role.Admin });
+            var tokenAdmin = _facade.SignInUser(userAdmin.Email, userAdmin.Password);
+            AuthenticateClient(tokenAdmin);
+            var result = _facade.CreateTagCorrect(tokenAdmin);
+
+            var user = _facade.RegisterUser(roles);
+            var token = _facade.SignInUser(user.Email, user.Password);
+            AuthenticateClient(token);
+
+            var tagId = result.Id;
+            var postData = TagData.GetTagInputModel_UpdatedModel();
+            var jsonData = JsonConvert.SerializeObject(postData);
+            _endPoint = string.Format(UpdateTagPoint, tagId);
+            var request = _requestHelper.Put(_endPoint, _headers, jsonData);
+            var response = _client.Execute(request);
 
             response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }

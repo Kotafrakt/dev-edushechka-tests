@@ -24,6 +24,8 @@ namespace DevEdu.Tests.Fillings
             postData.Should().BeEquivalentTo(result, options => options
                 .Excluding(obj => obj.Id)
                 .Excluding(obj => obj.IsDeleted));
+
+            CleanHeader();
             return result;
         }
     }

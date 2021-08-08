@@ -20,6 +20,7 @@ namespace DevEdu.Tests.Fillings
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var responce = _client.Execute<UserFullInfoOutPutModel>(request);
             var result = responce.Data;
+            CleanHeader();
 
             //postData.Should().BeEquivalentTo(result, options => options
             //        .Excluding(obj => obj.ExileDate)

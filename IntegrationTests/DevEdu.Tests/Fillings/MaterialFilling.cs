@@ -26,6 +26,7 @@ namespace DevEdu.Tests.Fillings
             //    .Excluding(obj => obj.IsDeleted)
             //    .Excluding(obj => obj.Tags));
 
+            CleanHeader();
             return result;
         }
     }
