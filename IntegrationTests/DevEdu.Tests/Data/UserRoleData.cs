@@ -45,5 +45,14 @@ namespace DevEdu.Tests.Data
         {
             yield return new object[] { new List<Role> { Role.Teacher, Role.Tutor,  } };
         }
+        public static IEnumerable GeеAllRolesOneByOne()
+        {
+            yield return new object[] { new List<Role> { Role.Admin } };
+            yield return new object[] { new List<Role> { Role.Manager } };
+            yield return new object[] { new List<Role> { Role.Methodist } };
+            yield return new object[] { new List<Role> { Role.Teacher } };
+            yield return new object[] { new List<Role> { Role.Tutor } };
+            yield return new object[] { new List<Role> { Role.Student } };
+        }
     }
 }

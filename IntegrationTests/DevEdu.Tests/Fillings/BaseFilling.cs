@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using RestSharp;
 using System.Collections.Generic;
-using static DevEdu.Tests.ConstantPoints;
 
 namespace DevEdu.Tests.Fillings
 {
