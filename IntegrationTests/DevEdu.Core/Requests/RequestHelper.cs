@@ -22,6 +22,8 @@ namespace DevEdu.Core.Requests
                 }
             }
 
+            headers.Add("content-type", "application/json");
+
             if (httpMethod == Method.PUT || httpMethod == Method.POST)
             {
                 request.AddParameter(headers["content-type"], jsonData, ParameterType.RequestBody);

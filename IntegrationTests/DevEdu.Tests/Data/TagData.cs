@@ -13,5 +13,13 @@ namespace DevEdu.Tests.Data
                 Name = $"Tag {DateTime.Now.ToString(_dateFormat)}",
             };
         }
+
+        public static TagInputModel GetTagInputModel_UpdatedModel()
+        {
+            return new()
+            {
+                Name = "Zloo is bad"
+            };
+        }
     }
 }

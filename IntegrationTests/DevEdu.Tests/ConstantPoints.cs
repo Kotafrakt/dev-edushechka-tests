@@ -100,7 +100,7 @@
         public const string DeleteTagPoint = "api/tag/{0}";
         public const string UpdateTagPoint = "api/tag/{0}";
         public const string GetAllTagsPoint = "api/tag";
-        public const string GetTagByIdPoint = "api/tag{0}";
+        public const string GetTagByIdPoint = "api/tag/{0}";
         //TaskController
         public const string AddTaskByTeacherPoint = "api/task/teacher";
         public const string AddTaskByMethodistPoint = "api/task/methodist";
