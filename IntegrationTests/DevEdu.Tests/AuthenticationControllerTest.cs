@@ -17,11 +17,6 @@ namespace DevEdu.Tests
         [Test]
         public void Register()
         {
-            //var facade = new Facade();
-            //var user = facade.RegisterUser(new List<Role> { Role.Manager });
-            //var ttt = facade.LoginUser(user.Email, user.Password);
-            //var iii = facade.CreateCourseCorrect(ttt);
-            //var yyy = facade.CreateMaterialCorrect(ttt);
             _endPoint = RegisterPoint;
 
             var postData = UserData.GetUserInsertInputModelForRegistration_Correct

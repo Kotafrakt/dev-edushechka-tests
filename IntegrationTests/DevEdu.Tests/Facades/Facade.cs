@@ -43,7 +43,7 @@ namespace DevEdu.Tests.Facades
             return _userSub.RegisterUser(roles);
         }
 
-        public string LoginUser(string email, string password)
+        public string SignInUser(string email, string password)
         {
             return _authenticationSub.GetTokenByEmailAndPassword(email, password);
         }
