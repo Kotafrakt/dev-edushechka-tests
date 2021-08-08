@@ -142,7 +142,7 @@ namespace DevEdu.Tests.ControllersTests
             var response = _client.Execute<TagOutputModel>(request);
             var updatedResult = JsonConvert.DeserializeObject<TagOutputModel>(response.Content);
 
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
     }
 }
