@@ -22,17 +22,18 @@ namespace DevEdu.Tests.ControllersTests
 
             AuthenticateClient(token);
 
-            _endPoint = AddCoursePoint;
+            _endPoint = AddTagPoint;
             var postData = TagData.GetTagInputModel_Correct();
 
             var jsonData = JsonConvert.SerializeObject(postData);
             _headers.Add("content-type", "application/json");
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
-            var response = _client.Execute<TagInfoOutputModel>(request);
+            var response = _client.Execute<TagOutputModel>(request);
             var result = response.Data;
 
             postData.Should().BeEquivalentTo(result, options => options
-                .Excluding(obj => obj.Id));
+                .Excluding(obj => obj.Id)
+                .Excluding(obj => obj.IsDeleted));
         }
     }
 }
