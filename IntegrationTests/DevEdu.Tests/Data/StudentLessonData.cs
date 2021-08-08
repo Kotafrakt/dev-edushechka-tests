@@ -2,7 +2,7 @@
 using DevEdu.Tests.Data;
 using System;
 
-namespace DevEdu.Tests.Fillings
+namespace DevEdu.Tests.Data
 {
     public class StudentLessonData : BaseData
     {
