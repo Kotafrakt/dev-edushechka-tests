@@ -2,17 +2,16 @@
 using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
-using DevEdu.Tests.Facades;
-using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
+using FluentAssertions;
 using static DevEdu.Tests.ConstantPoints;
 
-namespace DevEdu.Tests
+namespace DevEdu.Tests.ControllersTests
 {
-    public class AuthenticationControllerTest : BaseApi
+    public class AuthenticationControllerTest : BaseControllerTest
     {
         [Test]
         public void Register()
@@ -27,11 +26,11 @@ namespace DevEdu.Tests
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var result = _client.Execute<UserFullInfoOutPutModel>(request).Data;
 
-            //postData.Should().BeEquivalentTo(result, options => options
-            //        .Excluding(obj => obj.ExileDate)
-            //        .Excluding(obj => obj.Id)
-            //        .Excluding(obj => obj.RegistrationDate)
-            //        .Excluding(obj => obj.City));
+            postData.Should().BeEquivalentTo(result, options => options
+                    .Excluding(obj => obj.ExileDate)
+                    .Excluding(obj => obj.Id)
+                    .Excluding(obj => obj.RegistrationDate)
+                    .Excluding(obj => obj.City));
         }
 
         [Test]

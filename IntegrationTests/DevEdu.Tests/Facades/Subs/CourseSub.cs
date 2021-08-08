@@ -5,12 +5,12 @@ namespace DevEdu.Tests.Facades
 {
     internal class CourseSub
     {
-        private CourseFilling filling;
-        public CourseSub() { filling = new CourseFilling(); }
+        private readonly CourseFilling _filling;
+        public CourseSub() { _filling = new CourseFilling(); }
 
         internal CourseInfoShortOutputModel CreateCourseCorrect(string token)
         {
-            return filling.CreateCorrectCourse(token);
+            return _filling.CreateCorrectCourse(token);
         }
     }
 }
