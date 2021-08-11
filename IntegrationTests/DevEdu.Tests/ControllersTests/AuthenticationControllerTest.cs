@@ -40,6 +40,42 @@ namespace DevEdu.Tests.ControllersTests
             );
         }
 
+        [TestCaseSource(typeof(UserData), nameof(UserData.AdminCreatedUserByAllRoles))]
+        [TestCaseSource(typeof(UserData), nameof(UserData.ManagerCreatedUserByRoleStudent))]
+        public void Register_InvalidRequest_Exception422<T>(Role role, T roles)
+        {
+            //Given
+            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
+            _endPoint = AuthorizationPoints.RegisterPoint;
+            UserInsertInputModel newUser = null;
+            var request = _requestHelper.Post(_endPoint, newUser);
+            request = _requestHelper.Autorize(request, userInfo.Token);
+
+            //When
+            var response = _client.Execute<UserFullInfoOutPutModel>(request);
+
+            //Then
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [TestCaseSource(typeof(UserData), nameof(UserData.CreatedInvalidUserInsertModelByAdmin))]
+        [TestCaseSource(typeof(UserData), nameof(UserData.CreatedInvalidUserInsertModelByManager))]
+        public void Register_InvalidRequest_Exception<T>(T role, UserInsertInputModel user)
+        {
+            //Given
+            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
+            _endPoint = AuthorizationPoints.RegisterPoint;
+            var newUser = user;
+            var request = _requestHelper.Post(_endPoint, newUser);
+            request = _requestHelper.Autorize(request, userInfo.Token);
+
+            //When
+            var response = _client.Execute<UserFullInfoOutPutModel>(request);
+
+            //Then
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
         [TestCaseSource(typeof(UserData), nameof(UserData.SignInByAllRoles))]
         public void SignIn<T>(T roles)
         {
