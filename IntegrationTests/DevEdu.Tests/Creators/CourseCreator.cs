@@ -7,7 +7,7 @@ namespace DevEdu.Tests.Creators
 {
     public class CourseCreator : BaseCreator
     {
-        public CourseInfoShortOutputModel CreateCorrectCourse(string token)
+        public CourseInfoShortOutputModel CreateValidCourse(string token)
         {
             _endPoint = CoursePoints.AddCoursePoint;
             var postData = CourseData.GetValidCourseInputModel();
@@ -19,5 +19,6 @@ namespace DevEdu.Tests.Creators
             var result = response.Data;
             return result;
         }
+
     }
 }

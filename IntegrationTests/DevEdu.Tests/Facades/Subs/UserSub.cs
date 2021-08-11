@@ -9,9 +9,9 @@ namespace DevEdu.Tests.Facades
 
         public UserSub() { _creator = new UserCreator(); }
 
-        internal UserInfo RegisterUser<T>(T roles)
+        internal UserInfo RegisterUser<T>(T roles, string token)
         {
-            return _creator.RegisterUser(roles);
+            return _creator.RegisterUser(roles, token);
         }
     }
 }

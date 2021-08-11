@@ -10,7 +10,7 @@ namespace DevEdu.Tests.Facades
 
         internal CourseInfoShortOutputModel CreateCourse(string token)
         {
-            return _creator.CreateCorrectCourse(token);
+            return _creator.CreateValidCourse(token);
         }
     }
 }

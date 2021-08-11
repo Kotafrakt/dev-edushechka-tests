@@ -15,13 +15,12 @@ namespace DevEdu.Tests.ControllersTests
         [TestCaseSource(typeof(UniversalData), nameof(UniversalData.Universal))]
         public void Add<T, TU>(TU type, T content, List<Role> roles, string endpoint)
         {
-            var user = _facade.RegisterUser(roles);
-            var token = _facade.SignInUser(user.Email, user.Password);
+            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(Role.Manager);
 
             _endPoint = endpoint;
 
             var request = _requestHelper.Post(_endPoint, content);
-            request = _requestHelper.Autorize(request, token);
+            request = _requestHelper.Autorize(request, userInfo.Token);
             var response = _client.Execute<T>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
