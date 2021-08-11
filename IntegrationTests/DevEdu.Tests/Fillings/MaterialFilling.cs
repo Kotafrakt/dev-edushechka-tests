@@ -6,6 +6,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
+using static DevEdu.Tests.ConstantPoints;
 
 namespace DevEdu.Tests.Fillings
 {
@@ -15,7 +16,7 @@ namespace DevEdu.Tests.Fillings
         {
             AuthenticateClient(token);
 
-            _endPoint = MaterialControllerTests.AddMaterialWithCoursesPoint;
+            _endPoint = AddMaterialWithCoursesPoint;
 
             var material = MaterialData.GetMaterialWithCoursesInputModelForFillingDB(coursesId);
             var jsonData = JsonConvert.SerializeObject(material);
@@ -36,7 +37,7 @@ namespace DevEdu.Tests.Fillings
             var expected = $"Tag id: {tagId} added for material id: {materialId}";
             AuthenticateClient(token);
 
-            _endPoint = string.Format(MaterialControllerTests.AddTagToMaterialPoint, materialId, tagId);
+            _endPoint = string.Format(AddTagToMaterialPoint, materialId, tagId);
             string jsonData = null;
 
             var request = _requestHelper.Post(_endPoint, _headers, jsonData);

@@ -1,4 +1,5 @@
-﻿using DevEdu.Core.Models;
+﻿using DevEdu.Core.Enums;
+using DevEdu.Core.Models;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -46,46 +47,47 @@ namespace DevEdu.Tests.Data
 
         public static IEnumerable СheckByAllRoles()
         {
-            yield return new object[] { UserRoleData.GetRoleAdmin() };
-            yield return new object[] { UserRoleData.GetRoleManager() };
-            yield return new object[] { UserRoleData.GetRoleMethodist() };
-            yield return new object[] { UserRoleData.GetRoleTeacher() };
-            yield return new object[] { UserRoleData.GetRoleTutor() };
-            yield return new object[] { UserRoleData.GetRoleStudent() };
-            yield return new object[] { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() };
-            yield return new object[] { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() };
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleAdmin() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleManager() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleMethodist() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTutor() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleStudent() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() }};
         }
+
         public static IEnumerable СheckByRolesTeacherAndTutor()
         {
-            yield return new object[] { UserRoleData.GetRoleAdmin() };
-            yield return new object[] { UserRoleData.GetRoleTeacher() };
-            yield return new object[] { UserRoleData.GetRoleTutor() };
-            yield return new object[] { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() };
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleAdmin() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTutor() } };
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() }};
         }
         
         public static IEnumerable СheckByRolesTeacherAndMethodist()
         {
-            yield return new object[] { UserRoleData.GetRoleAdmin() };
-            yield return new object[] { UserRoleData.GetRoleTeacher() };
-            yield return new object[] { UserRoleData.GetRoleMethodist() };
-            yield return new object[] { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() };
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleAdmin() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleMethodist() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() }};
         }
 
         public static IEnumerable СheckByRolesMethodist()
         {
-            yield return new object[] { UserRoleData.GetRoleAdmin() };
-            yield return new object[] { UserRoleData.GetRoleMethodist() };
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleAdmin() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleMethodist() }};
         }
 
         public static IEnumerable СheckByAllRolesButManager()
         {
-            yield return new object[] { UserRoleData.GetRoleAdmin() };
-            yield return new object[] { UserRoleData.GetRoleMethodist() };
-            yield return new object[] { UserRoleData.GetRoleTeacher() };
-            yield return new object[] { UserRoleData.GetRoleTutor() };
-            yield return new object[] { UserRoleData.GetRoleStudent() };
-            yield return new object[] { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() };
-            yield return new object[] { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() };
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleAdmin() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleMethodist() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTutor() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleStudent() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() }};
+            yield return new object[] { new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() }};
         }
     }
 }
