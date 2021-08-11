@@ -6,44 +6,34 @@ namespace DevEdu.Tests.Data
 {
     public class UserRoleData
     {
-        public static IEnumerable GetRoleAdmin()
+        public static Role GetRoleAdmin()
         {
-            yield return new object[]{ new List<Role> { Role.Admin } };
+            return Role.Admin;
         }
 
-        public static IEnumerable GetRoleManager()
+        public static Role GetRoleManager()
         {
-            yield return new object[] { new List<Role> { Role.Manager } };
+            return Role.Manager;
         }
 
-        public static IEnumerable GetRoleMethodist()
+        public static Role GetRoleMethodist()
         {
-            yield return new object[] { new List<Role> { Role.Methodist } };
+            return Role.Methodist;
         }
 
-        public static IEnumerable GetRoleTeacher()
+        public static Role GetRoleTeacher()
         {
-            yield return new object[] { new List<Role> { Role.Teacher } };
+            return Role.Teacher;
         }
 
-        public static IEnumerable GetRoleTutor()
+        public static Role GetRoleTutor()
         {
-            yield return new object[] { new List<Role> { Role.Tutor } };
+            return Role.Tutor;
         }
 
-        public static IEnumerable GetRoleStudent()
+        public static Role GetRoleStudent()
         {
-            yield return new object[] { new List<Role> { Role.Student } };
-        }
-
-        public static IEnumerable GetRoleTeacherAndMethodist()
-        {
-            yield return new object[] { new List<Role> { Role.Teacher, Role.Methodist } };
-        }
-
-        public static IEnumerable GetRoleTeacherAndTutor()
-        {
-            yield return new object[] { new List<Role> { Role.Teacher, Role.Tutor,  } };
+            return Role.Student;
         }
     }
 }

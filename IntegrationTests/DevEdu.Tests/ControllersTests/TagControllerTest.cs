@@ -6,7 +6,8 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using FluentAssertions;
-using static DevEdu.Tests.ConstantPoints;
+using DevEdu.Tests.Constants;
+using System.Net;
 
 namespace DevEdu.Tests.ControllersTests
 {
@@ -20,20 +21,22 @@ namespace DevEdu.Tests.ControllersTests
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
 
-            AuthenticateClient(token);
+            _endPoint = TagPoints.AddTagPoint;
+            var postData = TagData.GetInvalidTagInputModel();
 
-            _endPoint = AddTagPoint;
-            var postData = TagData.GetTagInputModel_Correct();
+            var request = _requestHelper.Post(_endPoint, postData);
+            request = _requestHelper.Autorize(request, token);
 
-            var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
-            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var response = _client.Execute<TagOutputModel>(request);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
             var result = response.Data;
 
-            postData.Should().BeEquivalentTo(result, options => options
+            postData.Should().BeEquivalentTo
+            (
+                result, options => options
                 .Excluding(obj => obj.Id)
-                .Excluding(obj => obj.IsDeleted));
+                .Excluding(obj => obj.IsDeleted)
+            );
         }
     }
 }
