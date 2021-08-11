@@ -1,5 +1,6 @@
 ﻿using DevEdu.Core.Models;
 using DevEdu.Tests.Creators;
+using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades
 {
@@ -10,11 +11,11 @@ namespace DevEdu.Tests.Facades
 
         internal MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCourses(string token, List<int> coursesId)
         {
-            return _creator.CreateMaterialCorrect(token);
+            return new(); //_creator.CreateMaterialCorrect(token);
         }
         internal void AddTagToMaterial(string token, int materialId, int tagId)
         {
-            _filling.AddTagToMaterial(token, materialId, tagId);
+            //_creator.AddTagToMaterial(token, materialId, tagId);
         }
     }
 }

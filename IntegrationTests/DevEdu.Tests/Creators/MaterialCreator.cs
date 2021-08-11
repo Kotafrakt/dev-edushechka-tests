@@ -9,7 +9,7 @@ namespace DevEdu.Tests.Creators
     {
         public MaterialInfoOutputModel CreateMaterialCorrect(string token)
         {
-            _endPoint = MaterialPoints.AddMaterialPoint;
+            _endPoint = MaterialPoints.AddMaterialWithCoursesPoint;
             var postData = MaterialData.GetInvalidMaterialInputModel();
 
             var request = _requestHelper.Post(_endPoint, postData);

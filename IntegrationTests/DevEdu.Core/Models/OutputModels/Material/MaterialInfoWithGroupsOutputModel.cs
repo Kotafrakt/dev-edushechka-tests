@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DevEdu.Core.Models.Material
+namespace DevEdu.Core.Models
 {
     public class MaterialInfoWithGroupsOutputModel : MaterialInfoOutputModel
     {

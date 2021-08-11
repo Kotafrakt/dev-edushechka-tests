@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DevEdu.Core.Models;
-using static DevEdu.Tests.ConstantPoints;
+using DevEdu.Tests.Constants;
 
 namespace DevEdu.Tests.Data
 {
@@ -15,14 +15,14 @@ namespace DevEdu.Tests.Data
                 new UserInfoOutPutModel(){ },
                 new UserInsertInputModel(){ FirstName = "Хохохо" },
                 new List<Role>() { UserRoleData.GetRoleAdmin() },
-                AddTagToMaterialPoint
+                MaterialPoints.AddTagToMaterialPoint
             };
             yield return new object[]
             {
                 new CourseInfoOutputModel(){ },
                 new CourseInfoFullOutputModel(){ Description = "Test" },
                 new List<Role>() { UserRoleData.GetRoleManager() },
-                AddTagToMaterialPoint
+                MaterialPoints.AddTagToMaterialPoint
             };
         }
     }

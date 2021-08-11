@@ -1,6 +1,5 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
-using DevEdu.Core.Models.Material;
 using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades

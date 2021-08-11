@@ -1,5 +1,4 @@
-﻿using DevEdu.Core.Models.Material;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DevEdu.Core.Models
 {
