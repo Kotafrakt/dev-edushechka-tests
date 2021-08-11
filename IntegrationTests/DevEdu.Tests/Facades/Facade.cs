@@ -38,7 +38,21 @@ namespace DevEdu.Tests.Facades
         private readonly UserRoleSub _userRoleSub = new();
         #endregion
 
-        public UserSignInputModel RegisterUser(List<Role> roles)
+        public UserInfo AuthenticationByAdminAndRegistrationNewUserByRole<T>(T roles)
+        {
+            var token = _authenticationSub.GetTokenByEmailAndPassword(email:"Admin", password:"12345678");
+            var userInfo = _userSub.RegisterUser(roles);
+            userInfo.Token = token;
+            return userInfo;
+        }
+
+        public void LogOut(UserInfo userInfo)
+        {
+            userInfo.Token = null;
+        }
+
+
+        public UserInfo RegisterUser(List<Role> roles)
         {
             return _userSub.RegisterUser(roles);
         }

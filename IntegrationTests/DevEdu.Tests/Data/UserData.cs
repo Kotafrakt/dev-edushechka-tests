@@ -7,7 +7,7 @@ namespace DevEdu.Tests.Data
 {
     public class UserData : BaseData
     {
-        public static UserInsertInputModel GetInvalidUserInsertInputModelForRegistration(List<Role> roles)
+        public static UserInsertInputModel GetValidUserInsertInputModelForRegistration<T>(T data)
         {
             var rnd = _random.Next(1, 1000);
             return new()
@@ -24,13 +24,27 @@ namespace DevEdu.Tests.Data
                 GitHubAccount = "Git.com",
                 Photo = "http://zloo.com",
                 PhoneNumber = "9999999",
-                Roles = roles
+                Roles = GetRoles(data)
             };
         }
 
         public static UserSignInputModel GetUserSignInputModelByEmailAndPassword(string email, string password)
         {
             return new() { Email = email, Password = password };
+        }
+
+        private static List<Role> GetRoles<T>(T data)
+        {
+            var roles = new List<Role>();
+            if (data is Role role)
+            {
+                roles.Add(role);
+            }
+            else
+            {
+                roles.AddRange(data as List<Role>);
+            }
+            return roles;
         }
     }
 }

@@ -5,43 +5,62 @@ using DevEdu.Tests.Constants;
 using DevEdu.Tests.Data;
 using FluentAssertions;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Net;
 
 namespace DevEdu.Tests.ControllersTests
 {
     public class AuthenticationControllerTest : BaseControllerTest
     {
-        [Test]
-        public void Register()
+
+        [TestCase(Role.Student)]
+        [TestCase(Role.Teacher)]
+        [TestCase(Role.Tutor)]
+        [TestCase(Role.Methodist)]
+        public void Register(Role role)
         {
+            var userInfo = _facade.AuthenticationByAdminAndRegistrationNewUserByRole(Role.Manager);
+            _facade.LogOut(userInfo);
+
             _endPoint = AuthorizationPoints.RegisterPoint;
-            var postData = UserData.GetInvalidUserInsertInputModelForRegistration
-                (new List<Role> { Role.Admin, Role.Manager, Role.Student });
+            var user = UserData.GetUserSignInputModelByEmailAndPassword(userInfo.Email, userInfo.Password);
+            var newUser = UserData.GetValidUserInsertInputModelForRegistration(role);
 
-            var request = _requestHelper.Post(_endPoint, postData);
+            var requestAuthorization = _requestHelper.Post(_endPoint, user);
+            var responseAuthorization = _client.Execute<string>(requestAuthorization);
+            responseAuthorization.StatusCode.Should().Be(HttpStatusCode.OK);
+            var resultAuthorization = responseAuthorization.Data;
+            resultAuthorization.Should().NotBeNull();
+            userInfo.Token = resultAuthorization;
 
-            var response = _client.Execute<UserFullInfoOutPutModel>(request);
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var requestRegistration = _requestHelper.Post(_endPoint, newUser);
+            requestRegistration = _requestHelper.Autorize(requestRegistration, userInfo.Token);
+            var responseRegistration = _client.Execute<UserFullInfoOutPutModel>(requestRegistration);
+            responseRegistration.StatusCode.Should().Be(HttpStatusCode.OK);
+            var resultRegistration = responseRegistration.Data;
 
-            var result = response.Data;
-            result.Should().BeEquivalentTo
+            resultRegistration.Should().BeEquivalentTo
             (
-                postData, options => options
+                newUser, options => options
                     .Excluding(obj => obj.IsDeleted)
                     .Excluding(obj => obj.Password)
                     .Excluding(obj => obj.Patronymic)
             );
         }
 
-        [Test]
-        public void SignIn()
+        [TestCase(Role.Student)]
+        [TestCase(Role.Manager)]
+        [TestCase(Role.Tutor)]
+        [TestCase(Role.Methodist)]
+        public void SignIn(Role role)
         {
+            var token = _facade.AuthenticationByAdminAndRegistrationNewUserByRole(role);
             _endPoint = AuthorizationPoints.SignInPoint;
-            var postData = UserData.GetUserSignInputModelByEmailAndPassword("a@a.ru", "12345678");
 
-            var request = _requestHelper.Post(_endPoint, postData);
+            var user = UserData.GetUserSignInputModelByEmailAndPassword("a@a.ru", "12345678");
+
+            var request = _requestHelper.Post(_endPoint, user);
             var response = _client.Execute<string>(request);
+
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var result = response.Data;

@@ -10,7 +10,7 @@ namespace DevEdu.Tests.Creators
         public CourseInfoShortOutputModel CreateCorrectCourse(string token)
         {
             _endPoint = CoursePoints.AddCoursePoint;
-            var postData = CourseData.GetInvalidCourseInputModel();
+            var postData = CourseData.GetValidCourseInputModel();
 
             var request = _requestHelper.Post(_endPoint, postData);
             request = _requestHelper.Autorize(request, token);

@@ -22,7 +22,7 @@ namespace DevEdu.Tests.ControllersTests
             var token = _facade.SignInUser(user.Email, user.Password);
 
             _endPoint = TagPoints.AddTagPoint;
-            var postData = TagData.GetInvalidTagInputModel();
+            var postData = TagData.GetValidTagInputModel();
 
             var request = _requestHelper.Post(_endPoint, postData);
             request = _requestHelper.Autorize(request, token);

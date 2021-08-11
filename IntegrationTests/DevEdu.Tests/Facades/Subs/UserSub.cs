@@ -1,7 +1,5 @@
-﻿using DevEdu.Core.Enums;
-using DevEdu.Core.Models;
+﻿using DevEdu.Core.Models;
 using DevEdu.Tests.Creators;
-using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades
 {
@@ -11,9 +9,9 @@ namespace DevEdu.Tests.Facades
 
         public UserSub() { _creator = new UserCreator(); }
 
-        internal UserSignInputModel RegisterUser(List<Role> roles)
+        internal UserInfo RegisterUser<T>(T roles)
         {
-            return _creator.RegisterCorrectUser(roles);
+            return _creator.RegisterUser(roles);
         }
     }
 }

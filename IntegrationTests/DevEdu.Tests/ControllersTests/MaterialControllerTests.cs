@@ -1,13 +1,12 @@
 ﻿using DevEdu.Core.Enums;
+using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
+using DevEdu.Tests.Constants;
 using DevEdu.Tests.Data;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
-using DevEdu.Tests.Constants;
-using DevEdu.Core.Models;
 
 namespace DevEdu.Tests.ControllersTests
 {
@@ -30,10 +29,11 @@ namespace DevEdu.Tests.ControllersTests
 
             var material = MaterialData.GetMaterialWithGroupsInputModel_Correct(groupsId);
             var request = _requestHelper.Post(_endPoint, material);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoWithGroupsOutputModel>(response.Content);
 
+            var response = _client.Execute<MaterialInfoWithGroupsOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = response.Data;
             material.Should().BeEquivalentTo(result, options => options
                 .Excluding(obj => obj.Id)
                 .Excluding(obj => obj.IsDeleted)
@@ -57,10 +57,11 @@ namespace DevEdu.Tests.ControllersTests
 
             var material = MaterialData.GetMaterialWithCoursesInputModelForFillingDB(coursesId);
             var request = _requestHelper.Post(_endPoint, material);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoWithCoursesOutputModel>(response.Content);
 
+            var response = _client.Execute<MaterialInfoWithCoursesOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = response.Data;
             material.Should().BeEquivalentTo(result, options => options
                 .Excluding(obj => obj.Id)
                 .Excluding(obj => obj.IsDeleted)
@@ -76,10 +77,12 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = MaterialPoints.GetAllMaterialsPoint;
 
             var request = _requestHelper.Get(_endPoint);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<List<MaterialInfoOutputModel>>(response.Content);
+            request = _requestHelper.Autorize(request, token);
 
+            var response = _client.Execute<List<MaterialInfoOutputModel>>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = response.Data;
             result.Should().NotBeNull();
         }
 
@@ -100,11 +103,13 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = string.Format(MaterialPoints.GetMaterialByIdWithCoursesAndGroupsPoint, material.Id);
 
             var request = _requestHelper.Get(_endPoint);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
+            request = _requestHelper.Autorize(request, token);
 
+            var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            material.Should().BeEquivalentTo(result);
+
+            var result = response.Data;
+            result.Should().BeEquivalentTo(material);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRolesButManager))]
@@ -121,11 +126,13 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = string.Format(MaterialPoints.GetMaterialByIdWithTagsPoint, material.Id);
 
             var request = _requestHelper.Get(_endPoint);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
+            request = _requestHelper.Autorize(request, token);
 
+            var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            material.Should().BeEquivalentTo(result);
+
+            var result = response.Data;
+            result.Should().BeEquivalentTo(material);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndMethodist))]
@@ -137,14 +144,17 @@ namespace DevEdu.Tests.ControllersTests
             var material = _facade.CreateMaterialInfoWithCourses(token, new List<int>() { course.Id });
 
             _endPoint = string.Format(MaterialPoints.UpdateMaterialPoint, material.Id);
-
             var updateMaterial = MaterialData.GetUpdateMaterialInputModel();
-            var request = _requestHelper.Put(_endPoint, updateMaterial);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<MaterialInfoOutputModel>(response.Content);
 
+
+            var request = _requestHelper.Put(_endPoint, updateMaterial);
+            request = _requestHelper.Autorize(request, token);
+
+            var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            updateMaterial.Should().BeEquivalentTo(result);
+
+            var result = response.Data;
+            result.Should().BeEquivalentTo(updateMaterial);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndMethodist))]
@@ -159,6 +169,8 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = string.Format(MaterialPoints.DeleteMaterialPoint, material.Id, isDeleted);
 
             var request = _requestHelper.Delete(_endPoint);
+            request = _requestHelper.Autorize(request, token);
+
             var response = _client.Execute(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -175,13 +187,16 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.AddTagToMaterialPoint, material.Id, tag.Id);
 
-            string jsonData = null;
-            var request = _requestHelper.Post(_endPoint, jsonData);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<string>(response.Content);
+            string data = null;
 
+            var request = _requestHelper.Post(_endPoint, data);
+            request = _requestHelper.Autorize(request, token);
+
+            var response = _client.Execute<string>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            expected.Should().BeEquivalentTo(result);
+
+            var result = response.Data;
+            result.Should().BeEquivalentTo(expected);
         }
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByAllRoles))]
@@ -199,10 +214,12 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = string.Format(MaterialPoints.DeleteTagFromMaterialPoint, material.Id, tag.Id);
 
             var request = _requestHelper.Delete(_endPoint);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<string>(response.Content);
+            request = _requestHelper.Autorize(request, token);
 
+            var response = _client.Execute<string>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = response.Data;
             expected.Should().BeEquivalentTo(result);
         }
 
@@ -222,11 +239,14 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = string.Format(MaterialPoints.GetMaterialsByTagIdPoint, tag.Id);
 
             var request = _requestHelper.Get(_endPoint);
-            var response = _client.Execute(request);
-            var result = JsonConvert.DeserializeObject<List<MaterialInfoOutputModel>>(response.Content);
+            request = _requestHelper.Autorize(request, token);
 
+            var response = _client.Execute<List<MaterialInfoOutputModel>>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            materials.Should().BeEquivalentTo(result);
+
+            var result = response.Data;
+
+            result.Should().BeEquivalentTo(materials);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace DevEdu.Tests.Data
 {
     public class MaterialData : BaseData
     {
-        public static MaterialInputModel GetInvalidMaterialInputModel()
+        public static MaterialInputModel GetValidMaterialInputModel()
         {
             return new()
             {
