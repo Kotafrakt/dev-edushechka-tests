@@ -10,31 +10,35 @@ namespace DevEdu.Tests.Data
     {
         public static IEnumerable AdminCreatedUserByAllRoles()
         {
-            yield return new object[] { Role.Admin, Role.Admin };
-            yield return new object[] { Role.Admin, Role.Manager };
-            yield return new object[] { Role.Admin, Role.Methodist };
-            yield return new object[] { Role.Admin, Role.Student };
-            yield return new object[] { Role.Admin, Role.Teacher };
-            yield return new object[] { Role.Admin, Role.Tutor };
-            yield return new object[] { Role.Admin, new List<Role>() { Role.Teacher, Role.Methodist } };
-            yield return new object[] { Role.Admin, new List<Role>() { Role.Teacher, Role.Tutor } };
+            yield return new object[] { UserRoleData.GetRoleAdmin(), UserRoleData.GetRoleAdmin() };
+            yield return new object[] { UserRoleData.GetRoleAdmin(), UserRoleData.GetRoleManager() };
+            yield return new object[] { UserRoleData.GetRoleAdmin(), UserRoleData.GetRoleMethodist() };
+            yield return new object[] { UserRoleData.GetRoleAdmin(), UserRoleData.GetRoleTeacher() };
+            yield return new object[] { UserRoleData.GetRoleAdmin(), UserRoleData.GetRoleStudent() };
+            yield return new object[] { UserRoleData.GetRoleAdmin(), UserRoleData.GetRoleTutor() };
+            yield return new object[] { UserRoleData.GetRoleAdmin(),
+                new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() } };
+            yield return new object[] { UserRoleData.GetRoleAdmin(),
+                new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() } };
         }
 
         public static IEnumerable SignInByAllRoles()
         {
-            yield return new object[] { Role.Admin };
-            yield return new object[] { Role.Manager };
-            yield return new object[] { Role.Methodist };
-            yield return new object[] { Role.Student };
-            yield return new object[] { Role.Teacher };
-            yield return new object[] { Role.Tutor };
-            yield return new object[] { new List<Role>() { Role.Teacher, Role.Methodist } };
-            yield return new object[] { new List<Role>() { Role.Teacher, Role.Tutor } };
+            yield return new object[] { UserRoleData.GetRoleAdmin() };
+            yield return new object[] { UserRoleData.GetRoleManager() };
+            yield return new object[] { UserRoleData.GetRoleMethodist() };
+            yield return new object[] { UserRoleData.GetRoleStudent() };
+            yield return new object[] { UserRoleData.GetRoleTeacher() };
+            yield return new object[] { UserRoleData.GetRoleTutor() };
+            yield return new object[] {
+                new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() } };
+            yield return new object[] {
+                new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleTutor() } };
         }
 
         public static IEnumerable ManagerCreatedUserByRoleStudent()
         {
-            yield return new object[] { Role.Manager, Role.Student };
+            yield return new object[] { UserRoleData.GetRoleManager(), UserRoleData.GetRoleStudent() };
         }
 
         public static UserInsertInputModel GetValidUserInsertInputModelForRegistration<T>(T data)
