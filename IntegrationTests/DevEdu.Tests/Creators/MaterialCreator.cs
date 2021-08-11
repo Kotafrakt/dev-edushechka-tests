@@ -5,9 +5,9 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using static DevEdu.Tests.ConstantPoints;
 
-namespace DevEdu.Tests.Fillings
+namespace DevEdu.Tests.Creators
 {
-    public class MaterialFilling : BaseFilling
+    public class MaterialCreator : BaseCreator
     {
         public MaterialInfoOutputModel CreateMaterialCorrect(string token)
         {

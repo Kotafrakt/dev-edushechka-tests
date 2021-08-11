@@ -4,9 +4,9 @@ using DevEdu.Tests.Data;
 using Newtonsoft.Json;
 using static DevEdu.Tests.ConstantPoints;
 
-namespace DevEdu.Tests.Fillings
+namespace DevEdu.Tests.Creators
 {
-    public class AuthenticationClient : BaseFilling
+    public class AuthenticationClient : BaseCreator
     {
         public string SignInByEmailAndPassword_ReturnToken(string email, string password)
         {

@@ -5,9 +5,9 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using static DevEdu.Tests.ConstantPoints;
 
-namespace DevEdu.Tests.Fillings
+namespace DevEdu.Tests.Creators
 {
-    public class CourseFilling : BaseFilling
+    public class CourseCreator : BaseCreator
     {
         public CourseInfoShortOutputModel CreateCorrectCourse(string token)
         {

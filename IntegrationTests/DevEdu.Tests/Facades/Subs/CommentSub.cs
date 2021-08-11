@@ -1,14 +1,14 @@
 ﻿using DevEdu.Core.Models;
-using DevEdu.Tests.Fillings;
+using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
     internal class CommentSub
     {
-        private CommentFilling filling;
+        private CommentCreator _creator;
         public CommentSub()
         {
-            filling = new CommentFilling();
+            _creator = new CommentCreator();
         }
     }
 }
