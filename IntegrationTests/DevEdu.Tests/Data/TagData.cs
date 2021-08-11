@@ -6,7 +6,7 @@ namespace DevEdu.Tests.Data
 {
     public class TagData : BaseData
     {
-        public static TagInputModel GetInvalidTagInputModel()
+        public static TagInputModel GetValidTagInputModel()
         {
             return new()
             {

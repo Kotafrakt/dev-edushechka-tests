@@ -7,7 +7,7 @@ namespace DevEdu.Tests.Creators
 {
     public class AuthenticationClient : BaseCreator
     {
-        public string SignInByEmailAndPassword_ReturnToken(string email, string password)
+        public string SignInByEmailAndPasswordReturnToken(string email, string password)
         {
             _endPoint = AuthorizationPoints.SignInPoint;
             var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);

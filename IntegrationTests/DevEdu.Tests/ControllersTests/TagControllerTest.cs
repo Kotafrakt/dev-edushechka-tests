@@ -18,14 +18,13 @@ namespace DevEdu.Tests.ControllersTests
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void CreateCorrectTag(List<Role> roles)
         {
-            var user = _facade.RegisterUser(roles);
-            var token = _facade.SignInUser(user.Email, user.Password);
+            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
 
             _endPoint = TagPoints.AddTagPoint;
-            var postData = TagData.GetInvalidTagInputModel();
+            var postData = TagData.GetValidTagInputModel();
 
             var request = _requestHelper.Post(_endPoint, postData);
-            request = _requestHelper.Autorize(request, token);
+            request = _requestHelper.Autorize(request, userInfo.Token);
 
             var response = _client.Execute<TagOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
