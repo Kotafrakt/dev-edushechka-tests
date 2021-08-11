@@ -5,7 +5,7 @@ namespace DevEdu.Tests.Data
 {
     public class CourseData : BaseData
     {
-        public static CourseInputModel GetCourseInputModel_Correct()
+        public static CourseInputModel GetInvalidCourseInputModel()
         {
             return new()
             {

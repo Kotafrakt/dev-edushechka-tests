@@ -1,8 +1,7 @@
-﻿using DevEdu.Core.Models;
-using DevEdu.Core.Requests;
+﻿using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
 using Newtonsoft.Json;
-using static DevEdu.Tests.ConstantPoints;
+using DevEdu.Tests.Constants;
 
 namespace DevEdu.Tests.Creators
 {
@@ -10,12 +9,9 @@ namespace DevEdu.Tests.Creators
     {
         public string SignInByEmailAndPassword_ReturnToken(string email, string password)
         {
-            _headers.Clear();
-            _endPoint = SignInPoint;
+            _endPoint = AuthorizationPoints.SignInPoint;
             var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);
-            var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
-            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
+            var request = _requestHelper.Post(_endPoint, postData);
             return _client.Execute<string>(request).Data;
         }
     }

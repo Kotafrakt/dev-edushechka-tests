@@ -1,13 +1,12 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
+using DevEdu.Tests.Constants;
 using DevEdu.Tests.Data;
-using Newtonsoft.Json;
+using FluentAssertions;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
-using FluentAssertions;
-using static DevEdu.Tests.ConstantPoints;
 
 namespace DevEdu.Tests.ControllersTests
 {
@@ -16,38 +15,37 @@ namespace DevEdu.Tests.ControllersTests
         [Test]
         public void Register()
         {
-            _endPoint = RegisterPoint;
-
-            var postData = UserData.GetUserInsertInputModelForRegistration_Correct
+            _endPoint = AuthorizationPoints.RegisterPoint;
+            var postData = UserData.GetInvalidUserInsertInputModelForRegistration
                 (new List<Role> { Role.Admin, Role.Manager, Role.Student });
 
-            var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
-            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
-            var result = _client.Execute<UserFullInfoOutPutModel>(request).Data;
+            var request = _requestHelper.Post(_endPoint, postData);
 
-            postData.Should().BeEquivalentTo(result, options => options
-                    .Excluding(obj => obj.ExileDate)
-                    .Excluding(obj => obj.Id)
-                    .Excluding(obj => obj.RegistrationDate)
-                    .Excluding(obj => obj.City));
+            var response = _client.Execute<UserFullInfoOutPutModel>(request);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = response.Data;
+            result.Should().BeEquivalentTo
+            (
+                postData, options => options
+                    .Excluding(obj => obj.IsDeleted)
+                    .Excluding(obj => obj.Password)
+                    .Excluding(obj => obj.Patronymic)
+            );
         }
 
         [Test]
         public void SignIn()
         {
-            _endPoint = SignInPoint;
+            _endPoint = AuthorizationPoints.SignInPoint;
             var postData = UserData.GetUserSignInputModelByEmailAndPassword("a@a.ru", "12345678");
-            var jsonData = JsonConvert.SerializeObject(postData);
 
-            _headers.Add("content-type", "application/json");
+            var request = _requestHelper.Post(_endPoint, postData);
+            var response = _client.Execute<string>(request);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
-            var result = _client.Execute<string>(request);
-            var data = JsonConvert.DeserializeObject(result.Content);
-
-            Assert.AreEqual(HttpStatusCode.OK, result.StatusCode);
-            Assert.True(data != null);
+            var result = response.Data;
+            result.Should().NotBeNull();
         }
     }
 }
