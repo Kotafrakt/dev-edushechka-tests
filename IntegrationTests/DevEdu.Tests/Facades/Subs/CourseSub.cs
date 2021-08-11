@@ -1,16 +1,16 @@
 ﻿using DevEdu.Core.Models;
-using DevEdu.Tests.Fillings;
+using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
     internal class CourseSub
     {
-        private readonly CourseFilling _filling;
-        public CourseSub() { _filling = new CourseFilling(); }
+        private readonly CourseCreator _creator;
+        public CourseSub() { _creator = new CourseCreator(); }
 
         internal CourseInfoShortOutputModel CreateCourse(string token)
         {
-            return _filling.CreateCourse(token);
+            return _creator.CreateCorrectCourse(token);
         }
     }
 }

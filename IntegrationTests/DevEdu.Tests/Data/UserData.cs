@@ -7,21 +7,20 @@ namespace DevEdu.Tests.Data
 {
     public class UserData : BaseData
     {
-        public static UserInsertInputModel GetUserInsertInputModelForRegistration(List<Role> roles)
+        public static UserInsertInputModel GetInvalidUserInsertInputModelForRegistration(List<Role> roles)
         {
-            var rnd1 = _random.Next(1, 9);
-            var rnd2 = _random.Next(1, 1000);
+            var rnd = _random.Next(1, 1000);
             return new()
             {
-                FirstName = "FirstName" + DateTime.Now.Millisecond.ToString(),
-                LastName = "LastName" + DateTime.Now.Millisecond.ToString(),
-                Patronymic = "Patronymic" + DateTime.Now.Millisecond.ToString(),
-                Email = $"a{rnd1}@{rnd2}a.ru",
-                Username = "Username" + DateTime.Now.Millisecond.ToString(),
+                FirstName = "FirstName",
+                LastName = "LastName",
+                Patronymic = "Patronymic",
+                Email = $"a{rnd}@{DateTime.Now.Millisecond}a.ru",
+                Username = "Username",
                 Password = "12345678",
                 ContractNumber = DateTime.Now.ToString(_dateFormat),
                 City = (int)City.SaintPetersburg,
-                BirthDate = $"0{rnd1}.0{rnd1}.200{rnd1}",
+                BirthDate = $"08.08.2008",
                 GitHubAccount = "Git.com",
                 Photo = "http://zloo.com",
                 PhoneNumber = "9999999",

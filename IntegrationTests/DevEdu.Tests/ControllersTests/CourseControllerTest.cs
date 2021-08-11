@@ -1,16 +1,16 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
+using DevEdu.Tests.Constants;
+using DevEdu.Tests.Data;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
-using DevEdu.Tests.Data;
-using static DevEdu.Tests.ConstantPoints;
+using System.Net;
 
 namespace DevEdu.Tests.ControllersTests
 {
-    public class CourseControllerTest : BaseControllerTest 
+    public class CourseControllerTest : BaseControllerTest
     {
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
@@ -20,20 +20,22 @@ namespace DevEdu.Tests.ControllersTests
             var user = _facade.RegisterUser(roles);
             var token = _facade.SignInUser(user.Email, user.Password);
 
-            AuthenticateClient(token);
+            _endPoint = CoursePoints.AddCoursePoint;
+            var postData = CourseData.GetInvalidCourseInputModel();
 
-            _endPoint = AddCoursePoint;
-            var postData = CourseData.GetCourseInputModelForFillingDB();
+            var request = _requestHelper.Post(_endPoint, postData);
+            request = _requestHelper.Autorize(request, token);
 
-            var jsonData = JsonConvert.SerializeObject(postData);
-            _headers.Add("content-type", "application/json");
-            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var response = _client.Execute<CourseInfoShortOutputModel>(request);
-            var result = response.Data;
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            postData.Should().BeEquivalentTo(result, options => options
+            var result = response.Data;
+            postData.Should().BeEquivalentTo
+            (
+                result, options => options
                 .Excluding(obj => obj.Id)
-                .Excluding(obj => obj.Groups));
+                .Excluding(obj => obj.Groups)
+            );
         }
     }
 }

@@ -8,16 +8,5 @@ namespace DevEdu.Core.Models
     {
         [Required(ErrorMessage = NameRequired)]
         public string Name { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            return obj is TagInputModel model &&
-                   Name == model.Name;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Name);
-        }
     }
 }
