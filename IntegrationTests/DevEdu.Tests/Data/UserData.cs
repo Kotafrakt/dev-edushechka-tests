@@ -1,12 +1,42 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace DevEdu.Tests.Data
 {
     public class UserData : BaseData
     {
+        public static IEnumerable AdminCreatedUserByAllRoles()
+        {
+            yield return new object[] { Role.Admin, Role.Admin };
+            yield return new object[] { Role.Admin, Role.Manager };
+            yield return new object[] { Role.Admin, Role.Methodist };
+            yield return new object[] { Role.Admin, Role.Student };
+            yield return new object[] { Role.Admin, Role.Teacher };
+            yield return new object[] { Role.Admin, Role.Tutor };
+            yield return new object[] { Role.Admin, new List<Role>() { Role.Teacher, Role.Methodist } };
+            yield return new object[] { Role.Admin, new List<Role>() { Role.Teacher, Role.Tutor } };
+        }
+
+        public static IEnumerable SignInByAllRoles()
+        {
+            yield return new object[] { Role.Admin };
+            yield return new object[] { Role.Manager };
+            yield return new object[] { Role.Methodist };
+            yield return new object[] { Role.Student };
+            yield return new object[] { Role.Teacher };
+            yield return new object[] { Role.Tutor };
+            yield return new object[] { new List<Role>() { Role.Teacher, Role.Methodist } };
+            yield return new object[] { new List<Role>() { Role.Teacher, Role.Tutor } };
+        }
+
+        public static IEnumerable ManagerCreatedUserByRoleStudent()
+        {
+            yield return new object[] { Role.Manager, Role.Student };
+        }
+
         public static UserInsertInputModel GetValidUserInsertInputModelForRegistration<T>(T data)
         {
             var rnd = _random.Next(1, 1000);

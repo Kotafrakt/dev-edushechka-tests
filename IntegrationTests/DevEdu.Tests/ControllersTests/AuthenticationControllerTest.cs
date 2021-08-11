@@ -14,24 +14,23 @@ namespace DevEdu.Tests.ControllersTests
     {
         private AuthenticationClient _authentication = new();
 
-        [TestCase(Role.Student)]
-        [TestCase(Role.Teacher)]
-        [TestCase(Role.Tutor)]
-        [TestCase(Role.Methodist)]
-        public void Register(Role role)
+        [TestCaseSource(typeof(UserData), nameof(UserData.AdminCreatedUserByAllRoles))]
+        [TestCaseSource(typeof(UserData), nameof(UserData.ManagerCreatedUserByRoleStudent))]
+        public void Register<T>(Role role, T roles)
         {
             //Given
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(Role.Manager);
-            userInfo.Token = _authentication.SignInByEmailAndPasswordReturnToken(userInfo.Email, userInfo.Token);
+            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
             _endPoint = AuthorizationPoints.RegisterPoint;
-            var newUser = UserData.GetValidUserInsertInputModelForRegistration(role);
-            //When
+            var newUser = UserData.GetValidUserInsertInputModelForRegistration(roles);
             var request = _requestHelper.Post(_endPoint, newUser);
             request = _requestHelper.Autorize(request, userInfo.Token);
+
+            //When
             var response = _client.Execute<UserFullInfoOutPutModel>(request);
-            var result = response.Data;
+
             //Then
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+            var result = response.Data;
             result.Should().BeEquivalentTo
             (
                 newUser, options => options
@@ -41,24 +40,21 @@ namespace DevEdu.Tests.ControllersTests
             );
         }
 
-        [TestCase(Role.Admin)]
-        [TestCase(Role.Student)]
-        [TestCase(Role.Manager)]
-        [TestCase(Role.Tutor)]
-        [TestCase(Role.Methodist)]
-        [TestCase(Role.Teacher)]
-        public void SignIn(Role role)
+        [TestCaseSource(typeof(UserData), nameof(UserData.SignInByAllRoles))]
+        public void SignIn<T>(T roles)
         {
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(role);
-            _facade.LogOut(userInfo);
-            _endPoint = AuthorizationPoints.SignInPoint;
+            //Given
+            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
             var user = UserData.GetUserSignInputModelByEmailAndPassword(userInfo.Email, userInfo.Password);
-
+            _endPoint = AuthorizationPoints.SignInPoint;
             var request = _requestHelper.Post(_endPoint, user);
-            var response = _client.Execute<string>(request);
-            var result = response.Data;
 
+            //When
+            var response = _client.Execute<string>(request);
+
+            //Then
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var result = response.Data;
             result.Should().NotBeNull();
         }
     }
