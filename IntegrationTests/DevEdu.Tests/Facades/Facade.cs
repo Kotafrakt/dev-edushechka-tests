@@ -50,12 +50,17 @@ namespace DevEdu.Tests.Facades
 
         public CourseInfoShortOutputModel CreateCourseCorrect(string token)
         {
-            return _courseSub.CreateCourseCorrect(token);
+            return _courseSub.CreateValidCourse(token);
         }
 
         public MaterialInfoOutputModel CreateMaterialCorrect(string token)
         {
             return _materialSub.CreateMaterialCorrect(token);
+        }
+
+        public TaskInfoOutputModel CreateTaskByTeacherWithoutHomework(string token, List<int> tagIds = default)
+        {
+            return _taskSub.CreateCorrectTaskByTeacherWithoutHomework(token, tagIds);
         }
     }
 }

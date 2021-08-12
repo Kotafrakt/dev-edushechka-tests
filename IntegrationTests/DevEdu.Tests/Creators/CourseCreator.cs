@@ -7,10 +7,10 @@ namespace DevEdu.Tests.Creators
 {
     public class CourseCreator : BaseCreator
     {
-        public CourseInfoShortOutputModel CreateCorrectCourse(string token)
+        public CourseInfoShortOutputModel CreateValidCourse(string token)
         {
             _endPoint = CoursePoints.AddCoursePoint;
-            var postData = CourseData.GetInvalidCourseInputModel();
+            var postData = CourseData.GetValidCourseInputModel();
 
             var request = _requestHelper.Post(_endPoint, postData);
             request = _requestHelper.Autorize(request, token);

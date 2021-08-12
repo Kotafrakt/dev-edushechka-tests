@@ -8,9 +8,9 @@ namespace DevEdu.Tests.Facades
         private readonly CourseCreator _creator;
         public CourseSub() { _creator = new CourseCreator(); }
 
-        internal CourseInfoShortOutputModel CreateCourseCorrect(string token)
+        internal CourseInfoShortOutputModel CreateValidCourse(string token)
         {
-            return _creator.CreateCorrectCourse(token);
+            return _creator.CreateValidCourse(token);
         }
     }
 }
