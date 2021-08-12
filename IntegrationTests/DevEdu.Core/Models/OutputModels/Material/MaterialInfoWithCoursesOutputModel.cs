@@ -2,9 +2,8 @@
 
 namespace DevEdu.Core.Models
 {
-    public class MaterialInfoWithCoursesAndGroupsOutputModel : MaterialInfoOutputModel
+    public class MaterialInfoWithCoursesOutputModel : MaterialInfoOutputModel
     {
         public List<CourseInfoBaseOutputModel> Courses { get; set; }
-        public List<GroupInfoOutputModel> Groups { get; set; }
     }
 }

@@ -9,8 +9,8 @@ namespace DevEdu.Tests.Creators
     {
         public MaterialInfoOutputModel CreateMaterialCorrect(string token)
         {
-            _endPoint = MaterialPoints.AddMaterialPoint;
-            var postData = MaterialData.GetInvalidMaterialInputModel();
+            _endPoint = MaterialPoints.AddMaterialWithCoursesPoint;
+            var postData = MaterialData.GetValidMaterialInputModel();
 
             var request = _requestHelper.Post(_endPoint, postData);
             request = _requestHelper.Autorize(request, token);

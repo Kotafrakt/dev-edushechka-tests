@@ -1,10 +1,8 @@
 ﻿using DevEdu.Core.Enums;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace DevEdu.Tests.Data
 {
-    public class UserRoleData
+    public static class UserRoleData
     {
         public static Role GetRoleAdmin()
         {
