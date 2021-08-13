@@ -15,9 +15,11 @@ namespace DevEdu.Tests.Creators
             var request = _requestHelper.Post(_endPoint, newUser);
             request = _requestHelper.Autorize(request, token);
 
-            _client.Execute<UserFullInfoOutPutModel>(request);
+            var responce = _client.Execute<UserFullInfoOutPutModel>(request);
+            var user = responce.Data;
             return new()
             {
+                Id = user.Id,
                 Email = newUser.Email,
                 Password = newUser.Password,
                 Token = token
