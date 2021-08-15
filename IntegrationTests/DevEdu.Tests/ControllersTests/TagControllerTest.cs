@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
 using static DevEdu.Tests.Constants.TagPoints;
+using DevEdu.Tests.Facades;
 
 namespace DevEdu.Tests.ControllersTests
 {
 	public class TagControllerTest : BaseControllerTest
 	{
+		private readonly TagSub _tagSub = new();
+
 		[TestCaseSource(typeof(UserData), nameof(UserData.SignInByRolesWithoutStudentAndTutor))]
 		public void AddTag_TagDto_TagCreated<T>(T roles)
 		{
@@ -39,7 +42,7 @@ namespace DevEdu.Tests.ControllersTests
 		{
 			//Given
 			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			var result = _facade.CreateTagCorrect(userInfo.Token);
+			var result = _tagSub.AddTag(userInfo.Token);
 			var tagId = result.Id;
 			_endPoint = string.Format(DeleteTagPoint, tagId);
 			var request = _requestHelper.CreateDelete(_endPoint, userInfo.Token);
@@ -61,7 +64,7 @@ namespace DevEdu.Tests.ControllersTests
 		{
 			//Given
 			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			var result = _facade.CreateTagCorrect(userInfo.Token);
+			var result = _tagSub.AddTag(userInfo.Token);
 			var tagId = result.Id;
 			var postData = TagData.GetTagInputModel_UpdatedModel();
 			_endPoint = string.Format(UpdateTagPoint, tagId);
@@ -84,7 +87,7 @@ namespace DevEdu.Tests.ControllersTests
 		{
 			//Given
 			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			var result = _facade.CreateTagCorrect(userInfo.Token);
+			var result = _tagSub.AddTag(userInfo.Token);
 			var tagId = result.Id;
 			_endPoint = string.Format(GetTagByIdPoint, tagId);
 			var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
@@ -107,7 +110,7 @@ namespace DevEdu.Tests.ControllersTests
 			List<int> ids = new List<int>();
             for (int i = 0; i < 5; i++)
             {
-				var createResult = _facade.CreateTagCorrect(userInfo.Token);
+				var createResult = _tagSub.AddTag(userInfo.Token);
 				ids.Add(createResult.Id);
 			}
 			_endPoint = GetAllTagsPoint;
@@ -179,7 +182,7 @@ namespace DevEdu.Tests.ControllersTests
 		{
 			//Given
 			var tokenAdmin = _facade.SignInByAdmin();
-			var result = _facade.CreateTagCorrect(tokenAdmin);
+			var result = _tagSub.AddTag(tokenAdmin);
 			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
 			var tagId = result.Id;
 			_endPoint = string.Format(DeleteTagPoint, tagId);
@@ -197,7 +200,7 @@ namespace DevEdu.Tests.ControllersTests
 		{
 			//Given
 			var tokenAdmin = _facade.SignInByAdmin();
-			var result = _facade.CreateTagCorrect(tokenAdmin);
+			var result = _tagSub.AddTag(tokenAdmin);
 			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
 			var tagId = result.Id;
 			var postData = TagData.GetTagInputModel_UpdatedModel();

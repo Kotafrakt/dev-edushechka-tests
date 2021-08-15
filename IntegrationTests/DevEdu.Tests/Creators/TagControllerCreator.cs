@@ -1,4 +1,6 @@
 ﻿using DevEdu.Core.Models;
+using DevEdu.Core.Requests;
+using DevEdu.Tests.Constants;
 using DevEdu.Tests.Data;
 
 namespace DevEdu.Tests.Creators
@@ -7,14 +9,12 @@ namespace DevEdu.Tests.Creators
     {
         public TagOutputModel AddTag(string token)
         {
-            var model = new TagInputModel();
-            return new TagOutputModel();
-        }
-
-        public TagOutputModel UpdateTag(string token, int tagId)
-        {
-            var model = new TagInputModel();
-            return new TagOutputModel();
+            _endPoint = TagPoints.AddTagPoint;
+            var postData = TagData.GetValidTagInputModel();
+            var request = _requestHelper.CreatePost(_endPoint, postData, token);
+            var response = _client.Execute<TagOutputModel>(request);
+            var result = response.Data;
+            return result;
         }
     }
 }

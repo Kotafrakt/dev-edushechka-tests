@@ -5,12 +5,12 @@ namespace DevEdu.Tests.Facades
 {
     internal class TagSub
     {
-        private readonly TagCreator _creator;
-        public TagSub() { _creator = new TagCreator(); }
+        private readonly TagControllerCreator _creator;
+        public TagSub() { _creator = new TagControllerCreator(); }
 
-        internal TagOutputModel CreateTagCorrect(string token)
+        internal TagOutputModel AddTag(string token)
         {
-            return _creator.CreateTagCorrect(token);
+            return _creator.AddTag(token);
         }
     }
 }

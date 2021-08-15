@@ -62,9 +62,9 @@ namespace DevEdu.Tests.Facades
             userInfo.Token = null;
         }
 
-        public TagOutputModel CreateTagCorrect(string token)
+        public TagOutputModel AddTag(string token)
         {
-            return _tagSub.CreateTagCorrect(token);
+            return _tagSub.AddTag(token);
         }
     }
 }
