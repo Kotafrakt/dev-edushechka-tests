@@ -5,7 +5,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
-using DevEdu.Tests.Constants;
 using static DevEdu.Tests.Constants.TagPoints;
 
 namespace DevEdu.Tests.ControllersTests
@@ -17,10 +16,10 @@ namespace DevEdu.Tests.ControllersTests
 		{
 			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
 
-			_endPoint = TagPoints.AddTagPoint;
+			_endPoint = AddTagPoint;
 			var postData = TagData.GetValidTagInputModel();
 
-            var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
+			var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
 
 			var response = _client.Execute<TagOutputModel>(request);
 			response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -41,8 +40,7 @@ namespace DevEdu.Tests.ControllersTests
 			var result = _facade.CreateTagCorrect(userInfo.Token);
 			var tagId = result.Id;
 			_endPoint = string.Format(DeleteTagPoint, tagId);
-			var request = _requestHelper.Delete(_endPoint);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreateDelete(_endPoint, userInfo.Token);
 			var response = _client.Execute(request);
 			response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 		}
@@ -56,8 +54,7 @@ namespace DevEdu.Tests.ControllersTests
 			var tagId = result.Id;
 			var postData = TagData.GetTagInputModel_UpdatedModel();
 			_endPoint = string.Format(UpdateTagPoint, tagId);
-			var request = _requestHelper.Put(_endPoint, postData);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreatePut(_endPoint, postData, userInfo.Token);
 			var response = _client.Execute<TagOutputModel>(request);
 			var updatedResult = response.Data;
 
@@ -78,8 +75,7 @@ namespace DevEdu.Tests.ControllersTests
 			var tagId = result.Id;
 			_endPoint = string.Format(GetTagByIdPoint, tagId);
 
-			var request = _requestHelper.Get(_endPoint);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
 			var response = _client.Execute<TagOutputModel>(request);
 			var updatedResult = response.Data;
 
@@ -95,8 +91,7 @@ namespace DevEdu.Tests.ControllersTests
 
 			_endPoint = GetAllTagsPoint;
 
-			var request = _requestHelper.Get(_endPoint);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
 			var response = _client.Execute<List<TagOutputModel>>(request);
 			var result = response.Data;
 
@@ -112,8 +107,7 @@ namespace DevEdu.Tests.ControllersTests
 			var tagId = 0;
 			_endPoint = string.Format(GetTagByIdPoint, tagId);
 
-			var request = _requestHelper.Get(_endPoint);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
 			var response = _client.Execute<TagOutputModel>(request);
 
 			response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -128,8 +122,7 @@ namespace DevEdu.Tests.ControllersTests
 			var postData = TagData.GetTagInputModel_UpdatedModel();
 			_endPoint = string.Format(UpdateTagPoint, tagId);
 
-			var request = _requestHelper.Put(_endPoint, postData);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreatePut(_endPoint, postData, userInfo.Token);
 			var response = _client.Execute<TagOutputModel>(request);
 
 			response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -142,7 +135,7 @@ namespace DevEdu.Tests.ControllersTests
 
 			_endPoint = AddTagPoint;
 			var postData = TagData.GetValidTagInputModel();
-			var request = _requestHelper.Post(_endPoint, postData);
+			var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
 			var response = _client.Execute<TagOutputModel>(request);
 
 			response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -158,8 +151,7 @@ namespace DevEdu.Tests.ControllersTests
 
 			var tagId = result.Id;
 			_endPoint = string.Format(DeleteTagPoint, tagId);
-			var request = _requestHelper.Delete(_endPoint);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreateDelete(_endPoint, userInfo.Token);
 			var response = _client.Execute(request);
 
 			response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
@@ -176,8 +168,7 @@ namespace DevEdu.Tests.ControllersTests
 			var tagId = result.Id;
 			var postData = TagData.GetTagInputModel_UpdatedModel();
 			_endPoint = string.Format(UpdateTagPoint, tagId);
-			var request = _requestHelper.Put(_endPoint, postData);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+			var request = _requestHelper.CreatePut(_endPoint, postData, userInfo.Token);
 			var response = _client.Execute(request);
 
 			response.StatusCode.Should().Be(HttpStatusCode.Forbidden);

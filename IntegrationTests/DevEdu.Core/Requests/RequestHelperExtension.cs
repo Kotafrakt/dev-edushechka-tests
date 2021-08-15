@@ -7,7 +7,7 @@ namespace DevEdu.Core.Requests
         public static IRestRequest CreateGet(this RequestHelper requestHelper, string endPoint, string token = default)
         {
             var request = requestHelper.CreateRequest(Method.GET, endPoint);
-            if(requestHelper.IsHaveToken(token))
+            if (requestHelper.IsHaveToken(token))
             {
                 request = requestHelper.Autorize(request, token);
             }

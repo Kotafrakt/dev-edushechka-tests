@@ -35,19 +35,15 @@ namespace DevEdu.Tests.Facades
         private readonly UserGroupSub _userGroupSub = new();
         private readonly UserRoleSub _userRoleSub = new();
         #endregion
-        public string SignInByAdmin()
-        {
-            return _authenticationSub.GetTokenByEmailAndPassword(email: "Admin", password: "12345678");
-        }
 
         public string SignInByAdmin()
         {
-            return _authenticationSub.GetTokenByEmailAndPassword(email: "Admin", password: "12345678");
+            return _authenticationSub.GetTokenByEmailAndPassword(email: "Admin@a.com", password: "12345678");
         }
 
         public UserInfo SignInByAdminAndRegistrationNewUserByRole<T>(T roles)
         {
-            var token = _authenticationSub.GetTokenByEmailAndPassword(email:"Admin", password:"12345678");
+            var token = _authenticationSub.GetTokenByEmailAndPassword(email: "Admin@a.com", password: "12345678");
             var userInfo = _userSub.RegisterUser(roles, token);
             userInfo.Token = token;
             return userInfo;
@@ -55,7 +51,7 @@ namespace DevEdu.Tests.Facades
 
         public UserInfo SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser<T>(T roles)
         {
-            var token = _authenticationSub.GetTokenByEmailAndPassword(email: "Admin", password: "12345678");
+            var token = _authenticationSub.GetTokenByEmailAndPassword(email: "Admin@a.com", password: "12345678");
             var userInfo = _userSub.RegisterUser(roles, token);
             userInfo.Token = _authenticationSub.GetTokenByEmailAndPassword(userInfo.Email, userInfo.Password);
             return userInfo;
