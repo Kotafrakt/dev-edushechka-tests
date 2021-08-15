@@ -12,7 +12,7 @@ namespace DevEdu.Tests.ControllersTests
 {
 	public class TagControllerTest : BaseControllerTest
 	{
-		private readonly TagSub _tagSub = new();
+		private readonly TagControllerSub _tagSub = new();
 
 		[TestCaseSource(typeof(UserData), nameof(UserData.SignInByRolesWithoutStudentAndTutor))]
 		public void AddTag_TagDto_TagCreated<T>(T roles)

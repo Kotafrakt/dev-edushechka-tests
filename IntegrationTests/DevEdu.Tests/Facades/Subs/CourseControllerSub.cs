@@ -3,10 +3,10 @@ using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
-    internal class CourseSub
+    internal class CourseControllerSub
     {
         private readonly CourseControllerCreator _creator;
-        public CourseSub() { _creator = new CourseControllerCreator(); }
+        public CourseControllerSub() { _creator = new CourseControllerCreator(); }
 
         internal CourseInfoShortOutputModel CreateCourse(string token)
         {
