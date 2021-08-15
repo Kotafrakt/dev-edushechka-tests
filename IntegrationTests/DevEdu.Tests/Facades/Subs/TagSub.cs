@@ -1,16 +1,16 @@
 ﻿using DevEdu.Core.Models;
-using DevEdu.Tests.Fillings;
+using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
     internal class TagSub
     {
-        private readonly TagFilling _filling;
-        public TagSub() { _filling = new TagFilling(); }
+        private readonly TagCreator _creator;
+        public TagSub() { _creator = new TagCreator(); }
 
         internal TagOutputModel CreateTagCorrect(string token)
         {
-            return _filling.CreateTagCorrect(token);
+            return _creator.CreateTagCorrect(token);
         }
     }
 }
