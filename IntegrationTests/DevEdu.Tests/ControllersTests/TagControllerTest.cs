@@ -2,7 +2,6 @@
 using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using FluentAssertions;

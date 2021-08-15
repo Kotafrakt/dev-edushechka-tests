@@ -12,7 +12,7 @@ namespace DevEdu.Tests.ControllersTests
 {
     public class AuthenticationControllerTest : BaseControllerTest
     {
-        private AuthenticationClient _authentication = new();
+        private AuthenticationControllerCreator _authentication = new();
 
         [TestCaseSource(typeof(UserData), nameof(UserData.AdminCreatedUserByAllRoles))]
         [TestCaseSource(typeof(UserData), nameof(UserData.ManagerCreatedUserByRoleStudent))]

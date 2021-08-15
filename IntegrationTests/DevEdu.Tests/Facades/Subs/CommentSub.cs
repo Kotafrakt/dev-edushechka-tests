@@ -5,10 +5,10 @@ namespace DevEdu.Tests.Facades
 {
     internal class CommentSub
     {
-        private CommentCreator _creator;
+        private CommentControllerCreator _creator;
         public CommentSub()
         {
-            _creator = new CommentCreator();
+            _creator = new CommentControllerCreator();
         }
     }
 }

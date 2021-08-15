@@ -4,9 +4,9 @@ namespace DevEdu.Tests.Facades
 {
     public class AuthenticationSub
     {
-        private AuthenticationClient _authentication;
+        private AuthenticationControllerCreator _authentication;
 
-        public AuthenticationSub() { _authentication = new AuthenticationClient(); }
+        public AuthenticationSub() { _authentication = new AuthenticationControllerCreator(); }
 
         internal string GetTokenByEmailAndPassword(string email, string password)
         {
