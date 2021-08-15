@@ -5,12 +5,12 @@ namespace DevEdu.Tests.Facades
 {
     internal class CourseSub
     {
-        private readonly CourseCreator _creator;
-        public CourseSub() { _creator = new CourseCreator(); }
+        private readonly CourseControllerCreator _creator;
+        public CourseSub() { _creator = new CourseControllerCreator(); }
 
         internal CourseInfoShortOutputModel CreateCourse(string token)
         {
-            return _creator.CreateValidCourse(token);
+            return _creator.AddCourse(token);
         }
     }
 }

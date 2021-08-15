@@ -13,10 +13,10 @@ namespace DevEdu.Tests.ControllersTests
 {
     public class MaterialControllerTests : BaseControllerTest
     {
-        private CourseCreator _courseCreator = new();
-        private GroupCreator _groupCreator = new();
-        private TagCreator _tagCreator = new();
-        private MaterialCreator _materialCreator = new();
+        private CourseControllerCreator _courseCreator = new();
+        private GroupControllerCreator _groupCreator = new();
+        private TagControllerCreator _tagCreator = new();
+        private MaterialControllerCreator _materialCreator = new();
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndTutor))]
         public void AddMaterialWithGroups_MaterialDtoWithoutGroups_MaterialCreated(List<Role> roles)
@@ -53,7 +53,7 @@ namespace DevEdu.Tests.ControllersTests
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(roles);
             for (int i = 0; i <= countNewCourse; i++)
             {
-                var course = _courseCreator.CreateValidCourse(userInfo.Token);
+                var course = _courseCreator.AddCourse(userInfo.Token);
                 coursesId.Add(course.Id);
             }
 
@@ -96,7 +96,7 @@ namespace DevEdu.Tests.ControllersTests
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(roles);
             for (int i = 0; i <= countNewCourse; i++)
             {
-                var course = _courseCreator.CreateValidCourse(userInfo.Token);
+                var course = _courseCreator.AddCourse(userInfo.Token);
                 coursesId.Add(course.Id);
             }
             var material = new MaterialInfoFullOutputModel();// _materialCreator.CreateMaterialInfoWithCourses(userInfo.Token, coursesId);
@@ -116,7 +116,7 @@ namespace DevEdu.Tests.ControllersTests
         public void GetMaterialByIdWithTags_ExistingMaterialIdAccessibleForAllRolesButManagerByGroups_MaterialDtoWithTagsReturned(List<Role> roles)
         {
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(roles);
-            var course = _courseCreator.CreateValidCourse(userInfo.Token);
+            var course = _courseCreator.AddCourse(userInfo.Token);
             var material = new MaterialInfoOutputModel();// _materialCreator.CreateMaterialInfoWithCourses(userInfo.Token, new List<int>() { course.Id });
             var tag = new TagOutputModel(); //_tagCreator.CreateTag(userInfo.Token); //To Do
             //_materialCreator.AddTagToMaterial(userInfo.Token, material.Id, tag.Id);
@@ -137,7 +137,7 @@ namespace DevEdu.Tests.ControllersTests
         public void UpdateMaterial_ByIdWithUpdateModelMaterial_UpdatedMaterialReturned(List<Role> roles)
         {
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(roles);
-            var course = _courseCreator.CreateValidCourse(userInfo.Token);
+            var course = _courseCreator.AddCourse(userInfo.Token);
             var material = new MaterialInfoOutputModel();// _materialCreator.CreateMaterialInfoWithCourses(userInfo.Token, new List<int>() { course.Id });
 
             _endPoint = string.Format(MaterialPoints.UpdateMaterialPoint, material.Id);
@@ -157,7 +157,7 @@ namespace DevEdu.Tests.ControllersTests
         public void DeleteTagFromMaterial_WithMaterialId_SoftDeleted(List<Role> roles)
         {
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(roles);
-            var course = _courseCreator.CreateValidCourse(userInfo.Token);
+            var course = _courseCreator.AddCourse(userInfo.Token);
             var material = new MaterialInfoOutputModel();// _facade.CreateMaterialInfoWithCourses(userInfo.Token, new List<int>() { course.Id });
             var isDeleted = true;
 
@@ -218,7 +218,7 @@ namespace DevEdu.Tests.ControllersTests
         {
             var materials = new List<MaterialInfoWithCoursesOutputModel>();
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(roles);
-            var course = _courseCreator.CreateValidCourse(userInfo.Token);
+            var course = _courseCreator.AddCourse(userInfo.Token);
             var material = new MaterialInfoWithCoursesOutputModel();// _facade.CreateMaterialInfoWithCourses(userInfo.Token, new List<int>() { course.Id });
             var tag = new TagOutputModel();// _facade.CreateTag(userInfo.Token); //To Do
             //_facade.AddTagToMaterial(userInfo.Token, material.Id, tag.Id);

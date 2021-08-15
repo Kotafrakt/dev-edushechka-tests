@@ -5,9 +5,9 @@ namespace DevEdu.Tests.Facades
 {
     internal class UserSub
     {
-        private UserCreator _creator;
+        private AuthenticationControllerCreator _creator;
 
-        public UserSub() { _creator = new UserCreator(); }
+        public UserSub() { _creator = new AuthenticationControllerCreator(); }
 
         internal UserInfo RegisterUser<T>(T roles, string token)
         {

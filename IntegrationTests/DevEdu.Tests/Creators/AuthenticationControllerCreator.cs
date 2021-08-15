@@ -1,12 +1,20 @@
-﻿using DevEdu.Core.Models;
-using DevEdu.Core.Requests;
-using DevEdu.Tests.Constants;
+﻿using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
+using DevEdu.Tests.Constants;
+using DevEdu.Core.Models;
 
 namespace DevEdu.Tests.Creators
 {
-    public class UserCreator : BaseCreator
+    public class AuthenticationControllerCreator : BaseControllerCreator
     {
+        public string SignInByEmailAndPasswordReturnToken(string email, string password)
+        {
+            _endPoint = AuthorizationPoints.SignInPoint;
+            var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);
+            var request = _requestHelper.CreatePost(_endPoint, postData);
+            return _client.Execute<string>(request).Data;
+        }
+
         public UserInfo RegisterUser<T>(T roles, string token)
         {
             _endPoint = AuthorizationPoints.RegisterPoint;
