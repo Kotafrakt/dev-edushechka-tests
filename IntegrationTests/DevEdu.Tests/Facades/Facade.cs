@@ -1,6 +1,4 @@
-﻿using DevEdu.Core.Enums;
-using DevEdu.Core.Models;
-using System.Collections.Generic;
+﻿using DevEdu.Core.Models;
 
 namespace DevEdu.Tests.Facades
 {
@@ -38,24 +36,25 @@ namespace DevEdu.Tests.Facades
         private readonly UserRoleSub _userRoleSub = new();
         #endregion
 
-        public UserSignInputModel RegisterUser(List<Role> roles)
+        public UserInfo SignInByAdminAndRegistrationNewUserByRole<T>(T roles)
         {
-            return _userSub.RegisterUser(roles);
+            var token = _authenticationSub.GetTokenByEmailAndPassword(email:"Admin", password:"12345678");
+            var userInfo = _userSub.RegisterUser(roles, token);
+            userInfo.Token = token;
+            return userInfo;
         }
 
-        public string SignInUser(string email, string password)
+        public UserInfo SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser<T>(T roles)
         {
-            return _authenticationSub.GetTokenByEmailAndPassword(email, password);
+            var token = _authenticationSub.GetTokenByEmailAndPassword(email: "Admin", password: "12345678");
+            var userInfo = _userSub.RegisterUser(roles, token);
+            userInfo.Token = _authenticationSub.GetTokenByEmailAndPassword(userInfo.Email, userInfo.Password);
+            return userInfo;
         }
 
-        public CourseInfoShortOutputModel CreateCourseCorrect(string token)
+        public void LogOut(UserInfo userInfo)
         {
-            return _courseSub.CreateCourseCorrect(token);
-        }
-
-        public MaterialInfoOutputModel CreateMaterialCorrect(string token)
-        {
-            return _materialSub.CreateMaterialCorrect(token);
+            userInfo.Token = null;
         }
 
         public TagOutputModel CreateTagCorrect(string token)

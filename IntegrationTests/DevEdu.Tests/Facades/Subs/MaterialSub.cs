@@ -1,16 +1,21 @@
 ﻿using DevEdu.Core.Models;
-using DevEdu.Tests.Fillings;
+using DevEdu.Tests.Creators;
+using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades
 {
     internal class MaterialSub
     {
-        private MaterialFilling _filling;
-        public MaterialSub() { _filling = new MaterialFilling(); }
+        private MaterialCreator _creator;
+        public MaterialSub() { _creator = new MaterialCreator(); }
 
-        internal MaterialInfoOutputModel CreateMaterialCorrect(string token)
+        internal MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCourses(string token, List<int> coursesId)
         {
-            return _filling.CreateMaterialCorrect(token);
+            return new(); //_creator.CreateMaterialCorrect(token);
+        }
+        internal void AddTagToMaterial(string token, int materialId, int tagId)
+        {
+            //_creator.AddTagToMaterial(token, materialId, tagId);
         }
     }
 }

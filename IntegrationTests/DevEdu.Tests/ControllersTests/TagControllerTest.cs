@@ -7,7 +7,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
-using static DevEdu.Tests.ConstantPoints;
+using DevEdu.Tests.Constants;
+using System.Net;
 
 namespace DevEdu.Tests.ControllersTests
 {
@@ -19,24 +20,24 @@ namespace DevEdu.Tests.ControllersTests
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void AddTag_TagDto_TagCreated(List<Role> roles)
         {
-            var user = _facade.RegisterUser(roles);
-            var token = _facade.SignInUser(user.Email, user.Password);
+            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
 
-            AuthenticateClient(token);
+            _endPoint = TagPoints.AddTagPoint;
+            var postData = TagData.GetValidTagInputModel();
 
-            _endPoint = AddTagPoint;
-            var postData = TagData.GetTagInputModel_Correct();
+            var request = _requestHelper.Post(_endPoint, postData);
+            request = _requestHelper.Autorize(request, userInfo.Token);
 
-            var jsonData = JsonConvert.SerializeObject(postData);
-            var request = _requestHelper.Post(_endPoint, _headers, jsonData);
             var response = _client.Execute<TagOutputModel>(request);
-            var result = JsonConvert.DeserializeObject<TagOutputModel>(response.Content);
-
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            postData.Should().BeEquivalentTo(result, options => options
+            var result = response.Data;
+
+            postData.Should().BeEquivalentTo
+            (
+                result, options => options
                 .Excluding(obj => obj.Id)
-                .Excluding(obj => obj.IsDeleted));
-            result.Should().NotBeNull(result.Id.ToString());
+                .Excluding(obj => obj.IsDeleted)
+            );
         }
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]

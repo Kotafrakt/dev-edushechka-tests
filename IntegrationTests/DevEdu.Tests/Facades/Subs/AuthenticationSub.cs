@@ -1,4 +1,4 @@
-﻿using DevEdu.Tests.Fillings;
+﻿using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
@@ -10,7 +10,7 @@ namespace DevEdu.Tests.Facades
 
         internal string GetTokenByEmailAndPassword(string email, string password)
         {
-            return _authentication.SignInByEmailAndPassword_ReturnToken(email, password);
+            return _authentication.SignInByEmailAndPasswordReturnToken(email, password);
         }
     }
 }

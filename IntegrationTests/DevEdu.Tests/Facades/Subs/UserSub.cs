@@ -1,19 +1,17 @@
-﻿using DevEdu.Core.Enums;
-using DevEdu.Core.Models;
-using DevEdu.Tests.Fillings;
-using System.Collections.Generic;
+﻿using DevEdu.Core.Models;
+using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
     internal class UserSub
     {
-        private UserFilling _filling;
+        private UserCreator _creator;
 
-        public UserSub() { _filling = new UserFilling(); }
+        public UserSub() { _creator = new UserCreator(); }
 
-        internal UserSignInputModel RegisterUser(List<Role> roles)
+        internal UserInfo RegisterUser<T>(T roles, string token)
         {
-            return _filling.RegisterCorrectUser(roles);
+            return _creator.RegisterUser(roles, token);
         }
     }
 }
