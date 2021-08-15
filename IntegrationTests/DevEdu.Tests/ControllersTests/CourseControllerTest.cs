@@ -6,7 +6,6 @@ using DevEdu.Tests.Creators;
 using DevEdu.Tests.Data;
 using FluentAssertions;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Net;
 
 namespace DevEdu.Tests.ControllersTests
@@ -25,8 +24,7 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = CoursePoints.AddCoursePoint;
             var postData = CourseData.GetValidCourseInputModel();
 
-            var request = _requestHelper.Post(_endPoint, postData);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
 
             var response = _client.Execute<CourseInfoShortOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);

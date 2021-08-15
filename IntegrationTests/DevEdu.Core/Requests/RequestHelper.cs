@@ -18,5 +18,11 @@ namespace DevEdu.Core.Requests
         {
             return request.AddHeader("Authorization", $"Bearer {token}");
         }
+
+        public bool IsHaveToken(string token)
+        {
+            if (token == default || token == null) { return false; }
+            return true;
+        }
     }
 }

@@ -4,26 +4,46 @@ namespace DevEdu.Core.Requests
 {
     public static class RequestHelperExtension
     {
-        public static IRestRequest Get(this RequestHelper requestHelper, string endPoint)
+        public static IRestRequest CreateGet(this RequestHelper requestHelper, string endPoint, string token = default)
         {
-            return requestHelper.CreateRequest(Method.GET, endPoint);
+            var request = requestHelper.CreateRequest(Method.GET, endPoint);
+            if(requestHelper.IsHaveToken(token))
+            {
+                request = requestHelper.Autorize(request, token);
+            }
+            return request;
         }
 
-        public static IRestRequest Post<T>(this RequestHelper requestHelper, string endPoint, T postData)
+        public static IRestRequest CreatePost<T>(this RequestHelper requestHelper, string endPoint, T postData, string token = default)
         {
             var request = requestHelper.CreateRequest(Method.POST, endPoint);
-            return requestHelper.AddPostDataToJsonBody(request, postData);
+            request = requestHelper.AddPostDataToJsonBody(request, postData);
+            if (requestHelper.IsHaveToken(token))
+            {
+                request = requestHelper.Autorize(request, token);
+            }
+            return request;
         }
 
-        public static IRestRequest Put<T>(this RequestHelper requestHelper, string endPoint, T postData)
+        public static IRestRequest CreatePut<T>(this RequestHelper requestHelper, string endPoint, T postData, string token = default)
         {
             var request = requestHelper.CreateRequest(Method.PUT, endPoint);
-            return requestHelper.AddPostDataToJsonBody(request, postData);
+            request = requestHelper.AddPostDataToJsonBody(request, postData);
+            if (requestHelper.IsHaveToken(token))
+            {
+                request = requestHelper.Autorize(request, token);
+            }
+            return request;
         }
 
-        public static IRestRequest Delete(this RequestHelper requestHelper, string endPoint)
+        public static IRestRequest CreateDelete(this RequestHelper requestHelper, string endPoint, string token = default)
         {
-            return requestHelper.CreateRequest(Method.DELETE, endPoint);
+            var request = requestHelper.CreateRequest(Method.DELETE, endPoint);
+            if (requestHelper.IsHaveToken(token))
+            {
+                request = requestHelper.Autorize(request, token);
+            }
+            return request;
         }
     }
 }

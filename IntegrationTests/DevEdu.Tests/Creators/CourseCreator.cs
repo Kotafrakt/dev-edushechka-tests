@@ -12,8 +12,7 @@ namespace DevEdu.Tests.Creators
             _endPoint = CoursePoints.AddCoursePoint;
             var postData = CourseData.GetValidCourseInputModel();
 
-            var request = _requestHelper.Post(_endPoint, postData);
-            request = _requestHelper.Autorize(request, token);
+            var request = _requestHelper.CreatePost(_endPoint, postData, token);
 
             var response = _client.Execute<CourseInfoShortOutputModel>(request);
             var result = response.Data;

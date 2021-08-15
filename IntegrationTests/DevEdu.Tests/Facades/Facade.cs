@@ -40,6 +40,11 @@ namespace DevEdu.Tests.Facades
             return _authenticationSub.GetTokenByEmailAndPassword(email: "Admin", password: "12345678");
         }
 
+        public string SignInByAdmin()
+        {
+            return _authenticationSub.GetTokenByEmailAndPassword(email: "Admin", password: "12345678");
+        }
+
         public UserInfo SignInByAdminAndRegistrationNewUserByRole<T>(T roles)
         {
             var token = _authenticationSub.GetTokenByEmailAndPassword(email:"Admin", password:"12345678");

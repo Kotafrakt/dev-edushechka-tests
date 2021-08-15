@@ -20,8 +20,7 @@ namespace DevEdu.Tests.ControllersTests
 			_endPoint = TagPoints.AddTagPoint;
 			var postData = TagData.GetValidTagInputModel();
 
-			var request = _requestHelper.Post(_endPoint, postData);
-			request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
 
 			var response = _client.Execute<TagOutputModel>(request);
 			response.StatusCode.Should().Be(HttpStatusCode.Created);

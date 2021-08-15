@@ -3,7 +3,6 @@ using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
@@ -19,8 +18,8 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = endpoint;
 
-            var request = _requestHelper.Post(_endPoint, content);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePost(_endPoint, content, userInfo.Token);
+
             var response = _client.Execute<T>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 

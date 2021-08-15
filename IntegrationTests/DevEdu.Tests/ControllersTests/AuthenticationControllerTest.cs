@@ -22,8 +22,7 @@ namespace DevEdu.Tests.ControllersTests
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
             _endPoint = AuthorizationPoints.RegisterPoint;
             var newUser = UserData.GetValidUserInsertInputModelForRegistration(roles);
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePost(_endPoint, newUser, userInfo.Token);
 
             //When
             var response = _client.Execute<UserFullInfoOutPutModel>(request);
@@ -48,8 +47,7 @@ namespace DevEdu.Tests.ControllersTests
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
             _endPoint = AuthorizationPoints.RegisterPoint;
             UserInsertInputModel newUser = null;
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePost(_endPoint, newUser, userInfo.Token);
 
             //When
             var response = _client.Execute<UserFullInfoOutPutModel>(request);
@@ -66,8 +64,7 @@ namespace DevEdu.Tests.ControllersTests
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
             _endPoint = AuthorizationPoints.RegisterPoint;
             var newUser = user;
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePost(_endPoint, newUser, userInfo.Token);
 
             //When
             var response = _client.Execute<UserFullInfoOutPutModel>(request);
@@ -83,7 +80,7 @@ namespace DevEdu.Tests.ControllersTests
             var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
             var user = UserData.GetUserSignInputModelByEmailAndPassword(userInfo.Email, userInfo.Password);
             _endPoint = AuthorizationPoints.SignInPoint;
-            var request = _requestHelper.Post(_endPoint, user);
+            var request = _requestHelper.CreatePost(_endPoint, user, userInfo.Token);
 
             //When
             var response = _client.Execute<string>(request);

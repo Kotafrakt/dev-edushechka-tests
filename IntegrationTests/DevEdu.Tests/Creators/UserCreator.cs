@@ -12,8 +12,7 @@ namespace DevEdu.Tests.Creators
             _endPoint = AuthorizationPoints.RegisterPoint;
             var newUser = UserData.GetValidUserInsertInputModelForRegistration(roles);
 
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, token);
+            var request = _requestHelper.CreatePost(_endPoint, newUser, token);
 
             var responce = _client.Execute<UserFullInfoOutPutModel>(request);
             var user = responce.Data;
