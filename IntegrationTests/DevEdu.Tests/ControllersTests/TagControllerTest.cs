@@ -213,5 +213,21 @@ namespace DevEdu.Tests.ControllersTests
 			//Then
 			response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
 		}
+
+		[TestCaseSource(typeof(UserData), nameof(UserData.SignInByRolesWithoutStudentAndTutor))]
+		public void AddTag_InvalidTagDto_ValidationExceptionThrown<T>(T roles)
+		{
+			//Given
+			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
+			_endPoint = AddTagPoint;
+			var postData = TagData.GetInValidTagInputModel();
+			var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
+
+			//When
+			var response = _client.Execute<TagOutputModel>(request);
+
+			//Then
+			response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+		}
 	}
 }

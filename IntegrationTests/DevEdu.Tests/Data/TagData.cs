@@ -1,5 +1,4 @@
 ﻿using DevEdu.Core.Models;
-using DevEdu.Tests.Data;
 using System;
 
 namespace DevEdu.Tests.Data
@@ -20,6 +19,11 @@ namespace DevEdu.Tests.Data
             {
                 Name = "Zloo is bad"
             };
+        }
+
+        public static TagInputModel GetInValidTagInputModel()
+        {
+            return new();
         }
     }
 }
