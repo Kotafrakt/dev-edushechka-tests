@@ -33,7 +33,7 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = MaterialPoints.AddMaterialWithGroupsPoint;
 
             var material = MaterialData.GetMaterialWithGroupsInputModel_Correct(groupsId);
-            var request = _requestHelper.Post(_endPoint, material);
+            var request = _requestHelper.CreatePost(_endPoint, material, userInfo.Token);
 
             var response = _client.Execute<MaterialInfoWithGroupsOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -60,7 +60,7 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = MaterialPoints.AddMaterialWithCoursesPoint;
 
             var material = MaterialData.GetMaterialWithCoursesInputModelForFillingDB(coursesId);
-            var request = _requestHelper.Post(_endPoint, material);
+            var request = _requestHelper.CreatePost(_endPoint, material, userInfo.Token);
 
             var response = _client.Execute<MaterialInfoWithCoursesOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -79,8 +79,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = MaterialPoints.GetAllMaterialsPoint;
 
-            var request = _requestHelper.Get(_endPoint);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
 
             var response = _client.Execute<List<MaterialInfoOutputModel>>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -104,8 +103,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.GetMaterialByIdWithCoursesAndGroupsPoint, material.Id);
 
-            var request = _requestHelper.Get(_endPoint);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
 
             var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -126,8 +124,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.GetMaterialByIdWithTagsPoint, material.Id);
 
-            var request = _requestHelper.Get(_endPoint);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
 
             var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -147,8 +144,7 @@ namespace DevEdu.Tests.ControllersTests
             var updateMaterial = MaterialData.GetUpdateMaterialInputModel();
 
 
-            var request = _requestHelper.Put(_endPoint, updateMaterial);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePut(_endPoint, updateMaterial, userInfo.Token);
 
             var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -167,8 +163,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.DeleteMaterialPoint, material.Id, isDeleted);
 
-            var request = _requestHelper.Delete(_endPoint);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreateDelete(_endPoint, userInfo.Token);
 
             var response = _client.Execute(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -187,8 +182,7 @@ namespace DevEdu.Tests.ControllersTests
 
             string data = null;
 
-            var request = _requestHelper.Post(_endPoint, data);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePost(_endPoint, data, userInfo.Token);
 
             var response = _client.Execute<string>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -210,8 +204,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.DeleteTagFromMaterialPoint, material.Id, tag.Id);
 
-            var request = _requestHelper.Delete(_endPoint);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreateDelete(_endPoint, userInfo.Token);
 
             var response = _client.Execute<string>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -234,8 +227,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.GetMaterialsByTagIdPoint, tag.Id);
 
-            var request = _requestHelper.Get(_endPoint);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
 
             var response = _client.Execute<List<MaterialInfoOutputModel>>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -11,7 +11,7 @@ namespace DevEdu.Tests.Creators
         {
             _endPoint = AuthorizationPoints.SignInPoint;
             var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);
-            var request = _requestHelper.Post(_endPoint, postData);
+            var request = _requestHelper.CreatePost(_endPoint, postData);
             return _client.Execute<string>(request).Data;
         }
     }

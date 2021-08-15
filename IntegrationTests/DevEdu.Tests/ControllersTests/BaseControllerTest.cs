@@ -29,7 +29,7 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = AuthorizationPoints.SignInPoint;
             var postData = UserData.GetUserSignInputModelByEmailAndPassword(email, password);
             var jsonData = JsonConvert.SerializeObject(postData);
-            var request = _requestHelper.Post(_endPoint, jsonData);
+            var request = _requestHelper.CreatePost(_endPoint, jsonData);
             return _client.Execute<string>(request).Data;
         }
     }

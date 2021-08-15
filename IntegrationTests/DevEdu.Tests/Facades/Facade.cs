@@ -36,6 +36,11 @@ namespace DevEdu.Tests.Facades
         private readonly UserRoleSub _userRoleSub = new();
         #endregion
 
+        public string SignInByAdmin()
+        {
+            return _authenticationSub.GetTokenByEmailAndPassword(email: "Admin", password: "12345678");
+        }
+
         public UserInfo SignInByAdminAndRegistrationNewUserByRole<T>(T roles)
         {
             var token = _authenticationSub.GetTokenByEmailAndPassword(email:"Admin", password:"12345678");
