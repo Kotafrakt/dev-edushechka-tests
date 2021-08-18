@@ -15,14 +15,14 @@ namespace DevEdu.Tests.Data
                 new UserInfoOutPutModel(){ },
                 new UserInsertInputModel(){ FirstName = "Хохохо" },
                 new List<Role>() { UserRoleData.GetRoleAdmin() },
-                MaterialPoints.AddTagToMaterialPoint
+                MaterialEndpoints.AddTagToMaterialEndpoint
             };
             yield return new object[]
             {
                 new CourseInfoOutputModel(){ },
                 new CourseInfoFullOutputModel(){ Description = "Test" },
                 new List<Role>() { UserRoleData.GetRoleManager() },
-                MaterialPoints.AddTagToMaterialPoint
+                MaterialEndpoints.AddTagToMaterialEndpoint
             };
         }
     }

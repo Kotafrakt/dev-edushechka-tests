@@ -7,22 +7,25 @@ using System.Collections.Generic;
 using FluentAssertions;
 using DevEdu.Tests.Constants;
 using System.Net;
+using DevEdu.Tests.Facades;
 
 namespace DevEdu.Tests.ControllersTests
 {
     public class TagControllerTest : BaseControllerTest
     {
+        private readonly AuthenticationControllerFacade _authenticationFacade = new();
+
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void CreateCorrectTag(List<Role> roles)
         {
-            var userInfo = _facade.RegisterNewUserAndSignIn(roles);
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(roles);
 
-            _endPoint = TagPoints.AddTagPoint;
+            _endPoint = TagEndpoints.AddTagEndpoint;
             var postData = TagData.GetValidTagInputModel();
 
-            var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
+            var request = _requestHelper.CreatePostRequest(_endPoint, postData, userInfo.Token);
 
             var response = _client.Execute<TagOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);

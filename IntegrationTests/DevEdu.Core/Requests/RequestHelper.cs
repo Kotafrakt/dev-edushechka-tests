@@ -8,11 +8,5 @@ namespace DevEdu.Core.Requests
         {
             return new RestRequest(endPoint, httpMethod);
         }
-
-        public bool IsHaveToken(string token)
-        {
-            if (token == default || token == null) { return false; }
-            return true;
-        }
     }
 }
