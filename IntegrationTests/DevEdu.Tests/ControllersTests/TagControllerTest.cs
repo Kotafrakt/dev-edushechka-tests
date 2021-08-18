@@ -3,6 +3,7 @@ using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using FluentAssertions;
 using static DevEdu.Tests.Constants.TagEndpoints;
@@ -258,6 +259,7 @@ namespace DevEdu.Tests.ControllersTests
 			response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 			var result = response.Data;
 			result.Should().BeEquivalentTo(exception);
+            result.Errors.Should().Contain(error => error.Message.Equals("Name must be provided"));
         }
 	}
 }
