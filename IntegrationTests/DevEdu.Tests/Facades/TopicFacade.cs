@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class TopicControllerFacade
+    public class TopicFacade
     {
         private TopicCreator _creator;
-        public TopicControllerFacade() { _creator = new TopicCreator(); }
+        public TopicFacade() { _creator = new TopicCreator(); }
     }
 }

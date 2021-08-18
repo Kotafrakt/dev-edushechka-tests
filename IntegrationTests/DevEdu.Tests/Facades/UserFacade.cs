@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class UserControllerFacade
+    public class UserFacade
     {
         private UserCreator _creator;
-        public UserControllerFacade() { _creator = new UserCreator(); }
+        public UserFacade() { _creator = new UserCreator(); }
     }
 }

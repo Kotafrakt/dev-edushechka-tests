@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class TagControllerFacade
+    public class TagFacade
     {
         private TagCreator _creator;
-        public TagControllerFacade() { _creator = new TagCreator(); }
+        public TagFacade() { _creator = new TagCreator(); }
     }
 }

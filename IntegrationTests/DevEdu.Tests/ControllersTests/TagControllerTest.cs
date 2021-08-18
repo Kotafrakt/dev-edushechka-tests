@@ -13,7 +13,7 @@ namespace DevEdu.Tests.ControllersTests
 {
     public class TagControllerTest : BaseControllerTest
     {
-        private readonly AuthenticationControllerFacade _authenticationFacade = new();
+        private readonly AuthenticationFacade _authenticationFacade = new();
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]

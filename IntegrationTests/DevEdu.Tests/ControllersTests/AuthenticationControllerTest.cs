@@ -15,7 +15,7 @@ namespace DevEdu.Tests.ControllersTests
     {
         private AuthenticationCreator _authentication = new();
 
-        private readonly AuthenticationControllerFacade _authenticationFacade = new();
+        private readonly AuthenticationFacade _authenticationFacade = new();
 
         [TestCaseSource(typeof(UserData), nameof(UserData.AdminCreatedUserByAllRoles))]
         [TestCaseSource(typeof(UserData), nameof(UserData.ManagerCreatedUserByRoleStudent))]

@@ -18,7 +18,7 @@ namespace DevEdu.Tests.ControllersTests
         private GroupCreator _groupCreator = new();
         private TagCreator _tagCreator = new();
         private MaterialCreator _materialCreator = new();
-        private readonly AuthenticationControllerFacade _authenticationFacade = new();
+        private readonly AuthenticationFacade _authenticationFacade = new();
 
         [TestCaseSource(typeof(MaterialData), nameof(MaterialData.СheckByRolesTeacherAndTutor))]
         public void AddMaterialWithGroups_MaterialDtoWithoutGroups_MaterialCreated(List<Role> roles)

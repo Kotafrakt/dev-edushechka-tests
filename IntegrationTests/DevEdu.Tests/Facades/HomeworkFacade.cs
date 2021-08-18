@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class HomeworkControllerFacade
+    public class HomeworkFacade
     {
         private readonly HomeworkCreator _creator;
-        public HomeworkControllerFacade() { _creator = new HomeworkCreator(); }
+        public HomeworkFacade() { _creator = new HomeworkCreator(); }
     }
 }

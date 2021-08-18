@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class TaskControllerFacade
+    public class TaskFacade
     {
         private TaskCreator _creator;
-        public TaskControllerFacade() { _creator = new TaskCreator(); }
+        public TaskFacade() { _creator = new TaskCreator(); }
     }
 }
