@@ -79,7 +79,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = MaterialPoints.GetAllMaterialsPoint;
 
-            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+            var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
             var response = _client.Execute<List<MaterialInfoOutputModel>>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -103,7 +103,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.GetMaterialByIdWithCoursesAndGroupsPoint, material.Id);
 
-            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+            var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
             var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -124,7 +124,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.GetMaterialByIdWithTagsPoint, material.Id);
 
-            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+            var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
             var response = _client.Execute<MaterialInfoOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -227,7 +227,7 @@ namespace DevEdu.Tests.ControllersTests
 
             _endPoint = string.Format(MaterialPoints.GetMaterialsByTagIdPoint, tag.Id);
 
-            var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+            var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
             var response = _client.Execute<List<MaterialInfoOutputModel>>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -52,7 +52,7 @@ namespace DevEdu.Tests.ControllersTests
 
 			//Then
 			_endPoint = string.Format(GetTagByIdPoint, tagId);
-			var getRequest = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+			var getRequest = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 			var getResponse = _client.Execute<TagOutputModel>(getRequest);
 			var getResult = getResponse.Data;
 			response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -90,7 +90,7 @@ namespace DevEdu.Tests.ControllersTests
 			var result = _tagSub.AddTag(userInfo.Token);
 			var tagId = result.Id;
 			_endPoint = string.Format(GetTagByIdPoint, tagId);
-			var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+			var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
 			//When
 			var response = _client.Execute<TagOutputModel>(request);
@@ -114,7 +114,7 @@ namespace DevEdu.Tests.ControllersTests
 				ids.Add(createResult.Id);
 			}
 			_endPoint = GetAllTagsPoint;
-			var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+			var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
 			//When
 			var response = _client.Execute<List<TagOutputModel>>(request);
@@ -135,7 +135,7 @@ namespace DevEdu.Tests.ControllersTests
 			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
 			var tagId = 0;
 			_endPoint = string.Format(GetTagByIdPoint, tagId);
-			var request = _requestHelper.CreateGet(_endPoint, userInfo.Token);
+			var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
 			//When
 			var response = _client.Execute<TagOutputModel>(request);

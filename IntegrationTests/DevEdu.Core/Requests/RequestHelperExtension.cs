@@ -4,7 +4,7 @@ namespace DevEdu.Core.Requests
 {
     public static class RequestHelperExtension
     {
-        public static IRestRequest CreateGet(this RequestHelper requestHelper, string endPoint, string token = default)
+        public static IRestRequest CreateGetRequest(this RequestHelper requestHelper, string endPoint, string token = default)
         {
             var request = requestHelper.CreateRequest(Method.GET, endPoint);
             if (requestHelper.IsHaveToken(token))
@@ -29,7 +29,7 @@ namespace DevEdu.Core.Requests
         {
             var request = requestHelper.CreateRequest(Method.PUT, endPoint);
             request = requestHelper.AddPostDataToJsonBody(request, postData);
-            if (requestHelper.IsHaveToken(token))
+            if (!string.IsNullOrEmpty(token))
             {
                 request = requestHelper.Autorize(request, token);
             }
