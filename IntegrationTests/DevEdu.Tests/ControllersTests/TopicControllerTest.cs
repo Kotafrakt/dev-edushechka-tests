@@ -16,7 +16,7 @@ namespace DevEdu.Tests.ControllersTests
 		public void AddTag_TagDto_TagCreated(Role role)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
+			var userInfo = _facade.RegisterNewUserAndSignIn(role);
 			_endPoint = AddTopicPoint;
 			var postData = TopicData.GetValidTopicInputModel();
 			var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);

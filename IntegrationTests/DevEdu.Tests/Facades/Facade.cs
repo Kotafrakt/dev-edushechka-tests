@@ -34,7 +34,7 @@ namespace DevEdu.Tests.Facades
             return userInfo;
         }
 
-        public UserInfo SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser<T>(T roles)
+        public UserInfo RegisterNewUserAndSignIn<T>(T roles)
         {
             var token = _authenticationSub.GetTokenByEmailAndPassword(email: "Admin@a.com", password: "12345678");
             var userInfo = _authenticationSub.RegisterUser(roles, token);

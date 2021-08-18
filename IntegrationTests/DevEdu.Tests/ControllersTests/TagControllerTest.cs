@@ -17,7 +17,7 @@ namespace DevEdu.Tests.ControllersTests
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void CreateCorrectTag(List<Role> roles)
         {
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
+            var userInfo = _facade.RegisterNewUserAndSignIn(roles);
 
             _endPoint = TagPoints.AddTagPoint;
             var postData = TagData.GetValidTagInputModel();

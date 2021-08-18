@@ -9,7 +9,7 @@ namespace DevEdu.Core.Requests
             var request = requestHelper.CreateRequest(Method.GET, endPoint);
             if(requestHelper.IsHaveToken(token))
             {
-                request = requestHelper.Autorize(request, token);
+                request.Autorize(token);
             }
             return request;
         }
@@ -17,10 +17,10 @@ namespace DevEdu.Core.Requests
         public static IRestRequest CreatePost<T>(this RequestHelper requestHelper, string endPoint, T postData, string token = default)
         {
             var request = requestHelper.CreateRequest(Method.POST, endPoint);
-            request = requestHelper.AddPostDataToJsonBody(request, postData);
+            request.AddJsonBody(postData);
             if (requestHelper.IsHaveToken(token))
             {
-                request = requestHelper.Autorize(request, token);
+                request.Autorize(token);
             }
             return request;
         }
@@ -28,10 +28,10 @@ namespace DevEdu.Core.Requests
         public static IRestRequest CreatePut<T>(this RequestHelper requestHelper, string endPoint, T postData, string token = default)
         {
             var request = requestHelper.CreateRequest(Method.PUT, endPoint);
-            request = requestHelper.AddPostDataToJsonBody(request, postData);
+            request.AddJsonBody(postData);
             if (requestHelper.IsHaveToken(token))
             {
-                request = requestHelper.Autorize(request, token);
+                request.Autorize(token);
             }
             return request;
         }
@@ -41,9 +41,14 @@ namespace DevEdu.Core.Requests
             var request = requestHelper.CreateRequest(Method.DELETE, endPoint);
             if (requestHelper.IsHaveToken(token))
             {
-                request = requestHelper.Autorize(request, token);
+                request.Autorize(token);
             }
             return request;
+        }
+
+        public static void Autorize(this IRestRequest request, string token)
+        {
+            request.AddHeader("Authorization", $"Bearer {token}");
         }
     }
 }
