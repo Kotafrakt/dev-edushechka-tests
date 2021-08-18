@@ -248,7 +248,6 @@ namespace DevEdu.Tests.ControllersTests
 		{
 			//Given
 			var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(roles);
-			var exception = TagData.GetValidationExceptionResponse();
 			_endPoint = AddTagEndpoint;
 			var postData = TagData.GetInValidTagInputModel();
 			var request = _requestHelper.CreatePostRequest(_endPoint, postData, userInfo.Token);
@@ -259,10 +258,7 @@ namespace DevEdu.Tests.ControllersTests
 			//Then
 			response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 			var result = response.Data;
-			result.Should().BeEquivalentTo(exception); //1 вариант
-
-
-            result.Errors.Should().Contain(error => error.Message.Equals(ValidationMessage.NameRequired)); //2 вариант
+            result.Errors.Should().Contain(error => error.Message.Equals(ValidationMessage.NameRequired));
 			result.Errors.Should().Contain(error => error.Field.Equals(nameof(TagInputModel.Name)));
 		}
 	}
