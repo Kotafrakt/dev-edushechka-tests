@@ -9,6 +9,7 @@ using FluentAssertions;
 using static DevEdu.Tests.Constants.TagEndpoints;
 using DevEdu.Tests.Facades;
 using DevEdu.Core.Exceptions;
+using DevEdu.Core.Common;
 
 namespace DevEdu.Tests.ControllersTests
 {
@@ -258,8 +259,11 @@ namespace DevEdu.Tests.ControllersTests
 			//Then
 			response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
 			var result = response.Data;
-			result.Should().BeEquivalentTo(exception);
-            result.Errors.Should().Contain(error => error.Message.Equals("Name must be provided"));
-        }
+			result.Should().BeEquivalentTo(exception); //1 вариант
+
+
+            result.Errors.Should().Contain(error => error.Message.Equals(ValidationMessage.NameRequired)); //2 вариант
+			result.Errors.Should().Contain(error => error.Field.Equals(nameof(TagInputModel.Name)));
+		}
 	}
 }
