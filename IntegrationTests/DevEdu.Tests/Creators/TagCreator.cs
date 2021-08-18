@@ -9,9 +9,9 @@ namespace DevEdu.Tests.Creators
     {
         public TagOutputModel AddTag(string token)
         {
-            _endPoint = TagPoints.AddTagPoint;
+            _endPoint = TagEndpoints.AddTagEndpoint;
             var postData = TagData.GetValidTagInputModel();
-            var request = _requestHelper.CreatePost(_endPoint, postData, token);
+            var request = _requestHelper.CreatePostRequest(_endPoint, postData, token);
             var response = _client.Execute<TagOutputModel>(request);
             var result = response.Data;
             return result;

@@ -5,23 +5,24 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
-using static DevEdu.Tests.Constants.TagPoints;
+using static DevEdu.Tests.Constants.TagEndpoints;
 using DevEdu.Tests.Facades;
 
 namespace DevEdu.Tests.ControllersTests
 {
 	public class TagControllerTest : BaseControllerTest
 	{
-		private readonly TagControllerSub _tagSub = new();
+		private readonly TagControllerFacade _tagFacade = new();
+		private readonly AuthenticationControllerFacade _authenticationFacade = new();
 
 		[TestCaseSource(typeof(UserData), nameof(UserData.SignInByRolesWithoutStudentAndTutor))]
 		public void AddTag_TagDto_TagCreated<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			_endPoint = AddTagPoint;
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
+			_endPoint = AddTagEndpoint;
 			var postData = TagData.GetValidTagInputModel();
-			var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
+			var request = _requestHelper.CreatePostRequest(_endPoint, postData, userInfo.Token);
 
 			//When
 			var response = _client.Execute<TagOutputModel>(request);
@@ -41,17 +42,17 @@ namespace DevEdu.Tests.ControllersTests
 		public void DeleteTag_TagId_TagDeleted<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			var result = _tagSub.AddTag(userInfo.Token);
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
+			var result = _tagFacade.AddTag(userInfo.Token);
 			var tagId = result.Id;
-			_endPoint = string.Format(DeleteTagPoint, tagId);
-			var request = _requestHelper.CreateDelete(_endPoint, userInfo.Token);
+			_endPoint = string.Format(DeleteTagEndpoint, tagId);
+			var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
 
 			//When
 			var response = _client.Execute(request);
 
 			//Then
-			_endPoint = string.Format(GetTagByIdPoint, tagId);
+			_endPoint = string.Format(GetTagByIdEndpoint, tagId);
 			var getRequest = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 			var getResponse = _client.Execute<TagOutputModel>(getRequest);
 			var getResult = getResponse.Data;
@@ -63,12 +64,12 @@ namespace DevEdu.Tests.ControllersTests
 		public void UpdateTag_TagDto_Id_TagDto<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			var result = _tagSub.AddTag(userInfo.Token);
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
+			var result = _tagFacade.AddTag(userInfo.Token);
 			var tagId = result.Id;
 			var postData = TagData.GetTagInputModel_UpdatedModel();
-			_endPoint = string.Format(UpdateTagPoint, tagId);
-			var request = _requestHelper.CreatePut(_endPoint, postData, userInfo.Token);
+			_endPoint = string.Format(UpdateTagEndpoint, tagId);
+			var request = _requestHelper.CreatePutRequest(_endPoint, postData, userInfo.Token);
 
 			//When
 			var response = _client.Execute<TagOutputModel>(request);
@@ -86,10 +87,10 @@ namespace DevEdu.Tests.ControllersTests
 		public void GetTagById_Id_TagDto<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			var result = _tagSub.AddTag(userInfo.Token);
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
+			var result = _tagFacade.AddTag(userInfo.Token);
 			var tagId = result.Id;
-			_endPoint = string.Format(GetTagByIdPoint, tagId);
+			_endPoint = string.Format(GetTagByIdEndpoint, tagId);
 			var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
 			//When
@@ -106,14 +107,14 @@ namespace DevEdu.Tests.ControllersTests
 		public void GetAllTags_NoEntries_ListTagDto<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			List<int> ids = new List<int>();
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
+			var ids = new List<int>();
             for (int i = 0; i < 5; i++)
             {
-				var createResult = _tagSub.AddTag(userInfo.Token);
+				var createResult = _tagFacade.AddTag(userInfo.Token);
 				ids.Add(createResult.Id);
 			}
-			_endPoint = GetAllTagsPoint;
+			_endPoint = GetAllTagsEndpoint;
 			var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
 			//When
@@ -132,9 +133,9 @@ namespace DevEdu.Tests.ControllersTests
 		public void GetTagById_TagDoesntExist_EntityNotFoundException<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
 			var tagId = 0;
-			_endPoint = string.Format(GetTagByIdPoint, tagId);
+			_endPoint = string.Format(GetTagByIdEndpoint, tagId);
 			var request = _requestHelper.CreateGetRequest(_endPoint, userInfo.Token);
 
 			//When
@@ -148,11 +149,11 @@ namespace DevEdu.Tests.ControllersTests
 		public void UpdateTag_TagDoesntExist_EntityNotFoundException<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
 			var tagId = 0;
 			var postData = TagData.GetTagInputModel_UpdatedModel();
-			_endPoint = string.Format(UpdateTagPoint, tagId);
-			var request = _requestHelper.CreatePut(_endPoint, postData, userInfo.Token);
+			_endPoint = string.Format(UpdateTagEndpoint, tagId);
+			var request = _requestHelper.CreatePutRequest(_endPoint, postData, userInfo.Token);
 
 			//When
 			var response = _client.Execute<TagOutputModel>(request);
@@ -165,10 +166,10 @@ namespace DevEdu.Tests.ControllersTests
 		public void AddTag_TagDto_AuthorizationExceptionThrown<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			_endPoint = AddTagPoint;
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
+			_endPoint = AddTagEndpoint;
 			var postData = TagData.GetValidTagInputModel();
-			var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
+			var request = _requestHelper.CreatePostRequest(_endPoint, postData, userInfo.Token);
 
 			//When
 			var response = _client.Execute<TagOutputModel>(request);
@@ -181,12 +182,12 @@ namespace DevEdu.Tests.ControllersTests
 		public void DeleteTag_TagId_AuthorizationExceptionThrown<T>(T roles)
 		{
 			//Given
-			var tokenAdmin = _facade.SignInByAdmin();
-			var result = _tagSub.AddTag(tokenAdmin);
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
+			var tokenAdmin = _authenticationFacade.SignInByAdmin();
+			var result = _tagFacade.AddTag(tokenAdmin);
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
 			var tagId = result.Id;
-			_endPoint = string.Format(DeleteTagPoint, tagId);
-			var request = _requestHelper.CreateDelete(_endPoint, userInfo.Token);
+			_endPoint = string.Format(DeleteTagEndpoint, tagId);
+			var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
 
 			//When
 			var response = _client.Execute(request);
@@ -199,13 +200,13 @@ namespace DevEdu.Tests.ControllersTests
 		public void UpdateTag_TagDto_Id_AuthorizationExceptionThrown<T>(T roles)
 		{
 			//Given
-			var tokenAdmin = _facade.SignInByAdmin();
-			var result = _tagSub.AddTag(tokenAdmin);
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
+			var tokenAdmin = _authenticationFacade.SignInByAdmin();
+			var result = _tagFacade.AddTag(tokenAdmin);
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
 			var tagId = result.Id;
 			var postData = TagData.GetTagInputModel_UpdatedModel();
-			_endPoint = string.Format(UpdateTagPoint, tagId);
-			var request = _requestHelper.CreatePut(_endPoint, postData, userInfo.Token);
+			_endPoint = string.Format(UpdateTagEndpoint, tagId);
+			var request = _requestHelper.CreatePutRequest(_endPoint, postData, userInfo.Token);
 
 			//When
 			var response = _client.Execute(request);
@@ -218,10 +219,10 @@ namespace DevEdu.Tests.ControllersTests
 		public void AddTag_InvalidTagDto_ValidationExceptionThrown<T>(T roles)
 		{
 			//Given
-			var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
-			_endPoint = AddTagPoint;
+			var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(roles);
+			_endPoint = AddTagEndpoint;
 			var postData = TagData.GetInValidTagInputModel();
-			var request = _requestHelper.CreatePost(_endPoint, postData, userInfo.Token);
+			var request = _requestHelper.CreatePostRequest(_endPoint, postData, userInfo.Token);
 
 			//When
 			var response = _client.Execute<TagOutputModel>(request);
