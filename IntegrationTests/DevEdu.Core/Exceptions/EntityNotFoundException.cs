@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DevEdu.Business.Exceptions
+namespace DevEdu.Core.Exceptions
 {
     public class EntityNotFoundException : Exception
     {
