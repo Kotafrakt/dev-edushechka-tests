@@ -1,5 +1,8 @@
-﻿using DevEdu.Core.Models;
+﻿using DevEdu.Core.Common;
+using DevEdu.Core.Exceptions;
+using DevEdu.Core.Models;
 using System;
+using System.Collections.Generic;
 
 namespace DevEdu.Tests.Data
 {
@@ -25,5 +28,23 @@ namespace DevEdu.Tests.Data
         {
             return new();
         }
-    }
-}
+
+        public static ValidationExceptionResponse GetValidationExceptionResponse()
+        {
+            return new ValidationExceptionResponse
+            {
+                Code = ValidationExceptionResponse.ValidationCode,
+                Message = ValidationExceptionResponse.MessageValidation,
+                Errors = new List<ValidationError>
+                {
+                    new ValidationError
+                    {
+                        Code = 422,
+                        Field = nameof(TagInputModel.Name),
+                        Message = ValidationMessage.NameRequired
+                    }
+                }
+            };
+        }
+    } 
+} 
