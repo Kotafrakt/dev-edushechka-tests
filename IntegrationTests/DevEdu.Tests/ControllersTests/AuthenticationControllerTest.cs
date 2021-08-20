@@ -7,23 +7,25 @@ using DevEdu.Tests.Data;
 using FluentAssertions;
 using NUnit.Framework;
 using System.Net;
+using DevEdu.Tests.Facades;
 
 namespace DevEdu.Tests.ControllersTests
 {
     public class AuthenticationControllerTest : BaseControllerTest
     {
-        private AuthenticationClient _authentication = new();
+        private AuthenticationCreator _authentication = new();
+
+        private readonly AuthenticationFacade _authenticationFacade = new();
 
         [TestCaseSource(typeof(UserData), nameof(UserData.AdminCreatedUserByAllRoles))]
         [TestCaseSource(typeof(UserData), nameof(UserData.ManagerCreatedUserByRoleStudent))]
         public void Register<T>(Role role, T roles)
         {
             //Given
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
-            _endPoint = AuthorizationPoints.RegisterPoint;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            _endPoint = AuthorizationEndpoints.RegisterEndpoint;
             var newUser = UserData.GetValidUserInsertInputModelForRegistration(roles);
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePostRequest(_endPoint, newUser, userInfo.Token);
 
             //When
             var response = _client.Execute<UserFullInfoOutPutModel>(request);
@@ -45,11 +47,10 @@ namespace DevEdu.Tests.ControllersTests
         public void Register_InvalidRequest_Exception422<T>(Role role, T roles)
         {
             //Given
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
-            _endPoint = AuthorizationPoints.RegisterPoint;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            _endPoint = AuthorizationEndpoints.RegisterEndpoint;
             UserInsertInputModel newUser = null;
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePostRequest(_endPoint, newUser, userInfo.Token);
 
             //When
             var response = _client.Execute<UserFullInfoOutPutModel>(request);
@@ -63,11 +64,10 @@ namespace DevEdu.Tests.ControllersTests
         public void Register_InvalidRequest_Exception<T>(T role, UserInsertInputModel user)
         {
             //Given
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(role);
-            _endPoint = AuthorizationPoints.RegisterPoint;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            _endPoint = AuthorizationEndpoints.RegisterEndpoint;
             var newUser = user;
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePostRequest(_endPoint, newUser, userInfo.Token);
 
             //When
             var response = _client.Execute<UserFullInfoOutPutModel>(request);
@@ -80,10 +80,10 @@ namespace DevEdu.Tests.ControllersTests
         public void SignIn<T>(T roles)
         {
             //Given
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRoleAndSignInByNewUser(roles);
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(roles);
             var user = UserData.GetUserSignInputModelByEmailAndPassword(userInfo.Email, userInfo.Password);
-            _endPoint = AuthorizationPoints.SignInPoint;
-            var request = _requestHelper.Post(_endPoint, user);
+            _endPoint = AuthorizationEndpoints.SignInEndpoint;
+            var request = _requestHelper.CreatePostRequest(_endPoint, user, userInfo.Token);
 
             //When
             var response = _client.Execute<string>(request);

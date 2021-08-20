@@ -1,31 +1,36 @@
 ﻿using DevEdu.Core.Models;
-using DevEdu.Core.Requests;
-using DevEdu.Tests.Constants;
 using DevEdu.Tests.Data;
-using System.Collections.Generic;
 
 namespace DevEdu.Tests.Creators
 {
     public class TaskCreator : BaseCreator
     {
-        public TaskInfoOutputModel CreateCorrectTaskByTeacherWithoutHomework(string token, List<int> tagIds = default)
+        public TaskInfoOutputModel AddTaskByTeacher(string token)
         {
-            _endPoint = TaskPoints.AddTaskByTeacherPoint;
-            var postData = TaskData.GetValidTaskByTeacherWithoutHomework(tagIds);
-            var request = _requestHelper.Post(_endPoint, postData);
-            request = _requestHelper.Autorize(request, token);
-
-            return _client.Execute<TaskInfoOutputModel>(request).Data;
+            var model = new TaskByTeacherInputModel();
+            return new TaskInfoOutputModel();
         }
 
-        public TaskInfoOutputModel CreateCorrectTaskByTeacherWithHomework(string token, int groupId, List<int> tagIds = default)
+        public TaskInfoOutputModel AddTaskByMethodist(string token)
         {
-            _endPoint = TaskPoints.AddTaskByTeacherPoint;
-            var postData = TaskData.GetValidTaskByTeacherWithHomework(groupId, tagIds);
-            var request = _requestHelper.Post(_endPoint, postData);
-            request = _requestHelper.Autorize(request, token);
+            var model = new TaskByMethodistInputModel();
+            return new TaskInfoOutputModel();
+        }
 
-            return _client.Execute<TaskInfoOutputModel>(request).Data;
+        public TaskInfoOutputModel UpdateTaskByTeacher(string token, int taskId)
+        {
+            var model = new TaskByTeacherUpdateInputModel();
+            return new TaskInfoOutputModel();
+        }
+
+        public TaskInfoOutputModel UpdateTaskByMethodist(string token, int taskId)
+        {
+            var model = "";//new TaskInputModel();
+            return new TaskInfoOutputModel();
+        }
+
+        public void AddTagToTask(string token, int taskId, int tagId)
+        {
         }
     }
 }

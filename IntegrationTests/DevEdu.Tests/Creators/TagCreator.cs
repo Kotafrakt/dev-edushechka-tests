@@ -4,17 +4,17 @@ using DevEdu.Tests.Constants;
 using DevEdu.Tests.Data;
 
 namespace DevEdu.Tests.Creators
-{ 
+{
     public class TagCreator : BaseCreator
     {
-        public TagOutputModel CreateValidTag(string token)
+        public TagOutputModel AddTag(string token)
         {
-            _endPoint = TagPoints.AddTagPoint;
+            _endPoint = TagEndpoints.AddTagEndpoint;
             var postData = TagData.GetValidTagInputModel();
-            var request = _requestHelper.Post(_endPoint, postData);
-            request = _requestHelper.Autorize(request, token);
-
-            return _client.Execute<TagOutputModel>(request).Data;
+            var request = _requestHelper.CreatePostRequest(_endPoint, postData, token);
+            var response = _client.Execute<TagOutputModel>(request);
+            var result = response.Data;
+            return result;
         }
     }
 }

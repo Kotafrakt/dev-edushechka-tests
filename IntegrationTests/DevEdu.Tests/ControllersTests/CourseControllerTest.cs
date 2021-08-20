@@ -6,27 +6,27 @@ using DevEdu.Tests.Creators;
 using DevEdu.Tests.Data;
 using FluentAssertions;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Net;
+using DevEdu.Tests.Facades;
 
 namespace DevEdu.Tests.ControllersTests
 {
     public class CourseControllerTest : BaseControllerTest
     {
-        private UserCreator _creator = new();
+        private AuthenticationCreator _creator = new();
+        private readonly AuthenticationFacade _authenticationFacade = new();
 
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleManager))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleMethodist))]
         [TestCaseSource(typeof(UserRoleData), nameof(UserRoleData.GetRoleAdmin))]
         public void CreateCorrectCourse(Role role)
         {
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(role);
+            var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(role);
 
-            _endPoint = CoursePoints.AddCoursePoint;
+            _endPoint = CourseEndpoints.AddCourseEndpoint;
             var postData = CourseData.GetValidCourseInputModel();
 
-            var request = _requestHelper.Post(_endPoint, postData);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePostRequest(_endPoint, postData, userInfo.Token);
 
             var response = _client.Execute<CourseInfoShortOutputModel>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);

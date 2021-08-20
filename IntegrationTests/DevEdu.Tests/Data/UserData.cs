@@ -102,6 +102,21 @@ namespace DevEdu.Tests.Data
             yield return new object[] { UserRoleData.GetRoleManager(), GetUserInsertInputModelForRegistrationByInvalidPhoto(UserRoleData.GetRoleStudent()) };
         }
 
+        public static IEnumerable SignInByRolesWithoutStudentAndTutor()
+        {
+            yield return new object[] { UserRoleData.GetRoleAdmin() };
+            yield return new object[] { UserRoleData.GetRoleManager() };
+            yield return new object[] { UserRoleData.GetRoleMethodist() };
+            yield return new object[] { UserRoleData.GetRoleTeacher() };
+            yield return new object[] {
+                new List<Role>() { UserRoleData.GetRoleTeacher(), UserRoleData.GetRoleMethodist() } };
+        }
+        public static IEnumerable SignInByRolesWithStudentAndTutor()
+        {
+            yield return new object[] { UserRoleData.GetRoleStudent() };
+            yield return new object[] { UserRoleData.GetRoleTutor() };
+        }
+
         private static UserInsertInputModel GetUserInsertInputModelForRegistrationByInvalidPassword<T>(T data)
         {
             var user = GetValidUserInsertInputModelForRegistration(data);

@@ -3,24 +3,26 @@ using DevEdu.Core.Models;
 using DevEdu.Core.Requests;
 using DevEdu.Tests.Data;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Net;
+using DevEdu.Tests.Facades;
 
 namespace DevEdu.Tests.ControllersTests
 {
     public class UniversalControllerTests : BaseControllerTest
     {
+        private readonly AuthenticationFacade _authenticationFacade = new();
+
         [TestCaseSource(typeof(UniversalData), nameof(UniversalData.Universal))]
         public void Add<T, TU>(TU type, T content, List<Role> roles, string endpoint)
         {
-            var userInfo = _facade.SignInByAdminAndRegistrationNewUserByRole(Role.Manager);
+            var userInfo = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Manager);
 
             _endPoint = endpoint;
 
-            var request = _requestHelper.Post(_endPoint, content);
-            request = _requestHelper.Autorize(request, userInfo.Token);
+            var request = _requestHelper.CreatePostRequest(_endPoint, content, userInfo.Token);
+
             var response = _client.Execute<T>(request);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 

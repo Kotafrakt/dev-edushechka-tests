@@ -1,27 +1,18 @@
-﻿using DevEdu.Core.Models;
-using DevEdu.Core.Requests;
-using DevEdu.Tests.Constants;
-using DevEdu.Tests.Data;
+﻿using DevEdu.Core.Enums;
+using DevEdu.Core.Models;
 
 namespace DevEdu.Tests.Creators
 {
     public class UserCreator : BaseCreator
     {
-        public UserInfo RegisterUser<T>(T roles, string token)
+        public UserUpdateInfoOutPutModel UpdateUserById(string token)
         {
-            _endPoint = AuthorizationPoints.RegisterPoint;
-            var newUser = UserData.GetValidUserInsertInputModelForRegistration(roles);
+            var model = new UserUpdateInputModel();
+            return new UserUpdateInfoOutPutModel();
+        }
 
-            var request = _requestHelper.Post(_endPoint, newUser);
-            request = _requestHelper.Autorize(request, token);
-
-            _client.Execute<UserFullInfoOutPutModel>(request);
-            return new()
-            {
-                Email = newUser.Email,
-                Password = newUser.Password,
-                Token = token
-            };
+        public void AddRoleToUser(string token, int userId, Role role)
+        {
         }
     }
 }
