@@ -5,7 +5,7 @@ namespace DevEdu.Tests.Facades
 {
     public class AuthenticationFacade
     {
-        private AuthenticationCreator _creator;
+        private readonly AuthenticationCreator _creator;
         private const string _email = "Admin@a.com";
         private const string _password = "12345678";
 
