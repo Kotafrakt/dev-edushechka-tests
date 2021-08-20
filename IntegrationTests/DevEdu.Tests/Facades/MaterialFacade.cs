@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades
 {
-    public class MaterialControllerFacade
+    public class MaterialFacade
     {
         private MaterialCreator _creator;
-        public MaterialControllerFacade() { _creator = new MaterialCreator(); }
+        public MaterialFacade() { _creator = new MaterialCreator(); }
 
         public MaterialInfoWithCoursesOutputModel CreateMaterialInfoWithCourses(string token, List<int> coursesId)
         {

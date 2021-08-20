@@ -12,7 +12,7 @@ namespace DevEdu.Tests.ControllersTests
 {
     public class UniversalControllerTests : BaseControllerTest
     {
-        private readonly AuthenticationControllerFacade _authenticationFacade = new();
+        private readonly AuthenticationFacade _authenticationFacade = new();
 
         [TestCaseSource(typeof(UniversalData), nameof(UniversalData.Universal))]
         public void Add<T, TU>(TU type, T content, List<Role> roles, string endpoint)

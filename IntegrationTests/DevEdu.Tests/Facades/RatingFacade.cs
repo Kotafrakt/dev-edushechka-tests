@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class RatingControllerFacade
+    public class RatingFacade
     {
         private RatingCreator _creator;
-        public RatingControllerFacade(){ _creator = new RatingCreator(); }
+        public RatingFacade(){ _creator = new RatingCreator(); }
     }
 }

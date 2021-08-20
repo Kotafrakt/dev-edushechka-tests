@@ -3,13 +3,13 @@ using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
-    public class AuthenticationControllerFacade
+    public class AuthenticationFacade
     {
         private readonly AuthenticationCreator _creator;
         private const string _email = "Admin@a.com";
         private const string _password = "12345678";
 
-        public AuthenticationControllerFacade() { _creator = new AuthenticationCreator(); }
+        public AuthenticationFacade() { _creator = new AuthenticationCreator(); }
 
         public string SignInByAdmin()
         {

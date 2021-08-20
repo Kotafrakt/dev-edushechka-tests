@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class LessonControllerFacade
+    public class LessonFacade
     {
         private LessonCreator _creator;
-        public LessonControllerFacade() { _creator = new LessonCreator(); }
+        public LessonFacade() { _creator = new LessonCreator(); }
     }
 }

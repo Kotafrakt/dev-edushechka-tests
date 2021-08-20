@@ -3,10 +3,10 @@ using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
-    public class CommentControllerFacade
+    public class CommentFacade
     {
         private CommentCreator _creator;
-        public CommentControllerFacade()
+        public CommentFacade()
         {
             _creator = new CommentCreator();
         }

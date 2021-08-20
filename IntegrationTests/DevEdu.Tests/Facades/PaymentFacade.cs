@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class PaymentControllerFacade
+    public class PaymentFacade
     {
         private PaymentCreator _creator;
-        public PaymentControllerFacade() { _creator = new PaymentCreator(); }
+        public PaymentFacade() { _creator = new PaymentCreator(); }
     }
 }

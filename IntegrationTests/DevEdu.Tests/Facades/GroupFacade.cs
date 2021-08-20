@@ -2,9 +2,9 @@
 
 namespace DevEdu.Tests.Facades
 {
-    public class GroupControllerFacade
+    public class GroupFacade
     {
         private readonly GroupCreator _creator;
-        public GroupControllerFacade() { _creator = new GroupCreator(); }
+        public GroupFacade() { _creator = new GroupCreator(); }
     }
 }

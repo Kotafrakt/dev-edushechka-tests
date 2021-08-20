@@ -12,7 +12,7 @@ namespace DevEdu.Tests.ControllersTests
 {
     class TopicControllerTest : BaseControllerTest
     {
-        private readonly AuthenticationControllerFacade _authenticationFacade = new();
+        private readonly AuthenticationFacade _authenticationFacade = new();
 
 		[TestCase(Role.Manager)]
 		[TestCase(Role.Methodist)]
