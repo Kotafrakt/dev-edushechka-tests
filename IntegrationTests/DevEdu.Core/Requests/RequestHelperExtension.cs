@@ -21,6 +21,14 @@ namespace DevEdu.Core.Requests
             return request;
         }
 
+        public static IRestRequest CreatePostReferenceRequest(this RequestHelper requestHelper, string endPoint, string token = default)
+        {
+            var request = requestHelper.CreateRequest(Method.POST, endPoint);
+            if (!string.IsNullOrEmpty(token)) { request.Authorize(token); }
+
+            return request;
+        }
+
         public static IRestRequest CreatePutRequest<T>(this RequestHelper requestHelper, string endPoint, T postData, string token = default)
         {
             var request = requestHelper.CreateRequest(Method.PUT, endPoint);
