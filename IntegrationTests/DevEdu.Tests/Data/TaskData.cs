@@ -18,8 +18,8 @@ namespace DevEdu.Tests.Data
                 Tags = tagIds,
                 Homework = new HomeworkInputModel()
                 {
-                    StartDate = DateTime.Now.ToString(_dateFormat),
-                    EndDate = DateTime.Now.AddDays(_random.Next(1, 20)).ToString(_dateFormat),
+                    StartDate = DateTime.Now.ToString(_validDateFormat),
+                    EndDate = DateTime.Now.AddDays(_random.Next(1, 20)).ToString(_validDateFormat),
                 }
             };
         }

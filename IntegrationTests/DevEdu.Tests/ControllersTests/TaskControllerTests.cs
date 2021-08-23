@@ -6,40 +6,44 @@ using DevEdu.Tests.Data;
 using DevEdu.Tests.Facades;
 using FluentAssertions;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevEdu.Tests.ControllersTests
 {
     public class TaskControllerTests : BaseControllerTest
     {
-        private UserSub _userSub = new UserSub();
-        private GroupSub _groupSub = new GroupSub();
-        private TagSub _tagSub = new TagSub();
-        private AuthenticationSub _authenticationSub = new AuthenticationSub();
+        private GroupFacade _groupFacade;
+        private TagFacade _tagFacade;
+        private AuthenticationFacade _authenticationFacade;
+
+        public TaskControllerTests() : base()
+        {
+            _groupFacade = new GroupFacade();
+            _tagFacade = new TagFacade();
+            _authenticationFacade = new AuthenticationFacade();
+        }
 
         [TestCase(Role.Teacher)]
         [TestCase(Role.Admin)]
         public void AddTaskByTeacher(Role role)
         {
             //Given
-            var user = _userSub.RegisterUser(new List<Role> { role });
-            var token = _authenticationSub.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var group = _groupSub.CreateValidGroup(token);
-            var tags = _tagSub.CreateValidTagList(token);
+            var token = _authenticationFacade.SignInByAdmin();
+            var group = _groupFacade.CreateValidGroup(token);
+            var tags = _tagFacade.AddValidTagList(token);
+            var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role } );
+            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetValidTaskByTeacherWithHomework(group.Id, tags.Select(tag => tag.Id).ToList());
-            _endPoint = TaskPoints.AddTaskByTeacherPoint;
-            var request = _requestHelper.Post(_endPoint, task);
-            request = _requestHelper.Autorize(request, token);
+            _endPoint = TaskEndpoints.AddTaskByTeacherEndpoint;
+            var request = _requestHelper.CreatePostRequest(_endPoint, task, token);
 
             //When
-            var actual = _client.Execute<TaskOutputModel>(request).Data;
+            var actualResponce = _client.Execute<TaskOutputModel>(request);
 
             //Then
-            //task.Should().BeEquivalentTo(actual, option => option.Excluding(o => o.)  )
+            task.Should().BeEquivalentTo(actualResponce.Data);
+            //, option => option.Excluding(o => o.))
         }
 
     }

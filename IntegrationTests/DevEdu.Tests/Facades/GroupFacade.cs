@@ -1,4 +1,5 @@
-﻿using DevEdu.Tests.Creators;
+﻿using DevEdu.Core.Models;
+using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
 {
@@ -6,5 +7,14 @@ namespace DevEdu.Tests.Facades
     {
         private readonly GroupCreator _creator;
         public GroupFacade() { _creator = new GroupCreator(); }
+        public GroupOutputModel CreateValidGroup(string token, int courseId = 0)
+        {
+            if (courseId == 0)
+            {
+                var courseFacade = new CourseFacade();
+                courseId = courseFacade.CreateCourse(token).Id;
+            }
+            return _creator.AddGroup(token, courseId);
+        }
     }
 }
