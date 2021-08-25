@@ -1,4 +1,5 @@
-﻿using DevEdu.Core.Models;
+﻿using DevEdu.Core.Enums;
+using DevEdu.Core.Models;
 using DevEdu.Tests.Creators;
 
 namespace DevEdu.Tests.Facades
@@ -15,6 +16,11 @@ namespace DevEdu.Tests.Facades
                 courseId = courseFacade.CreateCourse(token).Id;
             }
             return _creator.AddGroup(token, courseId);
+        }
+
+        public void AddUserToGroup(string token, int groupId, int userId, Role role)
+        {
+            _creator.AddUserToGroup(token, groupId, userId, role);
         }
     }
 }

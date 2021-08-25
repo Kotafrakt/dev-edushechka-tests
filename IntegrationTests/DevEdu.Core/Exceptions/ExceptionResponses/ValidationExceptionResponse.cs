@@ -40,5 +40,15 @@ namespace DevEdu.Core.Exceptions
         {
             Errors = new List<ValidationError>();
         }
+
+        public void AddError (int code, string field, string message)
+        {
+            Errors.Add(new ValidationError
+            {
+                Code = code,
+                Field = field,
+                Message = message
+            });
+        }
     }
 }

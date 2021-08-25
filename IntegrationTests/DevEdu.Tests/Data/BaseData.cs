@@ -26,5 +26,15 @@ namespace DevEdu.Tests.Data
                 Description = (string.Format(ServiceMessages.EntityNotFoundMessage, entity, id))
             };
         }
+
+        public static ExceptionResponse GetAuthorizationExceptionResponce(string description)
+        {
+            return new ExceptionResponse
+            {
+                Code = _authorizationCode,
+                Message = _messageAuthorization,
+                Description = description
+            };
+        }
     }
 }

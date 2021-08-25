@@ -28,10 +28,14 @@ namespace DevEdu.Tests.Creators
             return result;
         }
 
-        public TaskInfoOutputModel AddTaskByMethodist(string token)
+        public TaskInfoOutputModel AddTaskByMethodist(string token, List<int> courseIds = default, List<int> tagIds = default)
         {
-            var model = new TaskByMethodistInputModel();
-            return new TaskInfoOutputModel();
+            _endPoint = TaskEndpoints.AddTaskByMethodistEndpoint;
+            var postData = TaskData.GetValidTaskByMethodist(courseIds, tagIds);
+            var request = _requestHelper.CreatePostRequest(_endPoint, postData, token);
+            var response = _client.Execute<TaskInfoOutputModel>(request);
+            var result = response.Data;
+            return result;
         }
 
         public TaskInfoOutputModel UpdateTaskByTeacher(string token, int taskId)

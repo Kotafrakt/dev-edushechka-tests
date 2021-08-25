@@ -3,6 +3,7 @@ using DevEdu.Core.Models;
 using DevEdu.Tests.Constants;
 using DevEdu.Tests.Data;
 using DevEdu.Core.Requests;
+using RestSharp;
 
 namespace DevEdu.Tests.Creators
 {
@@ -41,6 +42,9 @@ namespace DevEdu.Tests.Creators
 
         public void AddUserToGroup(string token, int groupId, int userId, Role roleId)
         {
+            var request = new RestRequest(string.Format(GroupEndpoints.AddUserToGroupEndpoint, groupId, userId, (int)roleId), Method.POST);
+            request.AddHeader("Authorization", $"Bearer {token}");
+            _client.Execute(request);
         }
     }
 }

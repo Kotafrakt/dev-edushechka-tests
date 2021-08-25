@@ -4,8 +4,8 @@
     {
         public const string AddTaskByTeacherEndpoint = "api/task/teacher";
         public const string AddTaskByMethodistEndpoint = "api/task/methodist";
-        public const string UpdateTaskByTeacherEndpoint = "api/task/{0}";
-        public const string UpdateTaskByMethodistEndpoint = "api/task/{0}";
+        public const string UpdateTaskByTeacherEndpoint = "api/task/teacher/{0}";
+        public const string UpdateTaskByMethodistEndpoint = "api/task/methodist/{0}";
         public const string DeleteTaskEndpoint = "api/task/{0}";
         public const string GetTaskWithTagsEndpoint = "api/task/{0}";
         public const string GetTaskWithTagsAndCoursesEndpoint = "api/task/{0}/with-courses";
