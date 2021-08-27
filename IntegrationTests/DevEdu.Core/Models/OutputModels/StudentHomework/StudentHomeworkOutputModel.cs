@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using DevEdu.Core.Enums;
 
 namespace DevEdu.Core.Models
 {
