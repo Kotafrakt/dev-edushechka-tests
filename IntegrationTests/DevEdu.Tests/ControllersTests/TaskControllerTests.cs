@@ -59,7 +59,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Id.Should().NotBe(default);
             actualResponce.Data.IsDeleted.Should().Be(false);
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -86,7 +89,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Id.Should().NotBe(default);
             actualResponce.Data.IsDeleted.Should().Be(false);
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -153,7 +159,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Message.Should().Be(exception.Message);
             actualResponce.Data.Code.Should().Be(exception.Code);
             actualResponce.Data.Errors.Count.Should().Be(exception.Errors.Count);
-            actualResponce.Data.Errors.Intersect(exception.Errors).ToList().Count.Should().Be(exception.Errors.Count);
+            foreach (var error in exception.Errors)
+            {
+                actualResponce.Data.Errors.First(e => e.Code == error.Code).Should().BeEquivalentTo(error);
+            }
         }
 
         [TestCase(Role.Methodist)]
@@ -180,7 +189,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Id.Should().NotBe(default);
             actualResponce.Data.IsDeleted.Should().Be(false);
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -221,7 +233,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Message.Should().Be(exception.Message);
             actualResponce.Data.Code.Should().Be(exception.Code);
             actualResponce.Data.Errors.Count.Should().Be(exception.Errors.Count);
-            actualResponce.Data.Errors.Intersect(exception.Errors).ToList().Count.Should().Be(exception.Errors.Count);
+            foreach (var error in exception.Errors)
+            {
+                actualResponce.Data.Errors.First(e => e.Code == error.Code).Should().BeEquivalentTo(error);
+            }
         }
 
         [TestCase(Role.Methodist)]
@@ -249,7 +264,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Id.Should().Be(taskId);
             actualResponce.Data.IsDeleted.Should().Be(false);
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -290,7 +308,7 @@ namespace DevEdu.Tests.ControllersTests
 
             //Then
             actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-            actualResponce.Data.Should().Be(expectedExeption);
+            actualResponce.Data.Should().BeEquivalentTo(expectedExeption);
         }
 
         [TestCase(Role.Methodist)]
@@ -312,7 +330,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Message.Should().Be(expectedExeption.Message);
             actualResponce.Data.Code.Should().Be(expectedExeption.Code);
             actualResponce.Data.Errors.Count.Should().Be(expectedExeption.Errors.Count);
-            actualResponce.Data.Errors.Intersect(expectedExeption.Errors).ToList().Count.Should().Be(expectedExeption.Errors.Count);
+            foreach (var error in expectedExeption.Errors)
+            {
+                actualResponce.Data.Errors.First(e => e.Code == error.Code).Should().BeEquivalentTo(error);
+            }
         }
 
         [TestCase(Role.Methodist)]
@@ -331,7 +352,7 @@ namespace DevEdu.Tests.ControllersTests
 
             //Then
             actualResponce.StatusCode.Should().Be(StatusCodes.Status404NotFound);
-            actualResponce.Data.Should().Be(expectedExeption);
+            actualResponce.Data.Should().BeEquivalentTo(expectedExeption);
         }
 
         [TestCase(Role.Teacher)]
@@ -359,7 +380,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Id.Should().Be(taskId);
             actualResponce.Data.IsDeleted.Should().Be(false);
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Admin)]
@@ -386,7 +410,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Id.Should().Be(taskId);
             actualResponce.Data.IsDeleted.Should().Be(default);
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Manager)]
@@ -429,7 +456,7 @@ namespace DevEdu.Tests.ControllersTests
 
             //Then
             actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-            actualResponce.Data.Should().Be(expectedException);
+            actualResponce.Data.Should().BeEquivalentTo(expectedException);
         }
 
         [TestCase(Role.Teacher)]
@@ -452,7 +479,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Message.Should().Be(expectedException.Message);
             actualResponce.Data.Code.Should().Be(expectedException.Code);
             actualResponce.Data.Errors.Count.Should().Be(expectedException.Errors.Count);
-            actualResponce.Data.Errors.Intersect(expectedException.Errors).ToList().Count.Should().Be(expectedException.Errors.Count);
+            foreach (var error in expectedException.Errors)
+            {
+                actualResponce.Data.Errors.First(e => e.Code == error.Code).Should().BeEquivalentTo(error);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -472,7 +502,7 @@ namespace DevEdu.Tests.ControllersTests
 
             //Then
             actualResponce.StatusCode.Should().Be(StatusCodes.Status404NotFound);
-            actualResponce.Data.Should().Be(expectedException);
+            actualResponce.Data.Should().BeEquivalentTo(expectedException);
         }
 
         [TestCase(Role.Admin)]
@@ -495,7 +525,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Should().BeEquivalentTo(task, option => option
            .Excluding(o => o.Tags));
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -521,7 +554,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Should().BeEquivalentTo(task, option => option
             .Excluding(o => o.Tags));
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Methodist)]
@@ -543,7 +579,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.StatusCode.Should().Be(HttpStatusCode.OK);
             actualResponce.Should().BeEquivalentTo(task);
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -567,7 +606,7 @@ namespace DevEdu.Tests.ControllersTests
 
             //Then
             actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-            actualResponce.Data.Should().Be(expectedException);
+            actualResponce.Data.Should().BeEquivalentTo(expectedException);
         }
 
         [TestCase(Role.Teacher)]
@@ -589,7 +628,7 @@ namespace DevEdu.Tests.ControllersTests
 
             //Then
             actualResponce.StatusCode.Should().Be(HttpStatusCode.NotFound);
-            actualResponce.Data.Should().Be(expectedException);
+            actualResponce.Data.Should().BeEquivalentTo(expectedException);
         }
 
         [TestCase(Role.Admin)]
@@ -616,9 +655,15 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Should().BeEquivalentTo(task, option => option
             .Excluding(o => o.Tags));
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
             actualResponce.Data.Courses.Count.Should().Be(courses.Count);
-            actualResponce.Data.Courses.Intersect(courses).ToList().Count.Should().Be(courses.Count);
+            foreach (var course in courses)
+            {
+                actualResponce.Data.Courses.First(c => c.Id == course.Id).Should().BeEquivalentTo(course);
+            }
         }
 
         [TestCase(Role.Methodist)]
@@ -645,9 +690,15 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Should().BeEquivalentTo(task, option => option
             .Excluding(o => o.Tags));
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
             actualResponce.Data.Courses.Count.Should().Be(courses.Count);
-            actualResponce.Data.Courses.Intersect(courses).ToList().Count.Should().Be(courses.Count);
+            foreach (var course in courses)
+            {
+                actualResponce.Data.Courses.First(c => c.Id == course.Id).Should().BeEquivalentTo(course);
+            }
         }
 
         [TestCase(Role.Manager)]
@@ -719,7 +770,10 @@ namespace DevEdu.Tests.ControllersTests
                     .BeEquivalentTo(answer);
             }
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -755,7 +809,10 @@ namespace DevEdu.Tests.ControllersTests
                     .BeEquivalentTo(answer);
             }
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -842,7 +899,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Groups[0].Should().BeEquivalentTo(group, option => option
            .ExcludingMissingMembers());
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Teacher)]
@@ -869,7 +929,10 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.Data.Groups[0].Should().BeEquivalentTo(group, option => option
            .ExcludingMissingMembers());
             actualResponce.Data.Tags.Count.Should().Be(tags.Count);
-            actualResponce.Data.Tags.Intersect(tags).ToList().Count.Should().Be(tags.Count);
+            foreach (var tag in tags)
+            {
+                actualResponce.Data.Tags.First(t => t.Id == tag.Id).Should().BeEquivalentTo(tag);
+            }
         }
 
         [TestCase(Role.Tutor)]
