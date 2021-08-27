@@ -92,9 +92,10 @@ namespace DevEdu.Tests.Data
             var validationExceptionResponse = new ValidationExceptionResponse();
             validationExceptionResponse.Code = ValidationExceptionResponse.ValidationCode;
             validationExceptionResponse.Message = ValidationExceptionResponse.MessageValidation;
-            validationExceptionResponse.AddError(422, "Name", ValidationMessage.NameRequired);
-            validationExceptionResponse.AddError(422, "Description", ValidationMessage.DescriptionRequired);
-            validationExceptionResponse.AddError(422, "Links", ValidationMessage.LinkToRecordIdRequired);
+            validationExceptionResponse.AddError(
+                ValidationExceptionResponse.GetValidationCode(ValidationMessage.NameRequired), "Name", ValidationMessage.NameRequired);
+            validationExceptionResponse.AddError(
+                ValidationExceptionResponse.GetValidationCode(ValidationMessage.DescriptionRequired), "Description", ValidationMessage.DescriptionRequired);
             return validationExceptionResponse;
         }
     }

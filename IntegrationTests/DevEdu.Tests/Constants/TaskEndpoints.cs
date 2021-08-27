@@ -10,7 +10,7 @@
         public const string GetTaskWithTagsEndpoint = "api/task/{0}";
         public const string GetTaskWithTagsAndCoursesEndpoint = "api/task/{0}/with-courses";
         public const string GetTaskWithTagsAndAnswersEndpoint = "api/task/{0}/with-answers";
-        public const string GetTaskWithTagsAndGroupsEndpoint = "api/task/{0}/with-courses";
+        public const string GetTaskWithTagsAndGroupsEndpoint = "api/task/{0}/with-groups";
         public const string GetAllTasksWithTagsEndpoint = "api/task";
         public const string AddTagToTaskEndpoint = "api/task/{0}/tag/{1}";
         public const string DeleteTagFromTaskEndpoint = "api/task/{0}/tag/{1}";
