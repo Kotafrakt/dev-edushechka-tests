@@ -13,7 +13,8 @@ namespace DevEdu.Tests.Data
         private const int _validationCode = 1001;
         private const int _entityCode = 1002;
 
-        protected const string _dateFormat = "MM/dd/yyyy hh:mm:ss.fff";
+        protected const string _dateFormat = "MM.dd.yyyy hh:mm:ss.fff";
+        protected const string _validDateFormat = "dd.MM.yyyy";
         protected static Random _random = new Random();
 
         public static ExceptionResponse GetEntityNotFoundExceptionResponse(string entity, int id)
