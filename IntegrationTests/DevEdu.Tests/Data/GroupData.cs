@@ -4,6 +4,7 @@ using DevEdu.Core.Requests;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
+using static DevEdu.Tests.Constants.GroupEndpoints;
 
 namespace DevEdu.Tests.Data
 {
@@ -22,9 +23,23 @@ namespace DevEdu.Tests.Data
                 PaymentPerMonth = _random.Next(2, 6) * 500
             };
         }
-
-        public static GroupOutputModel CreateGroupInDbByAdminAndGetModel(string _endPoint, GroupInputModel postData, string adminToken)
+        public static GroupInputModel GetInValidGroupInputModel(int courseId, GroupStatus status = GroupStatus.Learning)
         {
+            
+            return new()
+            {
+                Name = $"BestPeopleEver{_random.Next(1, 1000)}",
+                CourseId = courseId,
+                GroupStatusId = status,
+                StartDate = DateTime.Now.AddDays(_random.Next(-60, -10)).ToString(),
+                Timetable = $"Timetable {_random.Next(0, 1000)}",
+                PaymentPerMonth = _random.Next(2, 6) * 500
+            };
+        }
+
+        public static GroupOutputModel CreateGroupInDbByAdminAndGetModel(GroupInputModel postData, string adminToken)
+        {
+            var _endPoint = AddGroupEndpoint;
             var _requestHelper = new RequestHelper();
             var _client = new RestClient(BaseEndpoint);
             var requestPost = _requestHelper.CreatePostRequest(_endPoint, postData, adminToken);

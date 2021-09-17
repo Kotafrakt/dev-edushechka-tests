@@ -28,5 +28,6 @@ namespace DevEdu.Tests.Creators
         public void AddTagToTopic(string token, int topicId, int tagId)
         {
         }
+        
     }
 }
