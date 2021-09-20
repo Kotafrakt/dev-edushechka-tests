@@ -43,9 +43,8 @@ namespace DevEdu.Tests.ControllersTests
             var group = _groupFacade.CreateValidGroup(token);
             var tags = _tagFacade.AddValidTagList(token);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetValidTaskByTeacherWithHomework(group.Id, tags.Select(tag => tag.Id).ToList());
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -73,9 +72,8 @@ namespace DevEdu.Tests.ControllersTests
             var token = _authenticationFacade.SignInByAdmin();
             var tags = _tagFacade.AddValidTagList(token);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetValidTaskByTeacherWithoutHomework(tags.Select(tag => tag.Id).ToList());
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -102,9 +100,8 @@ namespace DevEdu.Tests.ControllersTests
             //Given
             var token = _authenticationFacade.SignInByAdmin();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetValidTaskByTeacherWithoutHomework();
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -129,9 +126,8 @@ namespace DevEdu.Tests.ControllersTests
             var token = _authenticationFacade.SignInByAdmin();
             var tags = _tagFacade.AddValidTagList(token);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetValidTaskByTeacherWithoutHomework(tags.Select(tag => tag.Id).ToList());
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -147,10 +143,9 @@ namespace DevEdu.Tests.ControllersTests
         {
             //Given
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetInvalidTaskByTeacher();
             var exception = TaskData.GetValidationExceptionResponse();
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByTeacherEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute<ValidationExceptionResponse>(request);
@@ -174,9 +169,8 @@ namespace DevEdu.Tests.ControllersTests
             var courses = _courseFacade.CreateListOfCourses(token);
             var tags = _tagFacade.AddValidTagList(token);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetValidTaskByMethodist(courses.Select(course => course.Id).ToList(), tags.Select(tag => tag.Id).ToList());
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByMethodistEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByMethodistEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -203,9 +197,8 @@ namespace DevEdu.Tests.ControllersTests
         {
             //Given
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var task = TaskData.GetValidTaskByMethodist();
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByMethodistEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByMethodistEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -220,10 +213,9 @@ namespace DevEdu.Tests.ControllersTests
         {
             //Given
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var exception = TaskData.GetValidationExceptionResponse();
             var task = TaskData.GetInvalidTaskByMethodist();
-            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByMethodistEndpoint, task, token);
+            var request = _requestHelper.CreatePostRequest(TaskEndpoints.AddTaskByMethodistEndpoint, task, user.Token);
 
             //When
             var actualResponce = _client.Execute<ValidationExceptionResponse>(request);
@@ -250,8 +242,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = _taskFacade.CreateValidTaskByMethodist(token, courseIds, tags.Select(tag => tag.Id).ToList()).Id;
             var task = TaskData.GetValidTaskByMethodist();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -280,8 +271,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = 0;
             var task = TaskData.GetValidTaskByMethodist();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -299,8 +289,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = _taskFacade.CreateValidTaskByMethodist(token, tagIds: tags.Select(tag => tag.Id).ToList()).Id;
             var task = TaskData.GetValidTaskByMethodist();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, user.Token);
             var expectedExeption = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", taskId));
             //When
@@ -319,8 +308,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = TaskData.GetInvalidTaskByMethodist();
             var taskId = 0;
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, user.Token);
             var expectedExeption = TaskData.GetValidationExceptionResponse();
             //When
             var actualResponce = _client.Execute<ValidationExceptionResponse>(request);
@@ -344,8 +332,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = TaskData.GetValidTaskByMethodist();
             var taskId = 0;
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByMethodistEndpoint, taskId), task, user.Token);
             var expectedExeption = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -366,8 +353,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = TaskData.GetValidTaskByTeacherUpdateInputModel();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             _groupFacade.AddUserToGroup(token, groupId, user.Id, role);
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -396,8 +382,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = _taskFacade.CreateValidTaskByTeacherWithHomework(token, groupId, tags.Select(tag => tag.Id).ToList()).Id;
             var task = TaskData.GetValidTaskByTeacherUpdateInputModel();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -426,8 +411,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = 0;
             var task = TaskData.GetValidTaskByTeacherUpdateInputModel();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -446,10 +430,9 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = _taskFacade.CreateValidTaskByTeacherWithHomework(token, groupId, tags.Select(tag => tag.Id).ToList()).Id;
             var task = TaskData.GetValidTaskByTeacherUpdateInputModel();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", taskId));
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -467,9 +450,8 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = 0;
             var task = TaskData.GetInvalidTaskByTeacherUpdateInputModel();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var expectedException = TaskData.GetValidationExceptionResponse();
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<ValidationExceptionResponse>(request);
@@ -494,8 +476,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = TaskData.GetValidTaskByTeacherUpdateInputModel();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, token);
+            var request = _requestHelper.CreatePutRequest(string.Format(TaskEndpoints.UpdateTaskByTeacherEndpoint, taskId), task, user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -514,8 +495,7 @@ namespace DevEdu.Tests.ControllersTests
             var tags = _tagFacade.AddValidTagList(token);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(token, groupId, tags.Select(tag => tag.Id).ToList());
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -543,8 +523,7 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(token, groupId, tags.Select(tag => tag.Id).ToList());
             _groupFacade.AddUserToGroup(token, groupId, user.Id, role);
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -569,8 +548,7 @@ namespace DevEdu.Tests.ControllersTests
             var tags = _tagFacade.AddValidTagList(token);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var task = _taskFacade.CreateValidTaskByMethodist(token, courseIds, tags.Select(tag => tag.Id).ToList());
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoOutputModel>(request);
@@ -598,8 +576,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(token, groupId, tags.Select(tag => tag.Id).ToList());
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", task.Id));
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -620,8 +597,7 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var taskId = 0;
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, taskId), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -644,8 +620,7 @@ namespace DevEdu.Tests.ControllersTests
                     courses.Select(course => course.Id).ToList(),
                     tags.Select(tag => tag.Id).ToList()
                     );
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithCoursesOutputModel>(request);
@@ -679,8 +654,7 @@ namespace DevEdu.Tests.ControllersTests
                     courses.Select(course => course.Id).ToList(),
                     tags.Select(tag => tag.Id).ToList()
                     );
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithCoursesOutputModel>(request);
@@ -710,8 +684,7 @@ namespace DevEdu.Tests.ControllersTests
             //Given
             var taskId = 0;
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, taskId), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithCoursesOutputModel>(request);
@@ -728,8 +701,7 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var taskId = 0;
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, taskId), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndCoursesEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -753,8 +725,7 @@ namespace DevEdu.Tests.ControllersTests
             var answers = _studentHomeworkFacade.CreateListOfStudentAnswersHomework(homework.Id, groupId)
                 .Select(answer => (StudentHomeworkOutputModel)answer)
                 .ToList();
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, task.Id), token);
+            request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithAnswersOutputModel>(request);
@@ -792,8 +763,7 @@ namespace DevEdu.Tests.ControllersTests
             var answers = _studentHomeworkFacade.CreateListOfStudentAnswersHomework(homework.Id, groupId)
                 .Select(answer => (StudentHomeworkOutputModel)answer)
                 .ToList(); token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, task.Id), token);
+            request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithAnswersOutputModel>(request);
@@ -827,8 +797,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(token, groupId, tags.Select(tag => tag.Id).ToList());
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", task.Id));
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -846,8 +815,7 @@ namespace DevEdu.Tests.ControllersTests
             //Given
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var taskId = 0;
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, taskId), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -863,10 +831,9 @@ namespace DevEdu.Tests.ControllersTests
         {
             //Given
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var taskId = 0;
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, taskId), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndAnswersEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -885,8 +852,7 @@ namespace DevEdu.Tests.ControllersTests
             var tags = _tagFacade.AddValidTagList(token);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(token, group.Id, tags.Select(tag => tag.Id).ToList());
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithGroupsOutputModel>(request);
@@ -915,8 +881,7 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             _groupFacade.AddUserToGroup(token, group.Id, user.Id, role);
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(token, group.Id, tags.Select(tag => tag.Id).ToList());
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithGroupsOutputModel>(request);
@@ -942,11 +907,9 @@ namespace DevEdu.Tests.ControllersTests
         public void GetTaskWithTagsAndGroups_ByUnauthorizedRole_403StatusCodeReturned(Role role)
         {
             //Given
-            var token = _authenticationFacade.SignInByAdmin();
             var taskId = 0;
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, taskId), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<TaskInfoWithGroupsOutputModel>(request);
@@ -966,8 +929,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(token, group.Id, tags.Select(tag => tag.Id).ToList());
             var expectedException = BaseData.GetAuthorizationExceptionResponce(string.Format(
                 ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", task.Id));
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, task.Id), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, task.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -985,8 +947,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = 0;
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, taskId), token);
+            var request = _requestHelper.CreateGetRequest(string.Format(TaskEndpoints.GetTaskWithTagsAndGroupsEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1008,8 +969,7 @@ namespace DevEdu.Tests.ControllersTests
             {
                 tasks.Add(_taskFacade.CreateValidTaskByMethodist(token, tagIds: tags.Select(tag => tag.Id).ToList()));
             }
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, token);
+            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, user.Token);
 
             //When
             var actualResponce = _client.Execute<List<TaskInfoOutputModel>>(request);
@@ -1035,8 +995,7 @@ namespace DevEdu.Tests.ControllersTests
             {
                 tasks.Add(_taskFacade.CreateValidTaskByMethodist(token, new List<int> { course.Id }, tags.Select(tag => tag.Id).ToList()));
             }
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, token);
+            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, user.Token);
 
             //When
             var actualResponce = _client.Execute<List<TaskInfoOutputModel>>(request);
@@ -1061,8 +1020,7 @@ namespace DevEdu.Tests.ControllersTests
             {
                 tasks.Add(_taskFacade.CreateValidTaskByMethodist(token, tagIds: tags.Select(tag => tag.Id).ToList()));
             }
-            token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, token);
+            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, user.Token);
 
             //When
             var actualResponce = _client.Execute<List<TaskInfoOutputModel>>(request);
@@ -1080,8 +1038,7 @@ namespace DevEdu.Tests.ControllersTests
         {
             //Given
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, token);
+            var request = _requestHelper.CreateGetRequest(TaskEndpoints.GetAllTasksWithTagsEndpoint, user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1103,8 +1060,7 @@ namespace DevEdu.Tests.ControllersTests
                 tasks.Add(_taskFacade.CreateValidTaskByMethodist(adminToken, tagIds: tags.Select(tag => tag.Id).ToList()));
             }
             var taskToDelete = _taskFacade.CreateValidTaskByMethodist(adminToken, tagIds: tags.Select(tag => tag.Id).ToList());
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), token);
+            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1140,8 +1096,7 @@ namespace DevEdu.Tests.ControllersTests
                 adminToken,
                 new List<int> { course.Id },
                 tags.Select(tag => tag.Id).ToList());
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), token);
+            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1178,8 +1133,7 @@ namespace DevEdu.Tests.ControllersTests
                     adminToken,
                     groupId,
                     tags.Select(tag => tag.Id).ToList());
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), token);
+            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1205,8 +1159,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskToDelete = _taskFacade.CreateValidTaskByMethodist(adminToken, tagIds: tags.Select(tag => tag.Id).ToList());
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", taskToDelete.Id));
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), token);
+            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1227,8 +1180,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskToDelete = _taskFacade.CreateValidTaskByTeacherWithHomework(adminToken, groupId, tags.Select(tag => tag.Id).ToList());
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", taskToDelete.Id));
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), token);
+            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1246,8 +1198,7 @@ namespace DevEdu.Tests.ControllersTests
             //Given
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var taskId = 0;
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskId), token);
+            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1265,8 +1216,7 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var taskId = 0;
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskId), token);
+            var request = _requestHelper.CreateDeleteRequest(string.Format(TaskEndpoints.DeleteTaskEndpoint, taskId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1285,8 +1235,7 @@ namespace DevEdu.Tests.ControllersTests
             var groupId = _groupFacade.CreateValidGroup(adminToken).Id;
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(adminToken, groupId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), token);
+            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1310,8 +1259,7 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             _groupFacade.AddUserToGroup(adminToken, groupId, user.Id, role);
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(adminToken, groupId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), token);
+            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1333,8 +1281,7 @@ namespace DevEdu.Tests.ControllersTests
             var courseIds = _courseFacade.CreateListOfCourses(adminToken).Select(c => c.Id).ToList();
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var task = _taskFacade.CreateValidTaskByMethodist(adminToken, courseIds);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), token);
+            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1357,8 +1304,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByMethodist(adminToken);
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", task.Id));
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), token);
+            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1380,8 +1326,7 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(adminToken, groupId);
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", task.Id));
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), token);
+            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, task.Id, tag.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1399,8 +1344,7 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var taskId = 0;
             var tagId = 0;
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, taskId, tagId), token);
+            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, taskId, tagId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1420,8 +1364,7 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = 0;
             var tagId = 0;
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
-            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, taskId, tagId), token);
+            var request = _requestHelper.CreatePostReferenceRequest(string.Format(TaskEndpoints.AddTagToTaskEndpoint, taskId, tagId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1442,9 +1385,8 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(adminToken, groupId, tags.Select(t => t.Id).ToList());
             var tagToDelete = tags[0];
             tags.Remove(tagToDelete);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var request = _requestHelper.CreateDeleteRequest(
-                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), token);
+                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1469,9 +1411,8 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByTeacherWithHomework(adminToken, groupId, tags.Select(t => t.Id).ToList());
             var tagToDelete = tags[0];
             tags.Remove(tagToDelete);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var request = _requestHelper.CreateDeleteRequest(
-                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), token);
+                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1494,9 +1435,8 @@ namespace DevEdu.Tests.ControllersTests
             var task = _taskFacade.CreateValidTaskByMethodist(adminToken, new List<int> { course.Id }, tags.Select(t => t.Id).ToList());
             var tagToDelete = tags[0];
             tags.Remove(tagToDelete);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var request = _requestHelper.CreateDeleteRequest(
-                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), token);
+                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1521,9 +1461,8 @@ namespace DevEdu.Tests.ControllersTests
             var tagToDelete = tags[0];
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", task.Id));
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var request = _requestHelper.CreateDeleteRequest(
-                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), token);
+                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1544,9 +1483,8 @@ namespace DevEdu.Tests.ControllersTests
             var tagToDelete = tags[0];
             var expectedException = BaseData.GetAuthorizationExceptionResponce(
                 string.Format(ServiceMessages.EntityDoesntHaveAcessMessage, "user", user.Id, "task", task.Id));
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var request = _requestHelper.CreateDeleteRequest(
-                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), token);
+                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, task.Id, tagToDelete.Id), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
@@ -1564,9 +1502,8 @@ namespace DevEdu.Tests.ControllersTests
             var user = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
             var taskId = 0;
             var tagId = 0;
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var request = _requestHelper.CreateDeleteRequest(
-                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, taskId, tagId), token);
+                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, taskId, tagId), user.Token);
 
             //When
             var actualResponce = _client.Execute(request);
@@ -1586,9 +1523,8 @@ namespace DevEdu.Tests.ControllersTests
             var taskId = 0;
             var tagId = 0;
             var expectedException = BaseData.GetEntityNotFoundExceptionResponse("task", taskId);
-            var token = _authenticationFacade.GetTokenByEmailAndPassword(user.Email, user.Password);
             var request = _requestHelper.CreateDeleteRequest(
-                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, taskId, tagId), token);
+                string.Format(TaskEndpoints.DeleteTagFromTaskEndpoint, taskId, tagId), user.Token);
 
             //When
             var actualResponce = _client.Execute<ExceptionResponse>(request);
