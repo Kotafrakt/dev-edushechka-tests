@@ -17,5 +17,10 @@ namespace DevEdu.Tests.Facades
         {
             _creator.AddTagToMaterial(token, materialId, tagId);
         }
+
+        public MaterialInfoOutputModel CreateMaterialCorrect(string token)
+        {
+            return _creator.CreateMaterialCorrect(token);
+        }
     }
 }

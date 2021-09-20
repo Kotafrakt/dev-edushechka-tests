@@ -2,6 +2,7 @@
 {
     public class MaterialEndpoints
     {
+        public const string AddMaterial = "api/material";
         public const string AddMaterialWithGroupsEndpoint = "api/material/with-groups";
         public const string AddMaterialWithCoursesEndpoint = "api/material/with-courses";
         public const string GetAllMaterialsEndpoint = "api/material";
