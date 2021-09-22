@@ -8,6 +8,7 @@ using DevEdu.Core.Requests;
 using DevEdu.Core.Models;
 using FluentAssertions;
 using System.Net;
+using System.Linq;
 
 namespace DevEdu.Tests.ControllersTests
 {
@@ -19,6 +20,7 @@ namespace DevEdu.Tests.ControllersTests
         private readonly LessonFacade _lessonFacade = new();
         private readonly TopicFacade _topicFacade = new();
         private readonly MaterialFacade _materialFacade = new();
+        private readonly UserFacade _userFacade = new();
 
         [TestCase(Role.Manager)]
         public void AddGroup_GroupDto_GroupCreated(Role role)
@@ -416,6 +418,253 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
+        [TestCase(Role.Teacher)]
+        [TestCase(Role.Manager)]
+        [TestCase(Role.Tutor)]
+        public void AddGroupMaterialReference_GroupAbsenceInDb_Returned404StatusCode(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var material = _materialFacade.CreateMaterialCorrect(adminToken);
+            _endPoint = string.Format(AddGroupMaterialReferenceEndpoint, 0, material.Id);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+        [TestCase(Role.Teacher)]
+        [TestCase(Role.Manager)]
+        [TestCase(Role.Tutor)]
+        public void AddGroupMaterialReference_MaterialIdAbsenceInDb_Returned404StatusCode(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _endPoint = string.Format(AddGroupMaterialReferenceEndpoint, group.Id, 0);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+        [TestCase(Role.Student)]
+        public void AddGroupMaterialReference_NotAllowedRoles_Returned403StatusCode(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            var material = _materialFacade.CreateMaterialCorrect(adminToken);
+            _endPoint = string.Format(AddGroupMaterialReferenceEndpoint, group.Id, material.Id);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        //[TestCase(Role.Manager)]
+        //public void ChangeGroupStatus_ValidData_StatusWasChanged(Role role)
+        //{
+        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+        //    var adminToken = _authenticationFacade.SignInByAdmin();
+        //    var course = _courseFacade.CreateCourse(adminToken);
+        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+        //    string a = string.Empty;
+        //    var status = GroupStatus.CompletedLearning;
+        //    _endPoint = string.Format(ChangeGroupStatusEndpoint, group.Id, (int)status);
+        //    var request = _requestHelper.CreatePutRequest(_endPoint,a, userInfo.Token);
+        //    //When
+        //    var actualResponce = _client.Execute(request);
+        //    //Then
+        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        //}
+        [TestCase(Role.Teacher)]
+        [TestCase(Role.Manager)]
+        [TestCase(Role.Tutor)]
+        public void RemoveGroupMaterialReference_ValidData_MaterialWasRemovedFromGroup(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> {role});
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            var material = _materialFacade.CreateMaterialCorrect(adminToken);
+            _endPoint = string.Format(RemoveGroupMaterialReferenceEndpoint, group.Id, material.Id);
+            var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [TestCase(Role.Teacher)]
+        [TestCase(Role.Manager)]
+        [TestCase(Role.Tutor)]
+        public void RemoveGroupMaterialReference_GroupAbsenceInDb_Returned404StatusCode(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            
+            var material = _materialFacade.CreateMaterialCorrect(adminToken);
+            _endPoint = string.Format(RemoveGroupMaterialReferenceEndpoint, 0, material.Id);
+            var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+        [TestCase(Role.Teacher)]
+        [TestCase(Role.Manager)]
+        [TestCase(Role.Tutor)]
+        public void RemoveGroupMaterialReference_MaterialAbsenceInDb_Returned404StatusCode(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(new List<Role> { role });
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+           
+            _endPoint = string.Format(RemoveGroupMaterialReferenceEndpoint, group.Id, 0);
+            var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [TestCase(Role.Student)]
+        public void RemoveGroupMaterialReference_ValidData_NotAllowedRoles_Returned403StatusCode(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            var material = _materialFacade.CreateMaterialCorrect(adminToken);
+            _endPoint = string.Format(RemoveGroupMaterialReferenceEndpoint, group.Id, material.Id);
+            var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+        [TestCase(Role.Manager)]
+        public void AddUserToGroup_ValidData_RoleStudent_UserWasAddedToGroup(Role role)
+        {
+            var addbleUserRole = Role.Student;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(addbleUserRole);
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, addbleUserRole);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [TestCase(Role.Manager)]
+        public void AddUserToGroup_ValidData_RoleTutor_UserWasAddedToGroup(Role role)
+        {
+            var addbleUserRole = Role.Tutor;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(addbleUserRole);
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, addbleUserRole);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
+        [TestCase(Role.Manager)]
+        public void AddUserToGroup_InValidData_UserDoesntHaveAddableRole_Returned403StatusCode(Role role)
+        {
+            var addbleUserRole = Role.Student;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Tutor);
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, addbleUserRole);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
+
+        [TestCase(Role.Manager)]
+        public void DeleteUserFromGroup_DalidData_UserWasDeleted(Role role)
+        {
+            var userRole = Role.Tutor;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var deletableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(userRole);
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _groupFacade.AddUserToGroup(adminToken, group.Id, deletableUser.Id, userRole);
+            _endPoint = string.Format(DeleteUserFromGroupEndpoint, group.Id, deletableUser.Id);
+            var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
+            
+            //When
+            var actualResponce = _client.Execute(request);
+            var userInGroup = _groupFacade.GetGroupById(group.Id, adminToken);
+            //Then
+            var isUserInGroup = userInGroup.Students.FirstOrDefault(x => x.Id == deletableUser.Id);
+            isUserInGroup.Should().BeNull();
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+        //[TestCase(Role.Manager)]
+        //public void DeleteUserFromGroup_GroupHasNotThisUser_Returned403StatusCode(Role role)
+        //{
+        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+        //    var adminToken = _authenticationFacade.SignInByAdmin();
+        //    var deletableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Student);
+        //    var course = _courseFacade.CreateCourse(adminToken);
+        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+        //    _endPoint = string.Format(DeleteUserFromGroupEndpoint, group.Id, deletableUser.Id);
+        //    var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
+        //    //When
+        //    var actualResponce = _client.Execute(request);
+        //    //Then
+        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        //}
+
+        //[TestCase(Role.Manager)]
+        //public void AddUserToGroup_ValidData_UserIdInGroup_UserWasNotAdded(Role role)
+        //{
+        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+        //    var adminToken = _authenticationFacade.SignInByAdmin();
+        //    var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Student);
+        //    var course = _courseFacade.CreateCourse(adminToken);
+        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+        //    _groupFacade.AddUserToGroup(adminToken, group.Id,addableUser.Id,Role.Student);
+        //    _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, Role.Student);
+        //    var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+        //    //When
+        //    var actualResponce = _client.Execute(request);
+        //    //Then
+        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.For);
+        //}
 
     }
 }

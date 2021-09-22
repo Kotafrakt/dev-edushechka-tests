@@ -1,10 +1,14 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
+using DevEdu.Core.Requests;
+using DevEdu.Tests.Constants;
+using System;
 
 namespace DevEdu.Tests.Creators
 {
-    public class GroupCreator
+    public class GroupCreator : BaseCreator
     {
+
         public GroupOutputModel AddGroup(string token)
         {
             var model = new GroupInputModel();
@@ -34,6 +38,18 @@ namespace DevEdu.Tests.Creators
 
         public void AddUserToGroup(string token, int groupId, int userId, Role roleId)
         {
+            _endPoint = string.Format(GroupEndpoints.AddUserToGroupEndpoint, groupId, userId, Role.Student);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, token);
+
+            var actualResponce = _client.Execute(request);
+        }
+
+        public GroupFullOutputModel GetGroupById(int groupId, string adminToken)
+        {
+            _endPoint = string.Format(GroupEndpoints.GetGroupEndpoint, groupId);
+            var getRequest = _requestHelper.CreateGetRequest(_endPoint, adminToken);
+            var response = _client.Execute<GroupFullOutputModel>(getRequest);
+            return response.Data;
         }
     }
 }
