@@ -21,6 +21,7 @@ namespace DevEdu.Tests.ControllersTests
         private readonly TopicFacade _topicFacade = new();
         private readonly MaterialFacade _materialFacade = new();
         private readonly UserFacade _userFacade = new();
+        private readonly TaskFacade _taskFacade = new();
 
         [TestCase(Role.Manager)]
         public void AddGroup_GroupDto_GroupCreated(Role role)
@@ -591,23 +592,23 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        [TestCase(Role.Manager)]
-        public void AddUserToGroup_InValidData_UserDoesntHaveAddableRole_Returned403StatusCode(Role role)
-        {
-            var addbleUserRole = Role.Student;
-            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
-            var adminToken = _authenticationFacade.SignInByAdmin();
-            var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Tutor);
-            var course = _courseFacade.CreateCourse(adminToken);
-            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
-            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
-            _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, addbleUserRole);
-            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
-            //When
-            var actualResponce = _client.Execute(request);
-            //Then
-            actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-        }
+        //[TestCase(Role.Manager)]
+        //public void AddUserToGroup_InValidData_UserDoesntHaveAddableRole_Returned403StatusCode(Role role)
+        //{
+        //    var addbleUserRole = Role.Student;
+        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+        //    var adminToken = _authenticationFacade.SignInByAdmin();
+        //    var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Tutor);
+        //    var course = _courseFacade.CreateCourse(adminToken);
+        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+        //    _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, addbleUserRole);
+        //    var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+        //    //When
+        //    var actualResponce = _client.Execute(request);
+        //    //Then
+        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        //}
 
         [TestCase(Role.Manager)]
         public void DeleteUserFromGroup_DalidData_UserWasDeleted(Role role)
@@ -623,25 +624,6 @@ namespace DevEdu.Tests.ControllersTests
             _endPoint = string.Format(DeleteUserFromGroupEndpoint, group.Id, deletableUser.Id);
             var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
             
-            //When
-            var actualResponce = _client.Execute(request);
-            var userInGroup = _groupFacade.GetGroupById(group.Id, adminToken);
-            //Then
-            var isUserInGroup = userInGroup.Students.FirstOrDefault(x => x.Id == deletableUser.Id);
-            isUserInGroup.Should().BeNull();
-            actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        }
-
-        public void DeleteTaskFromGroup_ValidData_TaskWasDeletedFromGroup(Role role)
-        {
-            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
-            var adminToken = _authenticationFacade.SignInByAdmin();
-            
-            var course = _courseFacade.CreateCourse(adminToken);
-            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
-            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
-
-
             //When
             var actualResponce = _client.Execute(request);
             var userInGroup = _groupFacade.GetGroupById(group.Id, adminToken);
