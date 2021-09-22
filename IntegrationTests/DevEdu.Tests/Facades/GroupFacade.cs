@@ -20,5 +20,10 @@ namespace DevEdu.Tests.Facades
 
             return response;
         }
+
+        public void DeleteTaskFromGroup(int groupId, string token)
+        {
+            _creator.DeleteTaskFromGroup(groupId, token);
+        }
     }
 }

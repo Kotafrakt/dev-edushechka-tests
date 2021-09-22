@@ -14,5 +14,6 @@
         public const string RemoveGroupMaterialReferenceEndpoint = "api/Group/{0}/material/{1}";
         public const string AddUserToGroupEndpoint = "api/group/{0}/user/{1}/role/{2}";
         public const string DeleteUserFromGroupEndpoint = "api/group/{0}/user/{1}";
+        public const string DeleteTaskFromGroupEndpoint = "api/group/{0}/task/{1}";
     }
 }

@@ -631,6 +631,26 @@ namespace DevEdu.Tests.ControllersTests
             isUserInGroup.Should().BeNull();
             actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
+
+        public void DeleteTaskFromGroup_ValidData_TaskWasDeletedFromGroup(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+
+
+            //When
+            var actualResponce = _client.Execute(request);
+            var userInGroup = _groupFacade.GetGroupById(group.Id, adminToken);
+            //Then
+            var isUserInGroup = userInGroup.Students.FirstOrDefault(x => x.Id == deletableUser.Id);
+            isUserInGroup.Should().BeNull();
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        }
+
         //[TestCase(Role.Manager)]
         //public void DeleteUserFromGroup_GroupHasNotThisUser_Returned403StatusCode(Role role)
         //{

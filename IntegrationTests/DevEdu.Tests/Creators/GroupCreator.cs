@@ -51,5 +51,12 @@ namespace DevEdu.Tests.Creators
             var response = _client.Execute<GroupFullOutputModel>(getRequest);
             return response.Data;
         }
+
+        public void DeleteTaskFromGroup(int groupId, string adminToken)
+        {
+            _endPoint = string.Format(GroupEndpoints.DeleteTaskFromGroupEndpoint, groupId);
+            var getRequest = _requestHelper.CreateDeleteRequest(_endPoint, adminToken);
+            var response = _client.Execute(getRequest);
+        }
     }
 }
