@@ -1,5 +1,6 @@
 ﻿using DevEdu.Core.Models;
 using DevEdu.Tests.Creators;
+using System.Collections.Generic;
 
 namespace DevEdu.Tests.Facades
 {
@@ -11,6 +12,16 @@ namespace DevEdu.Tests.Facades
         internal TagOutputModel AddTag(string token)
         {
             return _creator.AddTag(token);
+        }
+
+        public List<TagOutputModel> AddValidTagList(string token, int count = 3)
+        {
+            var tags = new List<TagOutputModel>();
+            for (int i = 0; i < 3; i++)
+            {
+                tags.Add(_creator.AddTag(token));
+            }
+            return tags;
         }
     }
 }

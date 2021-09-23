@@ -1,14 +1,22 @@
 ﻿using DevEdu.Core.Enums;
 using DevEdu.Core.Models;
+using DevEdu.Tests.Constants;
+using DevEdu.Tests.Data;
+using DevEdu.Core.Requests;
+using RestSharp;
 
 namespace DevEdu.Tests.Creators
 {
-    public class GroupCreator
+    public class GroupCreator : BaseCreator
     {
-        public GroupOutputModel AddGroup(string token)
+        public GroupOutputModel AddGroup(string token, int courseId)
         {
-            var model = new GroupInputModel();
-            return new GroupOutputModel();
+            _endPoint = GroupEndpoints.AddGroupEndpoint;
+            var postData = GroupData.GetValidGroup(courseId);
+            var request = _requestHelper.CreatePostRequest(_endPoint, postData, token);
+            var response = _client.Execute<GroupOutputModel>(request);
+            var result = response.Data;
+            return result;
         }
 
         public GroupInfoOutputModel UpdateGroup(string token, int groupId)
@@ -34,6 +42,9 @@ namespace DevEdu.Tests.Creators
 
         public void AddUserToGroup(string token, int groupId, int userId, Role roleId)
         {
+            var request = new RestRequest(string.Format(GroupEndpoints.AddUserToGroupEndpoint, groupId, userId, (int)roleId), Method.POST);
+            request.AddHeader("Authorization", $"Bearer {token}");
+            _client.Execute(request);
         }
     }
 }
