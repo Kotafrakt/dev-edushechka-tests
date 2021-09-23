@@ -15,7 +15,7 @@ namespace DevEdu.Tests.Creators
         public GroupOutputModel AddGroup(string token, int courseId)
         {
             _endPoint = GroupEndpoints.AddGroupEndpoint;
-            var postData = GroupData.GetValidGroup(courseId);
+            var postData = GroupData.GetValidGroupInputModel(courseId);
             var request = _requestHelper.CreatePostRequest(_endPoint, postData, token);
             var response = _client.Execute<GroupOutputModel>(request);
             var result = response.Data;

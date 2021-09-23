@@ -468,24 +468,24 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         }
 
-        //[TestCase(Role.Manager)]
-        //public void ChangeGroupStatus_ValidData_StatusWasChanged(Role role)
-        //{
-        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
-        //    var adminToken = _authenticationFacade.SignInByAdmin();
-        //    var course = _courseFacade.CreateCourse(adminToken);
-        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
-        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
-        //    string a = string.Empty;
-        //    var status = GroupStatus.CompletedLearning;
-        //    _endPoint = string.Format(ChangeGroupStatusEndpoint, group.Id, (int)status);
-        //    var request = _requestHelper.CreatePutRequest(_endPoint,a, userInfo.Token);
-        //    //When
-        //    var actualResponce = _client.Execute(request);
-        //    //Then
-        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.OK);
+        [TestCase(Role.Manager)]
+        public void ChangeGroupStatus_ValidData_StatusWasChanged(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            string a = string.Empty;
+            var status = GroupStatus.CompletedLearning;
+            _endPoint = string.Format(ChangeGroupStatusEndpoint, group.Id, (int)status);
+            var request = _requestHelper.CreatePutRequest(_endPoint, a, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        //}
+        }
         [TestCase(Role.Teacher)]
         [TestCase(Role.Manager)]
         [TestCase(Role.Tutor)]
@@ -592,23 +592,23 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        //[TestCase(Role.Manager)]
-        //public void AddUserToGroup_InValidData_UserDoesntHaveAddableRole_Returned403StatusCode(Role role)
-        //{
-        //    var addbleUserRole = Role.Student;
-        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
-        //    var adminToken = _authenticationFacade.SignInByAdmin();
-        //    var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Tutor);
-        //    var course = _courseFacade.CreateCourse(adminToken);
-        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
-        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
-        //    _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, addbleUserRole);
-        //    var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
-        //    //When
-        //    var actualResponce = _client.Execute(request);
-        //    //Then
-        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-        //}
+        [TestCase(Role.Manager)]
+        public void AddUserToGroup_InValidData_UserDoesntHaveAddableRole_Returned403StatusCode(Role role)
+        {
+            var addbleUserRole = Role.Student;
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Tutor);
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, addbleUserRole);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
 
         [TestCase(Role.Manager)]
         public void DeleteUserFromGroup_DalidData_UserWasDeleted(Role role)
@@ -633,40 +633,40 @@ namespace DevEdu.Tests.ControllersTests
             actualResponce.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
 
-        //[TestCase(Role.Manager)]
-        //public void DeleteUserFromGroup_GroupHasNotThisUser_Returned403StatusCode(Role role)
-        //{
-        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
-        //    var adminToken = _authenticationFacade.SignInByAdmin();
-        //    var deletableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Student);
-        //    var course = _courseFacade.CreateCourse(adminToken);
-        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
-        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
-        //    _endPoint = string.Format(DeleteUserFromGroupEndpoint, group.Id, deletableUser.Id);
-        //    var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
-        //    //When
-        //    var actualResponce = _client.Execute(request);
-        //    //Then
-        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
-        //}
+        [TestCase(Role.Manager)]
+        public void DeleteUserFromGroup_GroupHasNotThisUser_Returned403StatusCode(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var deletableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Student);
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _endPoint = string.Format(DeleteUserFromGroupEndpoint, group.Id, deletableUser.Id);
+            var request = _requestHelper.CreateDeleteRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
 
-        //[TestCase(Role.Manager)]
-        //public void AddUserToGroup_ValidData_UserIdInGroup_UserWasNotAdded(Role role)
-        //{
-        //    var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
-        //    var adminToken = _authenticationFacade.SignInByAdmin();
-        //    var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Student);
-        //    var course = _courseFacade.CreateCourse(adminToken);
-        //    var groupModel = GroupData.GetValidGroupInputModel(course.Id);
-        //    var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
-        //    _groupFacade.AddUserToGroup(adminToken, group.Id,addableUser.Id,Role.Student);
-        //    _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, Role.Student);
-        //    var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
-        //    //When
-        //    var actualResponce = _client.Execute(request);
-        //    //Then
-        //    actualResponce.StatusCode.Should().Be(HttpStatusCode.For);
-        //}
+        [TestCase(Role.Manager)]
+        public void AddUserToGroup_ValidData_UserIdInGroup_UserWasNotAdded(Role role)
+        {
+            var userInfo = _authenticationFacade.RegisterNewUserAndSignIn(role);
+            var adminToken = _authenticationFacade.SignInByAdmin();
+            var addableUser = _authenticationFacade.SignInByAdminAndRegistrationNewUserByRole(Role.Student);
+            var course = _courseFacade.CreateCourse(adminToken);
+            var groupModel = GroupData.GetValidGroupInputModel(course.Id);
+            var group = GroupData.CreateGroupInDbByAdminAndGetModel(groupModel, adminToken);
+            _groupFacade.AddUserToGroup(adminToken, group.Id, addableUser.Id, Role.Student);
+            _endPoint = string.Format(AddUserToGroupEndpoint, group.Id, addableUser.Id, Role.Student);
+            var request = _requestHelper.CreatePostReferenceRequest(_endPoint, userInfo.Token);
+            //When
+            var actualResponce = _client.Execute(request);
+            //Then
+            actualResponce.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        }
 
     }
 }

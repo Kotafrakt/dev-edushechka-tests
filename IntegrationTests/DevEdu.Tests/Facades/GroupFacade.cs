@@ -17,6 +17,8 @@ namespace DevEdu.Tests.Facades
         public GroupFullOutputModel GetGroupById(int groupId, string adminToken)
         {
             var response = _creator.GetGroupById(groupId, adminToken);
+            return response;
+        }
         public GroupOutputModel CreateValidGroup(string token, int courseId = 0)
         {
             if (courseId == 0)
@@ -25,11 +27,6 @@ namespace DevEdu.Tests.Facades
                 courseId = courseFacade.CreateCourse(token).Id;
             }
             return _creator.AddGroup(token, courseId);
-        }
-
-        public void AddUserToGroup(string token, int groupId, int userId, Role role)
-        {
-            _creator.AddUserToGroup(token, groupId, userId, role);
         }
     }
 }
