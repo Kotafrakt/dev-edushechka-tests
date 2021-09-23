@@ -10,7 +10,7 @@ namespace DevEdu.Core.Exceptions
         public string Message { get; set; }
         public List<ValidationError> Errors { get; set; }
 
-        public const int ValidationCode = 1001;
+        public const int ValidationCode = 1000;
         public const string MessageValidation = "Validation exception";
 
         public ValidationExceptionResponse(ValidationException exception)
@@ -41,6 +41,7 @@ namespace DevEdu.Core.Exceptions
         {
             Errors = new List<ValidationError>();
         }
+
         public void AddError(int code, string field, string message)
         {
             Errors.Add(new ValidationError
@@ -50,6 +51,7 @@ namespace DevEdu.Core.Exceptions
                 Message = message
             });
         }
+
         public static int GetValidationCode(string exception)
         {
             return exception switch

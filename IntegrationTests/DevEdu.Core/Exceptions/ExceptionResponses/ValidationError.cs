@@ -1,4 +1,6 @@
-﻿namespace DevEdu.Core.Exceptions
+﻿using System;
+
+namespace DevEdu.Core.Exceptions
 {
     public class ValidationError
     {

@@ -22,7 +22,7 @@ namespace DevEdu.Tests.Data
         {
             return new TaskByTeacherUpdateInputModel();
         }
-        public static TaskByTeacherInputModel GetValidTaskByTeacherWithHomework(int groupId, List<int> tagIds = default)
+        public static TaskByTeacherInputModel GetValidTaskByTeacherWithHomework(int groupId, List<int> tagIds = default )
         {
             if (tagIds == default)
             {

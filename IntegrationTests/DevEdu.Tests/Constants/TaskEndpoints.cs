@@ -4,13 +4,13 @@
     {
         public const string AddTaskByTeacherEndpoint = "api/task/teacher";
         public const string AddTaskByMethodistEndpoint = "api/task/methodist";
-        public const string UpdateTaskByTeacherEndpoint = "api/task/{0}";
-        public const string UpdateTaskByMethodistEndpoint = "api/task/{0}";
+        public const string UpdateTaskByTeacherEndpoint = "api/task/teacher/{0}";
+        public const string UpdateTaskByMethodistEndpoint = "api/task/methodist/{0}";
         public const string DeleteTaskEndpoint = "api/task/{0}";
         public const string GetTaskWithTagsEndpoint = "api/task/{0}";
         public const string GetTaskWithTagsAndCoursesEndpoint = "api/task/{0}/with-courses";
         public const string GetTaskWithTagsAndAnswersEndpoint = "api/task/{0}/with-answers";
-        public const string GetTaskWithTagsAndGroupsEndpoint = "api/task/{0}/with-courses";
+        public const string GetTaskWithTagsAndGroupsEndpoint = "api/task/{0}/with-groups";
         public const string GetAllTasksWithTagsEndpoint = "api/task";
         public const string AddTagToTaskEndpoint = "api/task/{0}/tag/{1}";
         public const string DeleteTagFromTaskEndpoint = "api/task/{0}/tag/{1}";

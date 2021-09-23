@@ -17,13 +17,19 @@ namespace DevEdu.Tests.Facades
         public GroupFullOutputModel GetGroupById(int groupId, string adminToken)
         {
             var response = _creator.GetGroupById(groupId, adminToken);
-
-            return response;
+        public GroupOutputModel CreateValidGroup(string token, int courseId = 0)
+        {
+            if (courseId == 0)
+            {
+                var courseFacade = new CourseFacade();
+                courseId = courseFacade.CreateCourse(token).Id;
+            }
+            return _creator.AddGroup(token, courseId);
         }
 
-        public void DeleteTaskFromGroup(int groupId, string token)
+        public void AddUserToGroup(string token, int groupId, int userId, Role role)
         {
-            _creator.DeleteTaskFromGroup(groupId, token);
+            _creator.AddUserToGroup(token, groupId, userId, role);
         }
     }
 }
